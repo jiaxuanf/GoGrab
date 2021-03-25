@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <h1 class= "header"> Create header </h1>
-    <router-view></router-view>
+    <h1> HOME PAGE TO BE CREATED </h1>
   </div>
 </template>
 
@@ -19,11 +18,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: black;
+  color: #2c3e50;
   margin-top: 60px;
-}
-.header {
-  color: black;
-  background-color: rgb(172, 120, 196);
 }
 </style>
