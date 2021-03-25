@@ -7,12 +7,6 @@ import Routescomp from './routes.js'
 Vue.config.productionTip = false
 Vue.use(VueRouter);
 
-const myRouter = new VueRouter({
-  routes: Routes,
-  mode: 'history'
-});
-
-Vue.use(VueRouter)
 
 //for router
 const myRouter = new VueRouter({ routes: Routescomp,
