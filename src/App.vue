@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="GoGrab logo" src="./assets/GoGrab_Logo.png" width="155" height="150">
+
+    <app-header></app-header>  
+
+    <router-view></router-view>
+
+    
+
+    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+//import HelloWorld from './components/HelloWorld.vue'
+//import IndividualListing from './components/IndividualListing.vue'
+//import IndividualListed from './components/IndividualListed.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    'app-header':Header,
+    //IndividualListing,
+    //IndividualListed,
   }
 }
 </script>
