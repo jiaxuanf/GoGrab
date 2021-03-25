@@ -1,3 +1,5 @@
+
+import CarListing from './components/CarListing.vue'
 import Home from './components/home.vue' 
 import IndividualListing from './components/IndividualListing.vue' 
 import IndividualListed from './components/IndividualListed.vue' 
@@ -10,5 +12,7 @@ export default[
     { path: '/listed', component: IndividualListed},
     { path : '/login', component: Login},
     { path: '/signup', component: SignUp}
+    { path : '/CarListing', component:CarListing }
 ]
+
 
