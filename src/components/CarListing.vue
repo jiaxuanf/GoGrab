@@ -31,7 +31,7 @@
 
 <script>
 import CarListIcon from './CarListIcon.vue'
-import database from '../firebase.js'
+import database from '../main.js'
 
 export default {
     components: {

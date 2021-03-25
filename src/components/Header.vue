@@ -7,6 +7,7 @@
         <router-link to="/listed" exact>Listed</router-link>
         <router-link to="/login" exact>Log In</router-link>
         <router-link to="/signup" exact>Sign up</router-link>
+        <router-link to="/CarListing" exact>View Available Cars </router-link>
     </header>
     </div>
   

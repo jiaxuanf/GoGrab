@@ -11,7 +11,7 @@ export default[
     { path: '/listing', component: IndividualListing},
     { path: '/listed', component: IndividualListed},
     { path : '/login', component: Login},
-    { path: '/signup', component: SignUp}
+    { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing }
 ]
 
