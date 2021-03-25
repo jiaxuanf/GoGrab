@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     signUp: function () {
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/signup" });
     },
     login() {
       firebase

@@ -20,13 +20,6 @@ export default database;
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false
-Vue.use(VueRouter);
-
-
-//for router
-const myRouter = new VueRouter({ routes: Routescomp,
-  mode: 'history'
-  });
 
 const myRouter =  new VueRouter({
   routes:Routescomp,

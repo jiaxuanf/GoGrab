@@ -5,6 +5,8 @@
         <router-link to="/" exact>Home </router-link>
         <router-link to="/listing" exact>Car Listing</router-link>
         <router-link to="/listed" exact>Listed</router-link>
+        <router-link to="/login" exact>Log In</router-link>
+        <router-link to="/signup" exact>Sign up</router-link>
     </header>
     </div>
   
