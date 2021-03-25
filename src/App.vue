@@ -10,24 +10,33 @@
       <a href="#listcar">List Your Car</a>
     </div>
     <div class="main">
-      <img v-bind:src="'https://lh5.googleusercontent.com/qt-iclLn2RAU2kBotZ919RV1uzrRDIf_e-UDqoK2cCW4wF7KrQH2MYFd0-JdPNOVvSbUEkzNp9ArhdgxOQ5-r9t8U1jPzlr9N9kvVHs-GA'"
-      style="width:100%;"/>
+      <img id="background" v-bind:src="'https://lh3.googleusercontent.com/z9-wDRLo8Mw1Rf5lQzXczIm7Z2eOOwIEUNvoITOWzjJqfD0DQX_6DAPvYlyUIM1XoGb9gnda9NCS4uumBQWD8oQM24PEFSsipf6mJ5y8UQ'"
+      style="width:100%"/>
       <h1 id="title">Drive anywhere you want 🚗</h1>
       <h2 id="subtitle">Book cars from trusted owners today!</h2>
       <form id="mainsearch">
         <label for="location">
-          <div class="mainsearch_label">Location:</div>
+          <div class="mainsearch_label">Location/</div>
           </label>
         <input class="inputs" type="text" >
         <label for="fromtime">
-          <div class="mainsearch_label">From:</div>
+          <div class="mainsearch_label">From</div>
           </label>
         <input class="inputs" type="text"  placeholder="DD/MM/YY"> 
         <label for="totime">
-          <div class="mainsearch_label">To:</div>
+          <div class="mainsearch_label">/To</div>
           </label>
         <input class="inputs" type="text"  placeholder="DD/MM/YY"> 
         </form>
+        <div>
+        <h2 style="color: purple; font-size: 40px"> How car sharing with GoGrab works:</h2>
+        <ul style="list-style-type: none;font-size: 30px;"> 
+          <li class="bullets"> 1️⃣ Register as a host and list your car for FREE</li>
+          <li class="bullets"> 2️⃣ Set your rules and the price for sharing </li>
+          <li class="bullets"> 3️⃣ Welcome your guest</li>
+          <li class="bullets"> 4️⃣ Sit back and see your car be put to good use! </li>
+        </ul>
+        </div>
     </div>
     <router-view> </router-view>
   </div>
@@ -58,13 +67,17 @@ export default {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 30px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .navbar a:hover {
   background: #ddd;
   color: red;
+}
+
+.background {
+  background-size: contain;
 }
 
 .main {
@@ -96,19 +109,25 @@ export default {
   top: 45%;
   left: 10%;
   transform: translate(-10%, -50%);
+  
 }
 
 .mainsearch_label {
   color: whitesmoke;
-  float: left;
   font-size: 40px;
-  font-family:monospace ;
+  font-family:monospace;
+  float:left
+
 }
 
 .inputs {
   height: 80px;
   width: 350px;
   font-size: 40px;
+}
+
+.bullets {
+  padding: 40px 40px;
 }
 
 </style>
