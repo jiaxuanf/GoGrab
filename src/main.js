@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import Routes from './routes.js'
+import Routescomp from './routes.js'
+
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -11,7 +12,14 @@ const myRouter = new VueRouter({
   mode: 'history'
 });
 
+Vue.use(VueRouter)
+
+//for router
+const myRouter = new VueRouter({ routes: Routescomp,
+  mode: 'history'
+  });
+
 new Vue({
   render: h => h(App),
-  router: myRouter
+  router:myRouter,
 }).$mount('#app')
