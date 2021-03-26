@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routescomp from './routes.js'
+import firebase from "firebase"
 
 import { BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
@@ -12,10 +13,6 @@ Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
-
-
-
-import firebase from "firebase"
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmHDfkCOHsEdgjQeGNpQWqYp5KxxUUgbA",
@@ -30,9 +27,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.firestore();
 export default database;
-
-Vue.use(VueRouter)
-Vue.config.productionTip = false
 
 const myRouter =  new VueRouter({
   routes:Routescomp,
