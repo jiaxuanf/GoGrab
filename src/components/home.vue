@@ -3,7 +3,7 @@
       <div class="main">
         <h1 id="title">Drive anywhere you want 🚗</h1>
         <h2 id="subtitle">Book cars from trusted owners today!</h2>
-        <img id="background" v-bind:src="'./assets/gograb_cover1.png'"
+        <img id="background" v-bind:src="'https://lh4.googleusercontent.com/60MV72lPwsMSfa5iI2nPuCylr3VXQyn2XREn0ZF4EU3rn-OAlJNd-Drn_4QYidGd2s-JjYDJajRzKFV4SJlTXCJNyAZpAvn6MWcweqZWLA'"
         style="width:100%"/>
         <form id="mainsearch">
           <label for="location">

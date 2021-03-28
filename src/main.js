@@ -14,7 +14,6 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 
-
 import firebase from "firebase"
 
 const firebaseConfig = {
@@ -30,6 +29,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.firestore();
 export default database;
+
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false
