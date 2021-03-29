@@ -14,7 +14,7 @@
     "core-js": "^3.6.5",
     "firebase": "^8.3.1",
     "has-value": "^2.0.2",
-    "sass-loader": "^11.0.1",
+    "sass-loader": "^10.1.1",
     "vue": "^2.6.12",
     "vue-cli": "^2.9.6",
     "vue-dynamic-star-rating": "^1.0.8",
