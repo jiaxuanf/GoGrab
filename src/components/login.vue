@@ -22,6 +22,7 @@ import firebase from "firebase";
 export default {
   data() {
     return {
+      username: "",
       password: "",
       email: "",
     };
@@ -58,6 +59,6 @@ form {
   text-align: left;
 }
 label {
-  color: black
+  color: black;
 }
 </style>

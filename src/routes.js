@@ -6,8 +6,9 @@ import IndividualListed from './components/IndividualListed.vue'
 import Login from './components/login.vue'
 import SignUp from './components/signUp.vue'
 import reviewForm from './components/reviewForm.vue'
+import UpdateProfile from './components/updateProfile.vue'
+import ProfilePage from './components/profilePage.vue'
 import Verficiation from './components/Verification.vue'
-
 
 export default[
     { path: '/', component: Home},
@@ -17,6 +18,8 @@ export default[
     { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing },
     { path : '/reviewForm', component:reviewForm },
+    { path: '/updateProfile', component: UpdateProfile},
+    { path: '/profilePage', component: ProfilePage},
     { path : '/Verification', component : Verficiation}
 ]
 

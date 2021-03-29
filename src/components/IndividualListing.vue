@@ -92,10 +92,9 @@ import firebase from 'firebase'
       
     }
   },
-  methods:{
+  methods: {
     list : function() {
       //testing
-      console.log(this.listing);
       console.log("abt to insert");
       //add to collection
       firebase.firestore().collection("listings")
@@ -110,6 +109,36 @@ import firebase from 'firebase'
       console.log("done");
     }
   },
+
+     uploadImage(e){
+          if(e.target.files[0]){
+            //testing
+            console.log("ready to upload")
+            
+              let file = e.target.files[0];
+        
+              var storageRef = firebase.storage().ref('listings/'+ Math.random() + '_'  + file.name);
+        
+              let uploadTask  = storageRef.put(file);
+        
+              uploadTask.on('state_changed', () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                  this.listing.images.push(downloadURL);
+                });
+                
+              }, (error) => {
+                // Handle unsuccessful uploads
+                console.log(error);
+              }, () => {
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                console.log('successful')
+                
+              });
+              //testing
+            console.log("end of upload")
+          }
+      }
 
      
 
