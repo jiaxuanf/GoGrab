@@ -1,18 +1,9 @@
 <template>
   <div>
-    <h1>LOGIN</h1>
-    <form @submit.prevent="login">
-      <label for="email">Email:</label><br />
-      <input type="email" placeholder="Email address..." v-model="email" />
-      <br />
-      <label for="password">Password:</label>
-      <br />
-      <input type="password" placeholder="password..." v-model="password" />
-      <br />
-      <button type="submit">Login</button>
-    </form>
-    <h4>Do not have an account?</h4>
-    <span v-on:click="signUp()"> Sign up here </span>
+    <div id="profilePicture">profilePicture</div>
+    <div id="stats">
+      <p class="stat">Reviews:</p>
+    </div>
   </div>
 </template>
 
@@ -48,17 +39,17 @@ export default {
 </script>
 
 <style scoped>
-input {
-  margin-right: 20px;
+#profilePicture {
+  float: left;
+  width: 50%;
+  padding: 20px;
 }
-h1 {
-  font-size: "60px";
+#stats {
+  float: right;
+  width: 50%;
 }
-
-form {
-  text-align: left;
-}
-label {
-  color: black;
+.stat {
+  border: 2px solid black;
+  border-radius: 4px;
 }
 </style>
