@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import Routescomp from './routes.js'
 
 import { BootstrapVue, IconsPlugin} from 'bootstrap-vue'
-
+import firebase from "firebase";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -14,7 +14,7 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 
-import firebase from "firebase"
+require("firebase/firestore");
 
 const firebaseConfig = {
   apiKey: "AIzaSyAmHDfkCOHsEdgjQeGNpQWqYp5KxxUUgbA",
@@ -26,9 +26,9 @@ const firebaseConfig = {
   measurementId: "G-W7Z3B5B7MF"
 };
 
-firebase.initializeApp(firebaseConfig);
-var database = firebase.firestore();
-export default database;
+const fb = firebase.initializeApp(firebaseConfig);
+const database = firebase.firestore();
+export default {fb, database}
 
 
 Vue.use(VueRouter)
@@ -43,3 +43,4 @@ new Vue({
   render: h => h(App),
   router: myRouter
 }).$mount('#app')
+
