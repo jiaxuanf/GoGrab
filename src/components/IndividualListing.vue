@@ -3,79 +3,146 @@
 <div id=app>
 <h1>List Your Car Now!</h1>
 <br><br><br>
-<form action="/action_page.php">
+
+
+<form id='listing'>
+
 <ul>
   <li>
-    <label for="cmodel">Car Model:  </label>
-    <input type="text" id="cmodel" name="cmodel"><br><br>
+    <label for="model">Car Model:  </label>
+    <input type="text" id="model" name="model"  v-model="listing.model"><br><br>
   </li>
   <li>
     <label for="color">Color:   </label>
-    <input type="text" id="color" name="color"><br><br> 
+    <input type="text" id="color" name="color" v-model="listing.color"><br><br> 
   </li>
   <li> 
     <label for="age">Age:   </label>
-    <input type="number" id="age" name="age"><br><br>
+    <input type="number" id="age" name="age" v-model="listing.age"><br><br>
   </li>
     <!-- Rounded switch -->
   <li>
     <label> Any Defect:   No </label>
     <label class="switch">
-    <input type="checkbox">
+    <input type="checkbox" v-model="listing.defect">
     <span class="slider round"></span>
     </label>
-    <label> Yes  ( If yes, please specify in the desciption box. )</label><br><br>
+    <label> Yes  ( If yes, please specify in the description box. )</label>
+    <br><br>
   </li>
   <li>
     <label for="price">Price:  $ </label>
-    <input type="number" id="price" name="price">
+    <input type="number" id="price" name="price" v-model="listing.price">
     <label for="price"> /day </label><br><br>
   </li>
   <li> 
-    <label for="afrom">Available From:  </label> <input type="date" id="afrom" name="afrom">
-    <label for="ato"> To:  </label> <input type="date" id="afrom" name="afrom"><br><br>
+    <label for="afrom">Available From:  </label> <input type="date" id="afrom" name="afrom" v-model="listing.afrom">
+    <label for="ato"> To:  </label> <input type="date" id="ato" name="ato" v-model="listing.ato"><br><br>
   </li>
   <li>
     <label for="loc">Pick-up Location:</label>
-    <input type="text" id="loc" name="loc"><br><br>
+    <input type="text" id="loc" name="loc" v-model="listing.location"><br><br>
   </li>
   <li>
     <label for="files">Upload Photos: </label>
-    <input type="file" id="files" name="files" multiple><br><br>
+    <input type="file" id="files" name="files" @change="uploadImage"  ><br><br>
   </li>
   <li>
     <label for="description">Description:  </label><br><br>
-    <textarea id="description" name="description" rows="4" cols="50">
+    <textarea id="description" name="description" rows="4" cols="50" v-model="listing.description">
     </textarea><br><br>
   </li>
   <li>
     <label for="rule">Set your rules for your guest:  </label><br><br>
-    <textarea id="rule" name="rule" rows="4" cols="50">
+    <textarea id="rule" name="rule" rows="4" cols="50" v-model="listing.rules">
     </textarea><br><br>
   </li>
-
-  <form onSubmit="if(!confirm('Are you sure to list your car?')){return false;}">
-  <input type="submit" value = "List It"/>
-  </form>
-
- 
-
-    
-
-
 </ul>
+<button v-on:click.prevent="list">List Now</button>
 </form>
 </div>
 
 </template>
 
 <script>
-export default {
+import firebase from 'firebase'
+ export default {
+
   name: 'IndividualListing',
   props: {
     msg: String
-  }
-}
+  },
+
+  data(){
+    return {
+      listing: {
+        model:'',
+        color:'',
+        age:'',
+        defect:'', //boolean
+        price: '',
+        afrom:'',
+        ato:'',
+        location:'',
+        description:'',
+        rules:'',
+        images:[],
+
+      }
+      
+    }
+  },
+  methods: {
+    list : function() {
+      //testing
+      console.log("abt to insert");
+      //add to collection
+      firebase.firestore().collection("listings")
+      .add(this.listing)
+      .then(() => {
+          alert("Successfully listed!");
+          this.$router.push("/listed");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+      console.log("done");
+    }
+  },
+
+     uploadImage(e){
+          if(e.target.files[0]){
+            //testing
+            console.log("ready to upload")
+            
+              let file = e.target.files[0];
+        
+              var storageRef = firebase.storage().ref('listings/'+ Math.random() + '_'  + file.name);
+        
+              let uploadTask  = storageRef.put(file);
+        
+              uploadTask.on('state_changed', () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                  this.listing.images.push(downloadURL);
+                });
+                
+              }, (error) => {
+                // Handle unsuccessful uploads
+                console.log(error);
+              }, () => {
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                console.log('successful')
+                
+              });
+              //testing
+            console.log("end of upload")
+          }
+      }
+
+     
+
+} 
 </script>
 
 <style>

@@ -7,6 +7,7 @@ import Login from './components/login.vue'
 import SignUp from './components/signUp.vue'
 import UpdateProfile from './components/updateProfile.vue'
 import ProfilePage from './components/profilePage.vue'
+import Verficiation from './components/Verification.vue'
 
 export default[
     { path: '/', component: Home},
@@ -15,8 +16,9 @@ export default[
     { path : '/login', component: Login},
     { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing },
-    {path: '/updateProfile', component: UpdateProfile},
-    {path: '/profilePage', component: ProfilePage}
+    { path: '/updateProfile', component: UpdateProfile},
+    { path: '/profilePage', component: ProfilePage},
+    { path : '/Verification', component : Verficiation}
 ]
 
 

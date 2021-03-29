@@ -15,6 +15,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAmHDfkCOHsEdgjQeGNpQWqYp5KxxUUgbA",
   authDomain: "gograb-4c451.firebaseapp.com",
@@ -25,9 +26,9 @@ const firebaseConfig = {
   measurementId: "G-W7Z3B5B7MF"
 };
 
-firebase.initializeApp(firebaseConfig);
-var database = firebase.firestore();
-export default database;
+const fb = firebase.initializeApp(firebaseConfig);
+const database = firebase.firestore();
+export default {fb, database}
 
 const myRouter =  new VueRouter({
   routes:Routescomp,
@@ -39,3 +40,4 @@ new Vue({
   vuetify,
   router: myRouter
 }).$mount('#app')
+
