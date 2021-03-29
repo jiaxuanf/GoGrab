@@ -41,6 +41,7 @@ export default {
             username: this.username,
             email: this.email,
             phoneNumber: "",
+            profilePictureURL: "",
           });
           alert("Successfully registered! Please login.");
           this.$router.push("/login");

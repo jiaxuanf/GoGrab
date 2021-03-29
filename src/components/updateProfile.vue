@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>UPDATE YOUR PROFILE {{ this.username }}</h1>
-    <br>
+    <br />
     <div id="information">
       <h3>Contact Information</h3>
       <form>
@@ -33,7 +33,12 @@
               />
             </div>
             <div v-if="imageData != null">
-              <img class="preview" height="268" width="356" :src="img1" />
+              <img
+                class="preview"
+                height="268"
+                width="356"
+                :src="this.img1"
+              />
               <br />
             </div>
           </div>
@@ -55,6 +60,7 @@ import database from "../main.js";
 export default {
   data() {
     return {
+      uid: "",
       username: "",
       email: "",
       phoneNumber: "",
@@ -65,11 +71,9 @@ export default {
   },
   methods: {
     updateContact() {
-      var user = firebase.auth().currentUser;
-      var uid = user.uid;
       database
         .collection("userInfo")
-        .doc(uid)
+        .doc(this.uid)
         .update({
           email: this.email,
           phoneNumber: this.phoneNumber,
@@ -82,15 +86,16 @@ export default {
     },
     fetchItems: function () {
       var user = firebase.auth().currentUser;
-      var uid = user.uid;
+      this.uid = user.uid;
       database
         .collection("userInfo")
-        .doc(uid)
+        .doc(this.uid)
         .get()
         .then((snapshot) => {
           this.username = snapshot.data().username;
           this.email = snapshot.data().email;
           this.phoneNumber = snapshot.data().phoneNumber;
+          this.img1 = snapshot.data().profilePictureURL;
         });
     },
     uploadPhoto() {
@@ -138,9 +143,16 @@ export default {
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
             this.img1 = url;
             console.log(this.img1);
+            database.collection("userInfo").doc(this.uid).update({
+            profilePictureURL : this.img1
+          });
           });
         }
       );
+    },
+    getProfilePicture() {
+      var doc = database.collection('userInfo').doc(this.uid);
+      return doc.get("profilePictureURL");
     },
   },
   created() {
