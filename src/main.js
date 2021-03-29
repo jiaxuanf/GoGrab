@@ -8,6 +8,7 @@ import { BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import vuetify from './plugins/vuetify';
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
@@ -35,5 +36,6 @@ const myRouter =  new VueRouter({
 
 new Vue({
   render: h => h(App),
+  vuetify,
   router: myRouter
 }).$mount('#app')
