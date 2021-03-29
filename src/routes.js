@@ -15,7 +15,6 @@ export default[
     { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing },
     { path : '/reviewForm', component:reviewForm },
-
 ]
 
 
