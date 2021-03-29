@@ -3,7 +3,7 @@
       <div class="main">
         <h1 id="title">Drive anywhere you want 🚗</h1>
         <h2 id="subtitle">Book cars from trusted owners today!</h2>
-        <img id="background" v-bind:src="'https://lh4.googleusercontent.com/60MV72lPwsMSfa5iI2nPuCylr3VXQyn2XREn0ZF4EU3rn-OAlJNd-Drn_4QYidGd2s-JjYDJajRzKFV4SJlTXCJNyAZpAvn6MWcweqZWLA'"
+        <img id="background" v-bind:src="'https://lh5.googleusercontent.com/6NW3R82AQ9O_R6Y_7roQyYzkdfibyemSEVVOCa5ynw3dGqNZlT5VQA_1CGxA9-DhWvwcjFug05cAbhVf5L5W4w9WDafE_75SBtGYAludKw'"
         style="width:100%"/>
         <form id="mainsearch">
           <label for="location">

@@ -26,7 +26,7 @@
 
 <script>
 import { StarRating } from "vue-rate-it";
-import database from "../main.js";
+import firebase from 'firebase';
 
 export default {
   data() {
@@ -47,9 +47,9 @@ export default {
       );
       // const ratingNumber = this.rating;
       // const text = document.getElementById('description').value;
-      const newReview = database.collection("reviews").doc();
+       const newReview = firebase.firestore().collection("reviews").doc();
       console.log(newReview.id);
-       database.collection("reviews").doc(newReview.id).set({
+       firebase.firestore().collection("reviews").doc(newReview.id).set({
           ratingNum: 2,
           description: "hello123"
       }).then(function() {
@@ -58,8 +58,6 @@ export default {
      .catch(function(error) {
         console.error("Error writing doc", error);
      }); 
-      console.log("after addReview"); 
-      
       
     }, 
   }, 
