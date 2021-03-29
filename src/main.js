@@ -16,6 +16,8 @@ Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 
 
+require("firebase/firestore");
+
 const firebaseConfig = {
   apiKey: "AIzaSyAmHDfkCOHsEdgjQeGNpQWqYp5KxxUUgbA",
   authDomain: "gograb-4c451.firebaseapp.com",

@@ -37,7 +37,7 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(() => {
           alert("Successfully logged in");
-          this.$router.push("/home");
+          this.$router.push({ path: "/"});
         })
         .catch((error) => {
           alert(error.message);

@@ -10,6 +10,7 @@
       <router-link to="/CarListing" exact>View Available Cars </router-link>
       <router-link to="/updateProfile" exact>Update Profile</router-link>
       <router-link to="/profilePage" exact>Profile Page</router-link>
+      <router-link to="/reviewForm" exact>Leave Review</router-link>
     </header>
   </div>
 </template>
