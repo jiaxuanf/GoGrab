@@ -8,7 +8,6 @@ import SignUp from './components/signUp.vue'
 import reviewForm from './components/reviewForm.vue'
 import UpdateProfile from './components/updateProfile.vue'
 import ProfilePage from './components/profilePage.vue'
-import Verficiation from './components/Verification.vue'
 
 export default[
     { path: '/', component: Home},
@@ -20,7 +19,6 @@ export default[
     { path : '/reviewForm', component:reviewForm },
     { path: '/updateProfile', component: UpdateProfile},
     { path: '/profilePage', component: ProfilePage},
-    { path : '/Verification', component : Verficiation}
 ]
 
 

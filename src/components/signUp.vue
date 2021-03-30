@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-left:20px">
     <form @submit.prevent="register">
       <h1>SIGN UP</h1>
       <label for="username">Username:</label><br />
@@ -12,7 +12,7 @@
       <br />
       <input type="password" placeholder="password..." v-model="password" />
 
-      <button type="submit">Sign Up!</button>
+      <b-button style="border-radius:20px" type="submit">Sign Up!</b-button>
     </form>
     <span v-on:click="goToLogin()"> Login </span>
   </div>
@@ -60,6 +60,8 @@ export default {
 <style scoped>
 input {
   margin-right: 20px;
+  border-radius: 12px;
+  
 }
 h1 {
   font-size: "60px";
