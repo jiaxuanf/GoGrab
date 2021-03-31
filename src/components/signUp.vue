@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-left:20px">
+  <div style="margin-left: 20px">
     <form @submit.prevent="register">
       <h1>SIGN UP</h1>
       <label for="username">Username:</label><br />
@@ -12,7 +12,7 @@
       <br />
       <input type="password" placeholder="password..." v-model="password" />
 
-      <b-button style="border-radius:20px" type="submit">Sign Up!</b-button>
+      <b-button style="border-radius: 20px" type="submit">Sign Up!</b-button>
     </form>
     <span v-on:click="goToLogin()"> Login </span>
   </div>
@@ -21,12 +21,15 @@
 
 <script>
 import firebase from "firebase";
-import database from "../main.js";
+import database from "../main";
+
 export default {
   data() {
     return {
+      username: "",
       email: "",
       password: "",
+      uid: "",
     };
   },
   methods: {
@@ -34,15 +37,33 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          var user = firebase.auth().currentUser;
-          var uid = user.uid;
-          database.collection("userInfo").doc(uid).set({
-            username: this.username,
-            email: this.email,
-            phoneNumber: "",
-            profilePictureURL: "",
-          });
+        .then(async (res) => {
+          /*var user = firebase.auth().currentUser;
+          this.uid = user.uid;*/
+          await database
+            .collection("userInfo")
+            .doc(res.user.uid)
+            .set({
+              username: this.username,
+              id: res.user.uid,
+              email: this.email,
+              password: this.password,
+              phoneNumber: "",
+              profilePictureURL: "",
+            })
+            .then(() => {
+              localStorage.setItem("id", res.user.uid);
+              localStorage.setItem("name", this.username);
+              localStorage.setItem("email", this.email);
+              localStorage.setItem("password", this.password);
+              localStorage.setItem("photoURL", "");
+              localStorage.setItem("description", "");
+              localStorage.setItem("FirebaseDocumentId", res.user.uid);
+              /*this.name = "";
+              this.email = "";
+              this.password = "";
+              this.$router.push("/chat");*/
+            });
           alert("Successfully registered! Please login.");
           this.$router.push("/login");
         })
@@ -61,7 +82,6 @@ export default {
 input {
   margin-right: 20px;
   border-radius: 12px;
-  
 }
 h1 {
   font-size: "60px";

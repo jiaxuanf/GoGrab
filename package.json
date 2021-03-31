@@ -18,6 +18,7 @@
     "vue": "^2.6.12",
     "vue-cli": "^2.9.6",
     "vue-dynamic-star-rating": "^1.0.8",
+    "vue-moment": "^4.1.0",
     "vue-rate-it": "^2.1.0",
     "vue-router": "^3.5.1",
     "vue-routers": "^1.0.9"

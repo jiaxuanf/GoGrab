@@ -35,13 +35,36 @@ export default {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          alert("Successfully logged in");
-          this.$router.push({ path: "/"});
+        .then(async (res) => {
+          console.log(res);
+          if (res.user) {
+            await firebase
+              .firestore()
+              .collection("userInfo")
+              .where("id", "==", res.user.uid)
+              .get()
+              .then((querySnapshot) => {
+                // console.log("query", querySnapshot);
+                querySnapshot.forEach((doc) => {
+                  let userData = doc.data();
+                  localStorage.setItem("id", userData.id);
+                  localStorage.setItem("name", userData.name);
+                  localStorage.setItem("email", userData.email);
+                  localStorage.setItem("password", userData.password);
+                  localStorage.setItem("photoURL", userData.URL);
+                  localStorage.setItem("description", userData.description);
+                  localStorage.setItem("FirebaseDocumentId", doc.id);
+                });
+              })
+              .then(() => {
+                alert("Successfully logged in");
+                this.$router.push({ path: "/" });
+              })
+              .catch((error) => {
+                alert(error.message);
+              });
+          }
         })
-        .catch((error) => {
-          alert(error.message);
-        });
     },
   },
 };

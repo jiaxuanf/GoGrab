@@ -11,6 +11,7 @@
       <router-link to="/updateProfile" exact>Update Profile</router-link>
       <router-link to="/profilePage" exact>Profile Page</router-link>
       <router-link to="/reviewForm" exact>Leave Review</router-link>
+      <router-link to="/chat" exact>Chats</router-link>
     </header>
   </div>
 </template>

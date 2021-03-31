@@ -29,13 +29,13 @@
         </div>
         <br>
         <div>
-          <b-button style="margin-left: 100px;border-radius: 30px;">choose a photo</b-button>
+          <b-button style="margin-left: 100px;border-radius: 30px;" @click="click1">choose a photo</b-button>
           <input
             type="file"
+            accept="image/*"
             ref="input1"
             style="display: none"
             @change="previewImage"
-            accept="image/*"
           />
         </div>
         <br />
@@ -108,6 +108,7 @@ export default {
           phoneNumber: this.phoneNumber,
         })
         .then(() => {
+          localStorage.setItem("email", this.email);
           this.$router.push({
             path: "/",
           });
@@ -141,6 +142,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+        localStorage.setItem("photoURL", this.img1);
     },
     click1() {
       this.$refs.input1.click();
