@@ -87,12 +87,23 @@ import firebase from 'firebase'
         description:'',
         rules:'',
         images:[],
+        userID: '',
+        time: Date.now(),
+        
 
       }
-      
     }
   },
   methods: {
+    // getuser: function() {
+    //   var user = firebase.auth().currentUser;
+
+    //   if (user) {
+    //     userID = user;
+    //   } else {
+    //     // No user is signed in.
+    //   }
+    // },
     list : function() {
       //testing
       console.log("abt to insert");

@@ -33,11 +33,54 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   name: 'IndividualListed',
   props: {
     msg: String
-  }
+  },
+  data(){
+    return {
+      listing: {
+        model:'',
+        color:'',
+        age:'',
+        defect:'', //boolean
+        price: '',
+        afrom:'',
+        ato:'',
+        location:'',
+        description:'',
+        rules:'',
+        images:[],
+        userID: '',
+      }
+    }
+  },
+  methods : {
+        fetchItems : function() {
+            firebase.firestore().collection("listings").get().then(snapshot => {
+                var temp = [];
+                snapshot.docs.forEach(doc => {
+                    temp.push(doc.data());
+                    if (temp.length == 3) {
+                        this.chunkedCarArray.push(temp);
+                        temp = [];
+                    }
+                });
+                if (temp.length != 0) {
+                    this.chunkedCarArray.push(temp);
+                }
+            })
+        }
+    },
+
+    created:function() {
+        this.fetchItems();
+        console.log(this.chunkedCarArray);
+    },
+    
 }
 </script>
 <style scoped>
