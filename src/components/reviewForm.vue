@@ -23,6 +23,7 @@
     </ul>
     <br><br><br>
     <button id="submit" v-on:click="addReview()">Submit</button>
+    <!-- <button v-on:click="checkID()">CHECK</button> -->
   </div>
 </template>
 
@@ -34,6 +35,7 @@ export default {
   data() {
     return {
       reviewData: {
+        reviewerID:"",
         reviewValue: 0,
         reviewText: "",
       },
@@ -46,6 +48,8 @@ export default {
   methods: {
     addReview: function () {
       console.log("start addReview");
+      const user = firebase.auth().currentUser;
+      this.reviewData.reviewerID = user.uid;
       firebase
         .firestore()
         .collection("reviews")
