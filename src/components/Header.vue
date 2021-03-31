@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-navbar toggleable = "lg" type = "light" variant = "primary" id = "navbar">  
+      <b-navbar toggleable = "lg" type = "light" variant = "primary" class = "navbarCol">  
         <b-navbar-brand  class="d-inline-block align-top" href = "/"><img src = "../assets/GoGrab_Logo_transparent.png" style = "width:50px; height:50px"/> </b-navbar-brand>
         <b-navbar-nav class = "ml-auto"> 
           <b-nav-item class = "routerLinks" to = "/login" type = "dark">Login/Sign up</b-nav-item>  
@@ -31,8 +31,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
-#navbar {
-  font-size: 20px
+.navbarCol {
+  font-size: 20px;
+  background-color:#DED3FF !important;
 } 
 
 .routerLinks {
