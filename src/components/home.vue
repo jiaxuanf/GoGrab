@@ -3,8 +3,7 @@
       <div class="main">
         <h1 id="title">Drive anywhere you want 🚗</h1>
         <h2 id="subtitle">Book cars from trusted owners today!</h2>
-        <img id="background" v-bind:src="''"
-        style="width:100%"/>
+        <img id="background" src="../assets/gograb_cover1.png" style="width:100%"/>
         <form id="mainsearch">
           <label for="location">
             <div class="mainsearch_label">Location/</div>
