@@ -95,19 +95,20 @@ import firebase from 'firebase'
     }
   },
   methods: {
-    // getuser: function() {
-    //   var user = firebase.auth().currentUser;
+    getCurrentUser: function() {
+      var user = firebase.auth().currentUser;
+      var uid
 
-    //   if (user) {
-    //     userID = user;
-    //   } else {
-    //     // No user is signed in.
-    //   }
-    // },
+      if (user != null) {
+        uid = user.uid;
+        return uid;
+      }
+    },
+
     list : function() {
-      //testing
-      console.log("abt to insert");
-      //add to collection
+      //add userID to the document for listing
+      this.listing.uid = this.getCurrentUser();
+      //upload document to firebase
       firebase.firestore().collection("listings")
       .add(this.listing)
       .then(() => {
