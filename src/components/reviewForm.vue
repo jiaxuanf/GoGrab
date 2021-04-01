@@ -2,7 +2,9 @@
   <div id="app">
     <h1>Build trust among the GoGrab community!</h1>
     <h1>Leave a review today!</h1>
+    <h1>{{listingID}} testing</h1>
     <br /><br /><br />
+    <button class="button" v-on:click="goBack()">Back</button>
     <ul>
       <form>
         <h1>Review:</h1>
@@ -22,8 +24,8 @@
       </form>
     </ul>
     <br><br><br>
-    <button id="submit" v-on:click="addReview()">Submit</button>
-    <!-- <button v-on:click="checkID()">CHECK</button> -->
+    <button class="button"  v-on:click="addReview()">Submit</button>
+      <button v-on:click="checkUID()">CHECK</button> 
   </div>
 </template>
 
@@ -41,7 +43,9 @@ export default {
       },
     };
   },
-  props: {},
+  props: {
+    listingID: String
+  },
   components: {
     StarRating,
   },
@@ -62,7 +66,18 @@ export default {
           alert(error.message);
         });
       console.log("after addReview");
+
+      this.$router.push("/myRentals");
+
     },
+    checkUID: function() {
+      const user = firebase.auth().currentUser;
+      console.log(user.uid);
+      console.log("listingID: " + this.listingID);
+    },
+    goBack: function() {
+          this.$router.push("/myRentals");
+    }
   },
 };
 </script>
@@ -76,7 +91,7 @@ ul {
   margin-bottom: 10px;
 }
 /*button */
-#submit {
+.button {
   background-color: indigo;
   border: none;
   color: white;
