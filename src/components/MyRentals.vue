@@ -38,7 +38,7 @@ export default {
   methods: {
     fetchListings: function () {
       const user = firebase.auth().currentUser;
-      console.log("hi1"); //current logged in user
+     //current logged in user
       firebase
         .firestore()
         .collection("listings")
