@@ -8,18 +8,21 @@
           <h2 style="text-shadow: 1px 1px #000000">Book cards from trusted hosts around the world. </h2>
         </div>
         <div class = "inputForms" > 
-          <b-container>
-            <b-row no-gutters>
-              <b-col sm = '1' class = "searchBar">Location </b-col>
-              <b-col sm = '2'> <b-form-input style = ""> </b-form-input></b-col> 
-              <b-col sm = '1' class= "searchBar"> From </b-col>
-              <b-col><b-form-datepicker> </b-form-datepicker></b-col> 
-              <b-col><b-form-timepicker></b-form-timepicker></b-col>
-              <b-col sm = '1' class = "searchBar">To </b-col>
-              <b-col><b-form-datepicker> </b-form-datepicker></b-col>
-              <b-col><b-form-timepicker></b-form-timepicker></b-col>
-            </b-row>  
-          </b-container>
+          <b-form>
+            <b-container>
+              <b-row no-gutters :style = "rowStyle">
+                  <b-col sm = '1' :style = "centerText" v-model = "location"> <strong> Location </strong></b-col>
+                  <b-col sm = '2'> <b-form-input class = "searchBar" placeholder = "Location" required> </b-form-input></b-col> 
+                  <b-col sm = '1' :style = "centerText"><strong> From </strong> </b-col>
+                  <b-col><b-form-datepicker class = "searchBar" v-model = "startDate" required> </b-form-datepicker></b-col> 
+                  <b-col><b-form-timepicker class = "searchBar" v-model = "startTime" required></b-form-timepicker></b-col>
+                  <b-col sm = '1' :style = "centerText"><strong> To </strong> </b-col>
+                  <b-col><b-form-datepicker class = "searchBar" v-model = "endDate" required> </b-form-datepicker></b-col>
+                  <b-col><b-form-timepicker class = "searchBar" v-model = "endTime" required></b-form-timepicker></b-col>
+                  <b-col :style = "centerText"><b-button type = "submit" v-on:click="submitSearch"> Search </b-button> </b-col>
+              </b-row>  
+            </b-container>
+          </b-form>
         </div>
       </b-card-body>
     </b-card>
@@ -39,11 +42,36 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
     props: {},
   data() {
-    return {};
+    return {
+      rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; ",
+      centerText: "margin:auto;",
+      location : "",
+      startDate : "",
+      startTime : "",
+      endDate : "",
+      endTime : ""
+    };
   },
+
+  methods : {
+    submitSearch : function() {
+        const location =this.location;
+        const startDate = this.startDate;
+        const startTime =this.startTime;
+        const endDate = this.endDate;
+        const endTime = this.endTime;
+        const a = startDate.concat(" ", startTime);
+        const b = endDate.concat(" ", endTime);
+        const startTimeStamp = moment(a).valueOf();
+        const endTimeStamp = moment(b).valueOf();
+        this.$router.push({name: 'CarListing',  params: { location: location, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
+    }
+  }
 };
     
 
@@ -59,8 +87,8 @@ export default {
   color:#495057;
   background-color:#fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border: none;
+  border-color: transparent;
 }
 
 

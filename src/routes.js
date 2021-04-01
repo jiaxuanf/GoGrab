@@ -12,11 +12,11 @@ import Verficiation from './components/Verification.vue'
 
 export default[
     { path: '/', component: Home},
-    { path: '/listing', component: IndividualListing},
-    { path: '/listed', component: IndividualListed},
+    { path: '/listing', component: IndividualListing, name : 'IndividualListing'},
+    { path: '/listed', component: IndividualListed, name : 'IndividualListed'},
     { path : '/login', component: Login},
     { path: '/signup', component: SignUp},
-    { path : '/CarListing', component:CarListing },
+    { path : '/CarListing', component:CarListing, name : 'CarListing' },
     { path : '/reviewForm', component:reviewForm },
     { path: '/updateProfile', component: UpdateProfile},
     { path: '/profilePage', component: ProfilePage},
