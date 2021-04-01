@@ -87,7 +87,6 @@
 
 <script>
 import firebase from 'firebase'
-import database from "../main.js";
 
  export default {
 
@@ -157,11 +156,9 @@ import database from "../main.js";
         () => {
           this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            this.img1 = url;
+            this.listing.images = url;
             console.log(this.img1);
-            database.collection("listings").doc(this.listing).update({
-            images : this.img1
-          });
+
           });
         }
       );
