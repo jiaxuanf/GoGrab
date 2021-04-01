@@ -45,7 +45,26 @@
   </li>
   <li>
     <label for="files">Upload Photos: </label>
-    <input type="file" id="files" name="files" @change="uploadImage"  ><br><br>
+    <input type="file" ref="input1" @change="previewImage" accept="image/*" name="name?"><br><br>    
+    <div>
+      <v-btn @click="click1">choose a photo</v-btn>
+      <input
+        type="file"
+        ref="input1"
+        style="display: none"
+        @change="previewImage"
+        accept="image/*"
+      />
+    </div>
+    <div v-if="imageData != null">
+      <img
+        class="preview"
+        height="268"
+        width="356"
+        :src="this.img1"
+      />
+      <br>
+    </div>
   </li>
   <li>
     <label for="description">Description:  </label><br><br>
@@ -59,6 +78,8 @@
   </li>
 </ul>
 <button v-on:click.prevent="list">List Now</button>
+<v-btn color="pink" @click="uploadPhoto()">upload</v-btn>
+
 </form>
 </div>
 
@@ -66,6 +87,8 @@
 
 <script>
 import firebase from 'firebase'
+import database from "../main.js";
+
  export default {
 
   name: 'IndividualListing',
@@ -86,12 +109,15 @@ import firebase from 'firebase'
         location:'',
         description:'',
         rules:'',
-        images:[],
+        images:'',
         userID: '',
-        time: Date.now(),
+        time: Date.now(), //number
         
 
-      }
+      },
+      img1: "",
+      imageData: "",
+      uploadValue: 0,
     }
   },
   methods: {
@@ -104,10 +130,63 @@ import firebase from 'firebase'
         return uid;
       }
     },
+    click1() {
+      this.$refs.input1.click();
+    },
+    previewImage(event) {
+      this.uploadValue = 0;
+      this.img1 = null;
+      this.imageData = event.target.files[0];
+      this.onUpload();
+    },
+    onUpload() {
+      this.img1 = null;
+      const storageRef = firebase
+        .storage()
+        .ref(`${this.imageData.name}`)
+        .put(this.imageData);
+      storageRef.on(
+        `state_changed`,
+        (snapshot) => {
+          this.uploadValue =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          this.uploadValue = 100;
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
+            this.img1 = url;
+            console.log(this.img1);
+            database.collection("listings").doc(this.listing).update({
+            images : this.img1
+          });
+          });
+        }
+      );
+    },
+    uploadPhoto() {
+      const post = {
+        photo: this.img1,
+      };
+      firebase
+        .database()
+        .ref("PhotoGallery")
+        .push(post)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
 
     list : function() {
       //add userID to the document for listing
       this.listing.uid = this.getCurrentUser();
+      //add photo 
+      
       //upload document to firebase
       firebase.firestore().collection("listings")
       .add(this.listing)
@@ -122,35 +201,6 @@ import firebase from 'firebase'
     }
   },
 
-     uploadImage(e){
-          if(e.target.files[0]){
-            //testing
-            console.log("ready to upload")
-            
-              let file = e.target.files[0];
-        
-              var storageRef = firebase.storage().ref('listings/'+ Math.random() + '_'  + file.name);
-        
-              let uploadTask  = storageRef.put(file);
-        
-              uploadTask.on('state_changed', () => {
-                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                  this.listing.images.push(downloadURL);
-                });
-                
-              }, (error) => {
-                // Handle unsuccessful uploads
-                console.log(error);
-              }, () => {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                console.log('successful')
-                
-              });
-              //testing
-            console.log("end of upload")
-          }
-      }
 
      
 

@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <h1>UPDATE YOUR PROFILE {{ this.username }}</h1>
@@ -122,7 +123,6 @@ export default {
       this.imageData = event.target.files[0];
       this.onUpload();
     },
-
     onUpload() {
       this.img1 = null;
       const storageRef = firebase
@@ -170,14 +170,12 @@ h1 {
   font-size: "60px";
   text-align: center;
 }
-
 form {
   text-align: left;
 }
 label {
   color: black;
 }
-
 #information {
   float: left;
   width: 50%;
