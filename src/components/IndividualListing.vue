@@ -108,7 +108,7 @@ import firebase from 'firebase'
         location:'',
         description:'',
         rules:'',
-        images:'',
+        images:[],
         userID: '',
         time: Date.now(), //number
         
@@ -139,6 +139,7 @@ import firebase from 'firebase'
       this.onUpload();
     },
     onUpload() {
+      console.log("start onUpload")
       this.img1 = null;
       const storageRef = firebase
         .storage()
@@ -156,8 +157,9 @@ import firebase from 'firebase'
         () => {
           this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            this.listing.images = url;
-            console.log(this.img1);
+            console.log("add images to this.listing.images[]")
+            this.listing.images.push(url)
+            this.img1 = url
 
           });
         }
