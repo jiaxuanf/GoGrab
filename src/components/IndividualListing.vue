@@ -54,6 +54,7 @@
         style="display: none"
         @change="previewImage"
         accept="image/*"
+        multiple
       />
     </div>
     <div v-if="imageData != null">
@@ -62,6 +63,7 @@
         height="268"
         width="356"
         :src="this.img1"
+        multiple
       />
       <br>
     </div>
@@ -115,7 +117,7 @@ import firebase from 'firebase'
 
       },
       img1: "",
-      imageData: "",
+      imageData: '',
       uploadValue: 0,
     }
   },
@@ -133,19 +135,27 @@ import firebase from 'firebase'
       this.$refs.input1.click();
     },
     previewImage(event) {
+      console.log("start previewImage")
       this.uploadValue = 0;
-      this.img1 = null;
-      this.imageData = event.target.files[0];
+      // this.img1 = null;
+      this.imageData = event.target.files
+      console.log(this.imageData)
       this.onUpload();
     },
     onUpload() {
+      // this.listing.images = [],
       console.log("start onUpload")
-      this.img1 = null;
-      const storageRef = firebase
+      this.img1 = this.imageData[0];
+      console.log('length of imageData is' + this.imageData.length)
+      var i;
+      for (i = 0; i < this.imageData.length; i++) {
+        console.log("the " + i + "th element in this.imageData is ")
+        console.log(this.imageData[i])
+        const storageRef = firebase
         .storage()
-        .ref(`${this.imageData.name}`)
-        .put(this.imageData);
-      storageRef.on(
+        .ref(this.imageData[i].name)
+        .put(this.imageData[i]);
+        storageRef.on(
         `state_changed`,
         (snapshot) => {
           this.uploadValue =
@@ -158,12 +168,22 @@ import firebase from 'firebase'
           this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
             console.log("add images to this.listing.images[]")
+            console.log('BEFORE images is Array? ' + typeof this.listing.images)
+            console.log(this.listing.images)
+
+
             this.listing.images.push(url)
+            console.log(this.listing.images);
+            console.log('this.listing.images[0] is ')
+            console.log(this.listing.images[i])
+            
             this.img1 = url
 
           });
         }
       );
+      }
+
     },
     uploadPhoto() {
       const post = {
