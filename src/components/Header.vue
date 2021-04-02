@@ -5,7 +5,7 @@
         <b-navbar-brand  class="d-inline-block align-top" href = "/"><img src = "../assets/GoGrab_Logo_transparent.png" style = "width:50px; height:50px"/> </b-navbar-brand>
         <b-navbar-nav class = "ml-auto"> 
           <b-nav-item class = "routerLinks" to = "/login" type = "dark">Login/Sign up</b-nav-item>  
-          <b-nav-item class = "routerLinks" to = "/"  type = "dark"> Messages (TBD) </b-nav-item>
+          <b-nav-item class = "routerLinks" to = "/chat"  type = "dark"> Messages </b-nav-item>
           <b-nav-item class = "routerLinks" to = "/CarListing"  type = "dark"> Cars </b-nav-item>
           <b-nav-item class = "routerLinks" to = "/"  type = "dark"> Feed (TBD) </b-nav-item>
           <b-nav-item class = "routerLinks" to = "/listing"  type = "dark"> List your car </b-nav-item>

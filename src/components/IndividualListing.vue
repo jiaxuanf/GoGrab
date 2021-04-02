@@ -112,10 +112,9 @@ import firebase from 'firebase'
       img1: "",
       imageData: '',
       uploadValue: 0,
-      },
-    
-    }
+      }
   },
+
   methods: {
     getCurrentUser: function() {
       var user = firebase.auth().currentUser;

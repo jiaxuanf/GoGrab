@@ -66,7 +66,7 @@ export default {
       imageData: "",
       uploadValue: 0,
       carInfo:[]
-    };
+    }
   },
   methods : {
         fetchItems : function() {
@@ -98,7 +98,6 @@ export default {
   created:function() {
       this.fetchItems();
   }
-  }, 
 }
 
 </script>
