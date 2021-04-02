@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Build trust among the GoGrab community!</h1>
     <h1>Leave a review today!</h1>
-    <h1>{{listingID}} testing</h1>
+
     <br /><br /><br />
     <button class="button" v-on:click="goBack()">Back</button>
     <ul>
@@ -25,7 +25,7 @@
     </ul>
     <br><br><br>
     <button class="button"  v-on:click="addReview()">Submit</button>
-      <button v-on:click="checkUID()">CHECK</button> 
+      <!-- <button v-on:click="checkUID()">CHECK</button> -->
   </div>
 </template>
 
@@ -40,6 +40,7 @@ export default {
         reviewerID:"",
         reviewValue: 0,
         reviewText: "",
+        listingID: this.listingID
       },
     };
   },
@@ -67,6 +68,15 @@ export default {
         });
       console.log("after addReview");
 
+      
+      const listingRef = firebase.firestore().collection("listings").doc(this.listingID);
+      listingRef.update({
+        reviewerID: user.uid
+      }).then(() => {
+        console.log("listing document successfully updated");
+      }).catch((error) => {
+        console.log("Error: " + error);
+      })
       this.$router.push("/myRentals");
 
     },

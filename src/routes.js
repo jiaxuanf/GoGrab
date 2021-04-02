@@ -18,11 +18,11 @@ export default[
     { path : '/login', component: Login},
     { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing },
-    { path : '/reviewForm', component:reviewForm },
+    { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true },
     { path: '/updateProfile', component: UpdateProfile},
     { path: '/profilePage', component: ProfilePage},
     { path : '/Verification', component : Verfication},
-    { path : '/MyRentals', component : MyRentals},
+    { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true},
 
 ]
 

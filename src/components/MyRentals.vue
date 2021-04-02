@@ -1,6 +1,5 @@
 <template>
   <div>
-    <reviewForm v-bind:listingID="listing_ID" v-if="5<0"> </reviewForm>
     <ol>
       <h1>My Rentals</h1>
       <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
@@ -26,13 +25,12 @@
 
 <script>
 import firebase from "firebase";
-import reviewForm from './reviewForm.vue';
 export default {
-  components: { reviewForm },
+  components: { },
   data() {
     return {
       listingsArray: [],
-      listing_ID: "1112",
+      listing_ID: "",
     };
   },
   methods: {
@@ -58,8 +56,13 @@ export default {
         });
     },
     goReview: function () {
-      console.log("listingID: " + this.listing_ID);
-      this.$router.push("/reviewForm");
+      console.log("listing_ID: " + this.listing_ID);
+      this.$router.push({
+        name: 'reviewForm',
+        params: {
+          listingID: this.listing_ID,
+        }
+      });
     },
   },
   created: function () {
