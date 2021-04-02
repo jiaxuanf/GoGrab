@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <h1>Update your profile, {{ this.username }}!</h1>
@@ -153,7 +154,6 @@ export default {
       this.imageData = event.target.files[0];
       this.onUpload();
     },
-
     onUpload() {
       this.img1 = null;
       const storageRef = firebase
@@ -232,14 +232,12 @@ h1 {
   text-align: center;
   font-family: "Dela Gothic One";
 }
-
 form {
   text-align: left;
 }
 label {
   color: black;
 }
-
 #information {
   float: left;
   width: 50%;
@@ -249,6 +247,7 @@ label {
   float: right;
   width: 50%;
 }
+
 .border {
   /*margin:20px;*/
   margin-top: 50px;

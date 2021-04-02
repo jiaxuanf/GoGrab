@@ -44,8 +44,26 @@
     <input type="text" id="loc" name="loc" v-model="listing.location"><br><br>
   </li>
   <li>
-    <label for="files">Upload Photos: </label>
-    <input type="file" id="files" name="files" @change="uploadImage"  ><br><br>
+    <label id = 'uploadPhotoe' for="files" >Upload Photos: </label> 
+      <v-btn @click="click1">choose a photo</v-btn>
+      <input
+        type="file"
+        ref="input1"
+        style="display: none"
+        @change="previewImage"
+        accept="image/*"
+        multiple
+      />
+      <br><br>
+    <div v-if="imageData != null">
+      <img
+        class="preview"
+        :src="this.img1"
+        size = 50%
+        multiple
+      />
+      <br>
+    </div>
   </li>
   <li>
     <label for="description">Description:  </label><br><br>
@@ -58,7 +76,8 @@
     </textarea><br><br>
   </li>
 </ul>
-<button v-on:click.prevent="list">List Now</button>
+<v-btn v-on:click.prevent="list">List Now</v-btn>
+
 </form>
 </div>
 
@@ -66,6 +85,7 @@
 
 <script>
 import firebase from 'firebase'
+
  export default {
 
   name: 'IndividualListing',
@@ -79,29 +99,94 @@ import firebase from 'firebase'
         model:'',
         color:'',
         age:'',
-        defect:'', //boolean
+        defect:'', 
         price: '',
         location:'',
         description:'',
         rules:'',
         images:[],
-        renterID: '',
-        afrom: Date.now(),
-        ato: Date.now(),
+        time: Date.now(), //number
+        
 
+      },
+      img1: "",
+      imageData: '',
+      uploadValue: 0,
       },
     
     }
   },
   methods: {
+    getCurrentUser: function() {
+      var user = firebase.auth().currentUser;
+      var uid
+
+      if (user != null) {
+        uid = user.uid;
+        return uid;
+      }
+    },
+    click1() {
+      this.$refs.input1.click();
+    },
+    previewImage(event) {
+      console.log("start previewImage")
+      this.uploadValue = 0;
+      // this.img1 = null;
+      this.imageData = event.target.files
+      console.log(this.imageData)
+      this.onUpload();
+    },
+    onUpload() {
+      // this.listing.images = [],
+      console.log("start onUpload")
+      this.img1 = this.imageData[0];
+      console.log('length of imageData is' + this.imageData.length)
+      var i;
+      for (i = 0; i < this.imageData.length; i++) {
+        console.log("the " + i + "th element in this.imageData is ")
+        console.log(this.imageData[i])
+        const storageRef = firebase
+        .storage()
+        .ref(this.imageData[i].name)
+        .put(this.imageData[i]);
+        storageRef.on(
+        `state_changed`,
+        (snapshot) => {
+          this.uploadValue =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          this.uploadValue = 100;
+          storageRef.snapshot.ref.getDownloadURL().then((url) => {
+            console.log("add images to this.listing.images[]")
+            console.log('BEFORE images is Array? ' + typeof this.listing.images)
+            console.log(this.listing.images)
+
+
+            this.listing.images.push(url)
+            console.log(this.listing.images);
+            console.log('this.listing.images[0] is ')
+            console.log(this.listing.images[i])
+            
+            this.img1 = url
+
+          });
+        }
+      );
+      }
+
+    },
+
+
     list : function() {
-      //testing
-      console.log("abt to insert now");
-      //add to collection
-      console.log("afrom TEST is: " + this.listing.afrom);
-      console.log("ato TEST is: " + this.listing.ato);
-      // var dateFrom2 = new Date(document.getElementById("dateFrom").value);
-      // var dateTo2 = new Date(document.getElementById("dateTo").value);
+
+      //add userID to the document for listing
+      this.listing.uid = this.getCurrentUser();      
+      //upload document to firebase
 
       firebase.firestore().collection("listings")
       .add(this.listing)
@@ -116,35 +201,6 @@ import firebase from 'firebase'
     }
   },
 
-     uploadImage(e){
-          if(e.target.files[0]){
-            //testing
-            console.log("ready to upload")
-            
-              let file = e.target.files[0];
-        
-              var storageRef = firebase.storage().ref('listings/'+ Math.random() + '_'  + file.name);
-        
-              let uploadTask  = storageRef.put(file);
-        
-              uploadTask.on('state_changed', () => {
-                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                  this.listing.images.push(downloadURL);
-                });
-                
-              }, (error) => {
-                // Handle unsuccessful uploads
-                console.log(error);
-              }, () => {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                console.log('successful')
-                
-              });
-              //testing
-            console.log("end of upload")
-          }
-      }
 
      
 
@@ -152,6 +208,10 @@ import firebase from 'firebase'
 </script>
 
 <style>
+#uploadPhoto {
+  margin-right: 20px;
+  margin-block: 50px;
+}
 
 ul {
   list-style-type: none;
