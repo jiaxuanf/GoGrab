@@ -19,6 +19,7 @@
     "vue": "^2.6.12",
     "vue-cli": "^2.9.6",
     "vue-dynamic-star-rating": "^1.0.8",
+    "vue-moment": "^4.1.0",
     "vue-rate-it": "^2.1.0",
     "vue-router": "^3.5.1",
     "vue-routers": "^1.0.9"
@@ -30,6 +31,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "google-fonts-webpack-plugin": "^0.4.4",
     "sass": "^1.32.0",
     "sass-loader": "^10.0.0",
     "vue-template-compiler": "^2.6.11"

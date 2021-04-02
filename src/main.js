@@ -29,8 +29,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.firestore();
-
-
 export default database;
 
 const myRouter =  new VueRouter({
