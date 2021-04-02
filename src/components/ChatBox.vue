@@ -2,14 +2,14 @@
   <div style="display: flex; flex-direction: column; height: 100vh">
     <header>
       <div style="height: 60px; background: lightgrey">
-        <img :src="currentPeerUser.photoURL" width="40px" class="br-50 header-image" />
+        <img :src="currentPeerUser.URL" width="50px" height="45px" style="margin-left:20px" class="br-50 header-image" />
         <div class="header-image">
           <h6 class="mt-2" style="font-weight: 600">{{currentPeerUser.name}}</h6>
         </div>
       </div>
     </header>
     <div style="background: #efe9e2; flex: 1; overflow-y: auto">
-      <h2 class="welcome">Welcome to Chatbox</h2>
+      <h2 class="welcome" style="margin-left:20px">Chat with {{currentPeerUser.name}}</h2>
       <div class="text-outer">
         <div
           :class="item.idFrom === currentUserId ? 'textFrom' : 'textTo'"
