@@ -44,9 +44,7 @@
     <input type="text" id="loc" name="loc" v-model="listing.location"><br><br>
   </li>
   <li>
-    <label for="files">Upload Photos: </label>
-    <input type="file" ref="input1" @change="previewImage" accept="image/*" name="name?"><br><br>    
-    <div>
+    <label id = 'uploadPhotoe' for="files" >Upload Photos: </label> 
       <v-btn @click="click1">choose a photo</v-btn>
       <input
         type="file"
@@ -56,13 +54,12 @@
         accept="image/*"
         multiple
       />
-    </div>
+      <br><br>
     <div v-if="imageData != null">
       <img
         class="preview"
-        height="268"
-        width="356"
         :src="this.img1"
+        size = 50%
         multiple
       />
       <br>
@@ -79,8 +76,7 @@
     </textarea><br><br>
   </li>
 </ul>
-<button v-on:click.prevent="list">List Now</button>
-<v-btn color="pink" @click="uploadPhoto()">upload</v-btn>
+<v-btn v-on:click.prevent="list">List Now</v-btn>
 
 </form>
 </div>
@@ -103,7 +99,7 @@ import firebase from 'firebase'
         model:'',
         color:'',
         age:'',
-        defect:'', //boolean
+        defect:'', 
         price: '',
         afrom:'',
         ato:'',
@@ -111,7 +107,6 @@ import firebase from 'firebase'
         description:'',
         rules:'',
         images:[],
-        userID: '',
         time: Date.now(), //number
         
 
@@ -185,27 +180,11 @@ import firebase from 'firebase'
       }
 
     },
-    uploadPhoto() {
-      const post = {
-        photo: this.img1,
-      };
-      firebase
-        .database()
-        .ref("PhotoGallery")
-        .push(post)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+
 
     list : function() {
       //add userID to the document for listing
-      this.listing.uid = this.getCurrentUser();
-      //add photo 
-      
+      this.listing.uid = this.getCurrentUser();      
       //upload document to firebase
       firebase.firestore().collection("listings")
       .add(this.listing)
@@ -227,6 +206,10 @@ import firebase from 'firebase'
 </script>
 
 <style>
+#uploadPhoto {
+  margin-right: 20px;
+  margin-block: 50px;
+}
 
 ul {
   list-style-type: none;
