@@ -7,7 +7,7 @@ import Login from './components/login.vue'
 import SignUp from './components/signUp.vue'
 import reviewForm from './components/reviewForm.vue'
 import UpdateProfile from './components/updateProfile.vue'
-import ProfilePage from './components/profilePage.vue'
+import ProfilePage from './components/profilePage.vue'  
 import Verficiation from './components/Verification.vue'
 
 export default[

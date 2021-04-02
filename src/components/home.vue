@@ -69,6 +69,7 @@ export default {
         const b = endDate.concat(" ", endTime);
         const startTimeStamp = moment(a).valueOf();
         const endTimeStamp = moment(b).valueOf();
+        console.log(startTimeStamp);
         this.$router.push({name: 'CarListing',  params: { location: location, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
     }
   }
