@@ -11,8 +11,6 @@
           <b-nav-item class = "routerLinks" to = "/listing"  type = "dark"> List your car </b-nav-item>
           <b-navbar-brand class = "d-inline-block align-top" href = "/login"><img src = "../assets/profile_icon.png" style = "width:50px; height:50px"> </b-navbar-brand>
         </b-navbar-nav>
-        
-
       </b-navbar>
     </div>
   </div>
