@@ -6,7 +6,6 @@ import firebase from "firebase"
 import { BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import vuetify from './plugins/vuetify';
 
 
 require("firebase/firestore");
@@ -36,12 +35,11 @@ export default database;
 
 const myRouter =  new VueRouter({
   routes:Routescomp,
-  mode:'history'
+  mode:'history'  
 });
 
 new Vue({
   render: h => h(App),
-  vuetify,
   router: myRouter
 }).$mount('#app')
 

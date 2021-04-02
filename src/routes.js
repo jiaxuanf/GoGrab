@@ -11,13 +11,14 @@ import ProfilePage from './components/profilePage.vue'
 import Verfication from './components/Verification.vue'
 import MyRentals from './components/MyRentals.vue'
 
+
 export default[
     { path: '/', component: Home},
-    { path: '/listing', component: IndividualListing},
-    { path: '/listed', component: IndividualListed},
+    { path: '/listing', component: IndividualListing, name : 'IndividualListing'},
+    { path: '/listed', component: IndividualListed, name : 'IndividualListed'},
     { path : '/login', component: Login},
     { path: '/signup', component: SignUp},
-    { path : '/CarListing', component:CarListing },
+    { path : '/CarListing', component:CarListing, name: 'CarListing' },
     { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true },
     { path: '/updateProfile', component: UpdateProfile},
     { path: '/profilePage', component: ProfilePage},
