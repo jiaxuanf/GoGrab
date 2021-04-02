@@ -24,7 +24,6 @@ export default[
     { path: '/profilePage', component: ProfilePage},
     { path : '/Verification', component : Verfication},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true},
-
 ]
 
 
