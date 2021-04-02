@@ -98,8 +98,9 @@ export default {
   created:function() {
       this.fetchItems();
   }
-    
+  }, 
 }
+
 </script>
 <style scoped>
 #scrolly {

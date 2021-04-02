@@ -101,8 +101,6 @@ import firebase from 'firebase'
         age:'',
         defect:'', 
         price: '',
-        afrom:'',
-        ato:'',
         location:'',
         description:'',
         rules:'',
@@ -114,6 +112,8 @@ import firebase from 'firebase'
       img1: "",
       imageData: '',
       uploadValue: 0,
+      },
+    
     }
   },
   methods: {
@@ -183,9 +183,11 @@ import firebase from 'firebase'
 
 
     list : function() {
+
       //add userID to the document for listing
       this.listing.uid = this.getCurrentUser();      
       //upload document to firebase
+
       firebase.firestore().collection("listings")
       .add(this.listing)
       .then(() => {
