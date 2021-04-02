@@ -48,10 +48,10 @@ export default {
                 querySnapshot.forEach((doc) => {
                   let userData = doc.data();
                   localStorage.setItem("id", userData.id);
-                  localStorage.setItem("name", userData.name);
+                  localStorage.setItem("name", userData.username);
                   localStorage.setItem("email", userData.email);
                   localStorage.setItem("password", userData.password);
-                  localStorage.setItem("photoURL", userData.URL);
+                  localStorage.setItem("photoURL", userData.profilePictureURL);
                   localStorage.setItem("description", userData.description);
                   localStorage.setItem("FirebaseDocumentId", doc.id);
                 });
