@@ -106,6 +106,7 @@ import firebase from 'firebase'
         rules:'',
         images:[],
         time: Date.now(), //number
+        uid:'',
         
 
       },
@@ -191,7 +192,7 @@ import firebase from 'firebase'
       .add(this.listing)
       .then(() => {
           alert("Successfully listed!");
-          this.$router.push("/listed");
+          this.$router.push("/rentalRequest");
         })
         .catch((error) => {
           alert(error.message);
