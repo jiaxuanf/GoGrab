@@ -22,6 +22,7 @@
 import CarListIcon from './CarListIcon.vue'
 import database from '../main.js'
 
+
 export default {
     components: {
         CarListIcon,
@@ -33,7 +34,7 @@ export default {
     },
     methods : {
         fetchItems : function() {
-            database.collection('rentals').get().then(snapshot => {
+            database.collection('listings').get().then(snapshot => {
                 var temp = [];
                 snapshot.docs.forEach(doc => {
                     temp.push([doc.id, doc.data()]);
