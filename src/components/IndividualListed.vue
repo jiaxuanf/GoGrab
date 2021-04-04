@@ -44,7 +44,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    msg: String
+    listingID: String
   },
   data() {
     return {
@@ -69,12 +69,12 @@ export default {
       profilePhoto: "", //URL
       imageData: "",
       uploadValue: 0,
-      carInfo:[]
+      carInfo:[],
     }
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc('GAnh5rlge1Udu3Z6STMR')
+          const car = firebase.firestore().collection("listings").doc(this.listingID)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {

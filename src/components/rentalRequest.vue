@@ -50,6 +50,8 @@ export default {
         }
       },
   }},
+
+
   methods : {
     getCurrentUser: function() {
       var user = firebase.auth().currentUser;
@@ -74,7 +76,7 @@ export default {
             });
         console.log("done");
     
-    }
+    },
   }
 
 }

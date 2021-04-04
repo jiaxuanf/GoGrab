@@ -14,8 +14,8 @@ import RentalRequest from './components/rentalRequest.vue'
 
 export default[
     { path: '/', component: Home},
-    { path: '/listing', component: IndividualListing, name : 'IndividualListing'},
-    { path: '/listed', component: IndividualListed, name : 'IndividualListed'},
+    { path: '/listing', component: IndividualListing, name : 'IndividualListing', props: true},
+    { path: '/listed', component: IndividualListed, name : 'IndividualListed', props: true},
     { path : '/login', component: Login},
     { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing, name: 'CarListing' },
