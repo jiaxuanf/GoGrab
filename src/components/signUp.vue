@@ -59,10 +59,6 @@ export default {
               localStorage.setItem("photoURL", "");
               localStorage.setItem("description", "");
               localStorage.setItem("FirebaseDocumentId", res.user.uid);
-              /*this.name = "";
-              this.email = "";
-              this.password = "";
-              this.$router.push("/chat");*/
             });
           alert("Successfully registered! Please login.");
           this.$router.push("/login");

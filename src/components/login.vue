@@ -44,7 +44,6 @@ export default {
               .where("id", "==", res.user.uid)
               .get()
               .then((querySnapshot) => {
-                // console.log("query", querySnapshot);
                 querySnapshot.forEach((doc) => {
                   let userData = doc.data();
                   localStorage.setItem("id", userData.id);

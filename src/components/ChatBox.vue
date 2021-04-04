@@ -115,7 +115,6 @@ export default {
     getMessages() {
       console.log("call coming");
       this.listMessage = [];
-      // here we are creating a room
       let groupChatId = `${this.currentPeerUser.id} + ${this.currentUserId}`;
       firebase
         .firestore()
@@ -129,7 +128,6 @@ export default {
               this.listMessage.push(res.doc.data());
             });
           } else {
-            console.log("call cmng 1");
             this.groupChatId = `${this.currentUserId} + ${this.currentPeerUser.id}`;
             firebase
               .firestore()
