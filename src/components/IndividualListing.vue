@@ -107,8 +107,6 @@ import firebase from 'firebase'
         images:[],
         time: Date.now(), //number
         uid:'',
-        
-
       },
       img1: "",
       imageData: '',

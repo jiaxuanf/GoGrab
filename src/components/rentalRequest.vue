@@ -5,7 +5,7 @@
 
 <h3>I have read the terms and conditions as stated by the renter: </h3>
     <form>
-    <input type="checkbox" id="read" value="read" v-model="request.read">
+    <input type="checkbox" id="read" value="read">
     <label for="read"> check </label><br>
     </form>
 
@@ -17,12 +17,20 @@
 <h3>Total</h3>
 <p></p>
 <h3>Payment Method</h3>
+    <form>
+    <input type="radio" id="creditCard" name='paymentMethod' value=true v-model="request.paymentMethod.creditCard">
+    <label for="creditCard"> Credit Card </label><br>
+    <input type="radio" id="cash" name='paymentMethod' value=true v-model="request.paymentMethod.cash">
+    <label for="cash"> Cash </label><br>
+    </form>
+
+<button @click="submit">Rent</button>
 
 </div>
 </template>
 
 <script>
-// import firebase from 'firebase'
+import firebase from 'firebase'
 export default {
   name: 'RentalRequest',
   props: {
@@ -31,18 +39,44 @@ export default {
   data(){
     return {
       request: {
-        read:'',
         note:'',
         rfrom:'',
         rto:'', 
-        price: '', //get from the collection parasm
-        location:'',
-        description:'',
-        rules:'',
-        images:[],
-        time: Date.now(), //number
+        total: '', //get from the collection parasm
+        uid: '',
+        paymentMethod: {
+            creditCard:'', // value = true if Chosen; value = '' if not Chosen
+            cash:'',
+        }
       },
-    }}
+  }},
+  methods : {
+    getCurrentUser: function() {
+      var user = firebase.auth().currentUser;
+      var uid
+
+      if (user != null) {
+        uid = user.uid;
+        return uid;
+      }
+    },
+    submit : function() {
+        this.request.uid = this.getCurrentUser();      
+
+        firebase.firestore().collection("rentalRequests")
+        .add(this.request)
+        .then(() => {
+            alert("Request submitted");
+            // this.$router.push("/rentalRequest");
+            })
+            .catch((error) => {
+            alert(error.message);
+            });
+        console.log("done");
+    
+    }
+  }
+
 }
 
 </script>
