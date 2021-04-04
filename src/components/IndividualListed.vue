@@ -1,12 +1,16 @@
 <template>
 <div>
-    <h1>{{ this.listing.model }}</h1>
+    <br><br>
+    <h1>{{this.username}}'s  {{ this.listing.model }}</h1>
+    <button @click="rent">Rent</button>
+    <br><br>
+    <!-- <div id='scrolly'> -->
+      <a id='scrolly' v-for="(image, index) in this.listing.images" :key="index" >
+      <img :src='image'>
+    <!-- </div> -->
+    </a>
 
-    <p id='scrolly'>
-    <img src="https://cdn11.bigcommerce.com/s-yrkef1j7/images/stencil/1280x1280/products/1503/30661/QQ20190428230137__95937.1556517799.png?c=2" alt="Izoa">
-    <img src="https://cdn11.bigcommerce.com/s-yrkef1j7/images/stencil/1280x1280/products/1503/30658/QQ20190428230027__93343.1556517796.png?c=2" alt="Izoa">
-    <img src="https://cdn11.bigcommerce.com/s-yrkef1j7/images/stencil/1280x1280/products/1503/30663/QQ20190428230148__69023.1556517796.png?c=2" alt="Izoa">
-    </p>
+
     <br><br><br>
   
 
@@ -26,7 +30,7 @@
     <ul>
     <h2>{{ this.username }}'s Car: </h2>
     <p>{{ this.listing.description }}</p>
-    <h2>Owner's Rules: </h2>
+    <h2>{{this.username}}'s Rules: </h2>
     <p>{{ this.listing.rules }}</p>
     </ul>
     </div>
@@ -40,7 +44,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    msg: String
+    listingID: String
   },
   data() {
     return {
@@ -62,21 +66,22 @@ export default {
       username: "",
       email: "",
       phoneNumber: "",
-      img1: "",
+      profilePhoto: "", //URL
       imageData: "",
       uploadValue: 0,
-      carInfo:[]
+      carInfo:[],
+      // listedID:'',
     }
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc('GAnh5rlge1Udu3Z6STMR')
+          const car = firebase.firestore().collection("listings").doc(this.listingID)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
                   console.log("Document data:", doc.data());
                   
-                  // this.listing.model = doc.get("model")
+                  this.listing.model = doc.get("model")
                   this.listing.price = doc.get("price")
                   this.listing.color = doc.get("color")
                   this.listing.age = doc.get("age")
@@ -85,6 +90,7 @@ export default {
                   this.listing.rules = doc.get("rules")
                   this.listing.afrom = doc.get("afrom")
                   this.listing.ato = doc.get("ato")
+                  this.listing.images = doc.get("images")
               } else {
                   // doc.data() will be undefined in this case
                   console.log("No such document!");
@@ -92,11 +98,35 @@ export default {
           }).catch((error) => {
               console.log("Error getting document:", error);
           });
+        },
+      fetchUser: function () {
+        var user = firebase.auth().currentUser;
+        this.uid = user.uid;
+        firebase.firestore()
+          .collection("userInfo")
+          .doc(this.uid)
+          .get()
+          .then((snapshot) => {
+            this.username = snapshot.data().username;
+            this.profilePhoto = snapshot.data().profilePictureURL;
+          });
+      },
+      rent: function () {
+        this.$router.push("/RentalRequest");
+      },
+      goListed: function () {
+        this.$router.push({
+          name: 'rentalRequest',
+          params: {
+            listedID: this.listingID,
         }
-
+      });
+    },
     },
   created:function() {
-    this.fetchItems();
+      this.fetchItems();
+      this.fetchUser();
+
   }
 }
 

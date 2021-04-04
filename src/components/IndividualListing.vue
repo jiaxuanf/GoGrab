@@ -105,6 +105,7 @@ import firebase from 'firebase'
       img1: "",
       imageData: '',
       uploadValue: 0,
+      listingID:null,
       }
   },
   methods: {
@@ -131,11 +132,8 @@ import firebase from 'firebase'
       // this.listing.images = [],
       console.log("start onUpload")
       this.img1 = this.imageData[0];
-      console.log('length of imageData is' + this.imageData.length)
       var i;
       for (i = 0; i < this.imageData.length; i++) {
-        console.log("the " + i + "th element in this.imageData is ")
-        console.log(this.imageData[i])
         const storageRef = firebase
         .storage()
         .ref(this.imageData[i].name)
@@ -156,10 +154,6 @@ import firebase from 'firebase'
             console.log('BEFORE images is Array? ' + typeof this.listing.images)
             console.log(this.listing.images)
             this.listing.images.push(url)
-            console.log(this.listing.images);
-            console.log('this.listing.images[0] is ')
-            console.log(this.listing.images[i])
-            
             this.img1 = url
           });
         }
@@ -168,22 +162,38 @@ import firebase from 'firebase'
     },
     list : function() {
       //add userID to the document for listing
+
       this.listing.ownerID = this.getCurrentUser();
       this.listing.renterID = "";
       this.listing.reviewerID = "";
       //upload document to firebase
+
       firebase.firestore().collection("listings")
       .add(this.listing)
-      .then(() => {
-          alert("Successfully listed!");
-          this.$router.push("/listed");
-        })
-        .catch((error) => {
+      .then((doc) => {
+        // get listinID ready to pass to IndividualListed 
+        this.listingID = doc.id 
+        alert("Successfully listed!");
+        this.goListed();
+        this.$router.push("/listed");
+      }) 
+      .catch((error) => {
           alert(error.message);
+
         });
-      console.log("done");
-    }
-  },    
+      console.log('listed')
+    },
+
+    goListed: function () {
+      this.$router.push({
+        name: 'IndividualListed',
+        params: {
+          listingID: this.listingID,
+        }
+      });
+    },
+  },
+
 } 
 </script>
 
