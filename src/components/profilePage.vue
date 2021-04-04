@@ -2,7 +2,7 @@
   <div>
     <div id="profilePicture">profilePicture</div>
     <div id="stats">
-      <p class="stat">Reviews: {{ numReviews }}</p>
+      <button class="button" v-on:click="goReviewsPage()"><p class="stat">Reviews: {{ numReviews }}</p></button>
     </div>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import firebase from "firebase";
 export default {
-  created() {
+  mounted() {
     this.reviewCount();
   },
   data() {
@@ -53,6 +53,10 @@ export default {
         this.numReviews = snapshot.size;
       });
     },
+
+    goReviewsPage: function () {
+      this.$router.push({ path: "/reviewsPage" });
+    }
   },
 };
 </script>
@@ -70,5 +74,19 @@ export default {
 .stat {
   border: 2px solid black;
   border-radius: 4px;
+}
+
+.button {
+  background-color: indigo;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 20px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  border-radius: 20px;
 }
 </style>
