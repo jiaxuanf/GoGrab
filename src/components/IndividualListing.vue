@@ -1,4 +1,3 @@
-
 <template>
 <div id=app>
 <h1>List Your Car Now!</h1>
@@ -85,14 +84,11 @@
 
 <script>
 import firebase from 'firebase'
-
  export default {
-
   name: 'IndividualListing',
   props: {
     msg: String
   },
-
   data(){
     return {
       listing: {
@@ -107,19 +103,16 @@ import firebase from 'firebase'
         images:[],
         time: Date.now(), //number
         
-
       },
       img1: "",
       imageData: '',
       uploadValue: 0,
       }
   },
-
   methods: {
     getCurrentUser: function() {
       var user = firebase.auth().currentUser;
       var uid
-
       if (user != null) {
         uid = user.uid;
         return uid;
@@ -164,29 +157,23 @@ import firebase from 'firebase'
             console.log("add images to this.listing.images[]")
             console.log('BEFORE images is Array? ' + typeof this.listing.images)
             console.log(this.listing.images)
-
-
             this.listing.images.push(url)
             console.log(this.listing.images);
             console.log('this.listing.images[0] is ')
             console.log(this.listing.images[i])
             
             this.img1 = url
-
           });
         }
       );
       }
-
     },
-
-
     list : function() {
-
       //add userID to the document for listing
-      this.listing.uid = this.getCurrentUser();      
+      this.listing.ownerID = this.getCurrentUser();
+      this.listing.renterID = "";
+      this.listing.reviewerID = "";
       //upload document to firebase
-
       firebase.firestore().collection("listings")
       .add(this.listing)
       .then(() => {
@@ -199,10 +186,7 @@ import firebase from 'firebase'
       console.log("done");
     }
   },
-
-
      
-
 } 
 </script>
 
@@ -211,7 +195,6 @@ import firebase from 'firebase'
   margin-right: 20px;
   margin-block: 50px;
 }
-
 ul {
   list-style-type: none;
   padding: 0;
@@ -235,22 +218,18 @@ input[type=submit] {
   font-size: 20px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-
 /* ####### Style below: for the toggle switch ####### */
-
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
 }
-
 .switch input { 
   opacity: 0;
   width: 0;
   height: 0;
 }
-
 .slider {
   position: absolute;
   cursor: pointer;
@@ -262,7 +241,6 @@ input[type=submit] {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 .slider:before {
   position: absolute;
   content: "";
@@ -274,27 +252,22 @@ input[type=submit] {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 input:checked + .slider {
   background-color: #c88ad8;
 }
-
 input:focus + .slider {
   box-shadow: 0 0 1px #c88ad8;
 }
-
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
 /* Rounded sliders */
 .slider.round {
   border-radius: 30px;
   align-items: center;
 }
-
 .slider.round:before {
   border-radius: 50%;
 }

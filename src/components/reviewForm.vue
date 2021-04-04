@@ -40,12 +40,14 @@ export default {
         reviewerID:"",
         reviewValue: 0,
         reviewText: "",
-        listingID: this.listingID
+        listingID: this.listingID,
+        ownerID: this.ownerID
       },
     };
   },
   props: {
-    listingID: String
+    listingID: String,
+    ownerID: String
   },
   components: {
     StarRating,
@@ -55,6 +57,9 @@ export default {
       console.log("start addReview");
       const user = firebase.auth().currentUser;
       this.reviewData.reviewerID = user.uid;
+      console.log("listingID: " + this.listingID);
+      console.log("ownerID: " + this.ownerID);
+
       firebase
         .firestore()
         .collection("reviews")
@@ -68,7 +73,7 @@ export default {
         });
       console.log("after addReview");
 
-      
+      //update listing document with user's ID as reviewerID
       const listingRef = firebase.firestore().collection("listings").doc(this.listingID);
       listingRef.update({
         reviewerID: user.uid
