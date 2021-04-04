@@ -1,86 +1,85 @@
 
 <template>
-<div id=app>
-<h1>List Your Car Now!</h1>
-<br><br><br>
+  <div id=app>
+    <h1>List Your Car Now!</h1>
+    <br><br><br>
 
 
-<form id='listing'>
+    <form id='listing' v-on:submit.prevent="list">
+    <ul>
+      <li>
+        <label for="model">Car Model:  </label>
+        <input type="text" id="model" name="model"  v-model="listing.model" required /><br><br>
+      </li>
+      <li>
+        <label for="color">Color:   </label>
+        <input type="text" id="color" name="color" v-model="listing.color" required /><br><br> 
+      </li>
+      <li> 
+        <label for="age">Age:   </label>
+        <input type="number" id="age" name="age" v-model="listing.age" required /><br><br>
+      </li>
+        <!-- Rounded switch -->
+      <li>
+        <label> Any Defect:   No </label>
+        <label class="switch">
+        <input type="checkbox" v-model="listing.defect">
+        <span class="slider round"></span>
+        </label>
+        <label> Yes  ( If yes, please specify in the description box. )</label>
+        <br><br>
+      </li>
+      <li>
+        <label for="price">Price:  $ </label>
+        <input type="number" id="price" name="price" v-model="listing.price" required>
+        <label for="price"> /day </label><br><br>
+      </li>
+      <li> 
+        <label for="afrom">Available From:  </label> <input type="date" id="afrom" name="afrom" v-model="listing.afrom" required>
+        <label for="ato"> To:  </label> <input type="date" id="ato" name="ato" v-model="listing.ato" required><br><br>
+      </li>
+      <li>
+        <label for="loc">Pick-up Location:</label>
+        <input type="text" id="loc" name="loc" v-model="listing.location" required><br><br>
+      </li>
+      <li>
+        <label id = 'uploadPhotoe' for="files" >Upload Photos: </label> 
+          <button @click="click1" type = "button">choose a photo</button>
+          <input
+            type="file"
+            ref="input1"
+            style="display: none"
+            @change="previewImage"
+            accept="image/*"
+            multiple
+          />
+          <br><br>
+        <div v-if="imageData != null">
+          <img
+            class="preview"
+            :src="this.img1"
+            size = 50%
+            multiple
+          />
+          <br>
+        </div>
+      </li>
+      <li>
+        <label for="description">Description:  </label><br><br>
+        <textarea id="description" name="description" rows="4" cols="50" v-model="listing.description" required>
+        </textarea><br><br>
+      </li>
+      <li>
+        <label for="rule">Set your rules for your guest:  </label><br><br>
+        <textarea id="rule" name="rule" rows="4" cols="50" v-model="listing.rules" required>
+        </textarea><br><br>
+      </li>
+      <li><button type = "submit">Submit </button> </li>
+    </ul>
 
-<ul>
-  <li>
-    <label for="model">Car Model:  </label>
-    <input type="text" id="model" name="model"  v-model="listing.model"><br><br>
-  </li>
-  <li>
-    <label for="color">Color:   </label>
-    <input type="text" id="color" name="color" v-model="listing.color"><br><br> 
-  </li>
-  <li> 
-    <label for="age">Age:   </label>
-    <input type="number" id="age" name="age" v-model="listing.age"><br><br>
-  </li>
-    <!-- Rounded switch -->
-  <li>
-    <label> Any Defect:   No </label>
-    <label class="switch">
-    <input type="checkbox" v-model="listing.defect">
-    <span class="slider round"></span>
-    </label>
-    <label> Yes  ( If yes, please specify in the description box. )</label>
-    <br><br>
-  </li>
-  <li>
-    <label for="price">Price:  $ </label>
-    <input type="number" id="price" name="price" v-model="listing.price">
-    <label for="price"> /day </label><br><br>
-  </li>
-  <li> 
-    <label for="afrom">Available From:  </label> <input type="date" id="afrom" name="afrom" v-model="listing.afrom">
-    <label for="ato"> To:  </label> <input type="date" id="ato" name="ato" v-model="listing.ato"><br><br>
-  </li>
-  <li>
-    <label for="loc">Pick-up Location:</label>
-    <input type="text" id="loc" name="loc" v-model="listing.location"><br><br>
-  </li>
-  <li>
-    <label id = 'uploadPhotoe' for="files" >Upload Photos: </label> 
-      <v-btn @click="click1">choose a photo</v-btn>
-      <input
-        type="file"
-        ref="input1"
-        style="display: none"
-        @change="previewImage"
-        accept="image/*"
-        multiple
-      />
-      <br><br>
-    <div v-if="imageData != null">
-      <img
-        class="preview"
-        :src="this.img1"
-        size = 50%
-        multiple
-      />
-      <br>
-    </div>
-  </li>
-  <li>
-    <label for="description">Description:  </label><br><br>
-    <textarea id="description" name="description" rows="4" cols="50" v-model="listing.description">
-    </textarea><br><br>
-  </li>
-  <li>
-    <label for="rule">Set your rules for your guest:  </label><br><br>
-    <textarea id="rule" name="rule" rows="4" cols="50" v-model="listing.rules">
-    </textarea><br><br>
-  </li>
-</ul>
-<v-btn v-on:click.prevent="list">List Now</v-btn>
 
-</form>
-</div>
-
+    </form>
+  </div>
 </template>
 
 <script>
@@ -106,8 +105,6 @@ import firebase from 'firebase'
         rules:'',
         images:[],
         time: Date.now(), //number
-        
-
       },
       img1: "",
       imageData: '',
@@ -182,7 +179,6 @@ import firebase from 'firebase'
 
 
     list : function() {
-
       //add userID to the document for listing
       this.listing.uid = this.getCurrentUser();      
       //upload document to firebase
@@ -198,10 +194,7 @@ import firebase from 'firebase'
         });
       console.log("done");
     }
-  },
-
-
-     
+  },    
 
 } 
 </script>

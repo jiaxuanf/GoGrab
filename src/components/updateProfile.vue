@@ -126,7 +126,7 @@ export default {
           this.username = snapshot.data().username;
           this.email = snapshot.data().email;
           this.phoneNumber = snapshot.data().phoneNumber;
-          this.img1 = snapshot.data().profilePictureURL;
+          this.img1 = snapshot.data().profilePictureURL;  
         });
     },
     uploadPhoto() {
