@@ -1,32 +1,8 @@
 <template>
   <div>
-    <div class="topStat">
-      <div id="profilePicture">
-        <img
-          class="profilePic"
-          height="170"
-          width="170"
-          :src="this.img"
-          alt="no profile picture"
-        />
-        <div id="statsView">
-          <div class="name">{{ this.username }}</div>
-          <div class="numReviews">Reviews: {{ this.numReviews }}</div>
-          <div class="followers">Followers: {{ this.numFollowers }}</div>
-        </div>
-      </div>
-    </div>
-    <div class="reviews">
-      <ul>
-        <li v-for="(review, index) in reviews" :key="index">
-          <h4>Review: 
-            <br>
-            <p style="font-size:20px"> {{ review[0]}} </p></h4>
-          <br />
-          <h4>Ratings: 
-            {{ review[1] }}/5</h4>
-        </li>
-      </ul>
+    <div id="profilePicture">profilePicture</div>
+    <div id="stats">
+      <button class="button" v-on:click="goReviewsPage()"><p class="stat">Reviews: {{ numReviews }}</p></button>
     </div>
   </div>
 </template>
@@ -37,17 +13,19 @@ import firebase from "firebase";
 import database from "../main.js";
 
 export default {
+
+  mounted() {
+    this.reviewCount();
+  },
+
   data() {
     return {
       username: "",
       email: "",
-      img: "",
       numReviews: 0,
-      numFollowers: 0,
-      uid: "",
-      reviews: [],
     };
   },
+
   methods: {
     async fetchItems() {
       const user = firebase.auth().currentUser;
@@ -82,10 +60,24 @@ export default {
           });
         });
     },
-  },
-  created() {
-    this.fetchItems();
-    this.getReviews();
+    reviewCount: function () {
+      const user = firebase.auth().currentUser;
+      console.log("userID: " + user.uid);
+          firebase
+      .firestore()
+      .collection("reviews")
+      .where("ownerID", "==", user.uid)
+      .get()
+      .then((snapshot) => {
+        // this.numReviews = snapshot.size;
+        console.log("numReviews: " + snapshot.size);
+        this.numReviews = snapshot.size;
+      });
+    },
+
+    goReviewsPage: function () {
+      this.$router.push({ path: "/reviewsPage" });
+    }
   },
 };
 </script>
@@ -131,5 +123,19 @@ li {
   padding: 10px;
   border: 1px solid #222;
   margin: 10px;
+}
+
+.button {
+  background-color: indigo;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 20px;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  border-radius: 20px;
 }
 </style>
