@@ -70,6 +70,7 @@ export default {
       imageData: "",
       uploadValue: 0,
       carInfo:[],
+      // listedID:'',
     }
   },
   methods : {
@@ -112,7 +113,15 @@ export default {
       },
       rent: function () {
         this.$router.push("/RentalRequest");
-      }
+      },
+      goListed: function () {
+        this.$router.push({
+          name: 'rentalRequest',
+          params: {
+            listedID: this.listingID,
+        }
+      });
+    },
     },
   created:function() {
       this.fetchItems();

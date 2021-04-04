@@ -24,7 +24,7 @@ export default[
     { path: '/profilePage', component: ProfilePage},
     { path: '/chat', component: ChatPage},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true},
-    { path: '/rentalRequest', component: RentalRequest},
+    { path: '/rentalRequest', name: 'rentalRequest', component : RentalRequest, props: true},
 ]
 
 
