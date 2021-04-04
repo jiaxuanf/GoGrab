@@ -5,7 +5,7 @@
       <b-card-body overlay style="padding:0px"> 
         <div class = "titleText">
           <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
-          <h2 style="text-shadow: 1px 1px #000000">Book cards from trusted hosts around the world. </h2>
+          <h2 style="text-shadow: 1px 1px #000000">Book cars from trusted hosts around the world. </h2>
         </div>
         <div class = "inputForms" > 
           <b-form>

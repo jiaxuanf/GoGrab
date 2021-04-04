@@ -10,6 +10,7 @@ import UpdateProfile from './components/updateProfile.vue'
 import ProfilePage from './components/profilePage.vue'
 import ChatPage from './components/Chat.vue'
 import MyRentals from './components/MyRentals.vue'
+import reviewsPage from './components/reviewsPage.vue'
 
 export default[
     { path: '/', component: Home, meta: {requiresAuth: true}},
