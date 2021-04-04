@@ -26,6 +26,7 @@
             height="330"
             width="356"
             :src="this.img1"
+            alt= "Please choose a Photo"
           />
         </div>
         <br>

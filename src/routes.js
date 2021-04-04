@@ -20,7 +20,7 @@ export default[
     { path : '/CarListing', component:CarListing, name: 'CarListing' },
     { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true },
     { path: '/updateProfile', component: UpdateProfile},
-    { path: '/profilePage', component: ProfilePage},
+    { path: '/profilePage', meta: { requiresAuth: true }, component: ProfilePage},
     { path: '/chat', component: ChatPage},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true},
 ]
