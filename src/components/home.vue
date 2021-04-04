@@ -44,6 +44,7 @@
 <script>
 import moment from "moment";
 
+
 export default {
     props: {},
   data() {
@@ -72,7 +73,9 @@ export default {
         console.log(startTimeStamp);
         this.$router.push({name: 'CarListing',  params: { location: location, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
     }
-  }
+  },
+
+  
 };
     
 

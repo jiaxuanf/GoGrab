@@ -13,19 +13,17 @@ import MyRentals from './components/MyRentals.vue'
 import reviewsPage from './components/reviewsPage.vue'
 
 export default[
-    { path: '/', component: Home},
-    { path: '/listing', component: IndividualListing, name : 'IndividualListing'},
-    { path: '/listed', component: IndividualListed, name : 'IndividualListed'},
-    { path : '/login', component: Login},
+    { path: '/', component: Home, meta: {requiresAuth: true}},
+    { path: '/listing', component: IndividualListing, name : 'IndividualListing', meta: {requiresAuth: true}},
+    { path: '/listed', component: IndividualListed, name : 'IndividualListed', meta: {requiresAuth: true}},
+    { path : '/login', component: Login, name :'Login'},
     { path: '/signup', component: SignUp},
-    { path : '/CarListing', component:CarListing, name: 'CarListing' },
-    { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true },
-    { path: '/updateProfile', component: UpdateProfile},
-    { path: '/profilePage', component: ProfilePage},
-    { path: '/chat', component: ChatPage},
-    { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true},
-    { path : '/reviewsPage', name: 'reviewsPage', component : reviewsPage, props: true},
-
+    { path : '/CarListing', component:CarListing, name: 'CarListing' , meta: {requiresAuth: true}},
+    { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true, meta: {requiresAuth: true} },
+    { path: '/updateProfile', component: UpdateProfile, meta: {requiresAuth: true}},
+    { path: '/profilePage', component: ProfilePage, meta: {requiresAuth: true}},
+    { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
+    { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true, meta: {requiresAuth: true}},
 ]
 
 
