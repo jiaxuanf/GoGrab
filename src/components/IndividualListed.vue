@@ -126,6 +126,7 @@ export default {
   created:function() {
       this.fetchItems();
       this.fetchUser();
+
   }
 }
 
