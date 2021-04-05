@@ -25,7 +25,6 @@
     </ul>
     <br><br><br>
     <button class="button"  v-on:click="addReview()">Submit</button>
-      <!-- <button v-on:click="checkUID()">CHECK</button> -->
   </div>
 </template>
 
