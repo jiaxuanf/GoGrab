@@ -24,6 +24,8 @@ export default[
     { path: '/profilePage', component: ProfilePage, meta: {requiresAuth: true}},
     { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true, meta: {requiresAuth: true}},
+    { path : '/reviewsPage', name: 'reviewsPage', component:reviewsPage, props: true, meta: {requiresAuth: true} },
+
 ]
 
 
