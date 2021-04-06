@@ -1,7 +1,7 @@
 <template>
   <div>
     <ol>
-      <h1>{{this.name}} Reviews</h1>
+      <h1>{{this.name}}'s' Reviews</h1>
       <StarRating
           :increment="0.1"
           :border-width= 1
@@ -51,10 +51,21 @@ export default {
     };
   },
   methods: {
-    fetchReviews:   function () {
+    fetchReviewsAndName:   function () {
       const user = firebase.auth().currentUser;
-      console.log("current user: " + user.uid);
-      //current logged in user
+      //get username
+      firebase.firestore().collection("userInfo").where("id", "==", user.uid).get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log("username: " + doc.data().username)
+          this.name = doc.data().username
+        });
+      }).catch((error) => {
+        console.log("error: " + error)
+      })
+
+
+
+      // get reviews
       firebase
         .firestore()
         .collection("reviews")
@@ -74,23 +85,21 @@ export default {
             });
             
         });
+
+        
     },
-    getUserName: function() {}
   },
   props: {},
   components: {
     StarRating,
   },
   created() {
-    this.fetchReviews();
-    this.getUserName();
-
+    this.fetchReviewsAndName();
   },
   computed: {
     getAverage: function() {
       return this.total / (this.reviewsArray.length);
     },
-    
   }
   
 };
