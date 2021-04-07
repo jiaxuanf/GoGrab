@@ -3,16 +3,19 @@
     <br><br>
     <h1>{{this.username}}'s  {{ this.listing.model }}</h1>
     <button @click="rent">Rent</button>
-    <br><br>
-    <!-- <div id='scrolly'> -->
-      <a id='scrolly' v-for="(image, index) in this.listing.images" :key="index" >
-      <img :src='image'>
-    <!-- </div> -->
-    </a>
 
+    <b-carousel
+      :interval="0"
+      controls
+      no-animation
+      indicators style = "{width:80%; height:600px; margin-left:auto; margin-right:auto; text-align:center;}">  
+      <b-carousel-slide v-for = "(image, index) in this.listing.images" :key = "index">
+        <template #img style = "{margin-left:auto; margin-right:auto}"> 
+          <img v-bind:src = "image" style = "{margin-left:auto; margin-right:auto}">    
+        </template>  
+      </b-carousel-slide>
+    </b-carousel>
 
-    <br><br><br>
-  
 
 <div class="flex-container">
   <div class="flex-child 1">
@@ -75,12 +78,11 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.listingID)
+          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
                   console.log("Document data:", doc.data());
-                  
                   this.listing.model = doc.get("model")
                   this.listing.price = doc.get("price")
                   this.listing.color = doc.get("color")
@@ -132,37 +134,10 @@ export default {
 
 </script>
 <style scoped>
-#scrolly {
-            height: 300px;
-            width: 800px;
-            overflow: auto;
-            overflow-y: hidden;
-            margin: 0 auto;
-            white-space: nowrap
-        }
-
-img {
-            width: 525px;
-            height: 300px;
-            margin: 20px 10px;
-            display: inline;
-            margin-left: 40px;
-            margin-right: 40px;
-        }
-ul {
-            text-align: left;
-            margin-left: 25%;
-
-}
-.flex-container {
-    display: flex;
+.carousel-item > img {
+  height:600px;
+  width:80%;
+  margin: 0 auto
 }
 
-.flex-child {
-    flex: 0.5;
-}  
-
-.flex-child:first-child {
-    margin-left: 10px;
-} 
 </style>

@@ -128,7 +128,7 @@ ul {
 }
 
 li {
-  margin-left:5%;
+  margin-left:0px;
   margin-top:20px;
   padding-bottom:0px;
 }

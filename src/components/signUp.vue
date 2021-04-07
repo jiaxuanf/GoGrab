@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card style = "width:75%; height:100%; margin-left:auto; margin-right:auto; margin-top:20px;" class = "text-center"> 
+    <b-card style = "width:60%; height:100%; margin-left:auto; margin-right:auto; margin-top:20px;" class = "text-center"> 
       <b-row no-gutters>
         <b-col md = "6">
           <b-card-body>
