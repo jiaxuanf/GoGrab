@@ -101,6 +101,7 @@ import firebase from 'firebase'
         rules:'',
         images:[],
         time: Date.now(), //number
+        numberOfClicks: 0,
       },
       img1: "",
       imageData: '',
