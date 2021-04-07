@@ -36,15 +36,18 @@ export default {
       var user = firebase.auth().currentUser;
       this.uid = user.uid;
       var doc = database.collection("listings").doc(this.rental[0]);
-      var num = await doc.get("numberOfClicks");
-      database
-        .collection("listings")
-        .doc(this.rental[0])
-        .update({
-          numberOfClicks: num + 1,
-        });
-      //console.log("number of clicks: " + await doc.get("numberOfClicks"));
+      doc.get().then((doc) => {
+        database
+          .collection("listings")
+          .doc(this.rental[0])
+          .update({
+            numberOfClicks: doc.data().numberOfClicks + 1,
+          });
+      });
+
+      console.log("number of clicks: " + (await doc.get("numberOfClicks")));
       const listing_id = event.target.getAttribute("doc_id");
+
       this.$router.push({
         name: "IndividualListed",
         params: { listing_id: listing_id },
