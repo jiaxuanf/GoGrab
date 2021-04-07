@@ -12,6 +12,8 @@ import ChatPage from './components/Chat.vue'
 import MyRentals from './components/MyRentals.vue'
 import reviewsPage from './components/reviewsPage.vue'
 import RentalRequest from './components/rentalRequest.vue' 
+import MyListings from './components/MyListings.vue' 
+
 
 export default[
     { path: '/', component: Home, meta: {requiresAuth: true}},
@@ -26,7 +28,9 @@ export default[
     { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true, meta: {requiresAuth: true}},
     { path: '/rentalRequest', name: 'rentalRequest', component : RentalRequest, props: true, meta:{requiresAuth: true}},
-    { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}}
+    { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}},
+    { path: '/MyListings', name : 'MyListings', component : MyListings, meta : {requiresAuth : true}}
+
 ]
 
 
