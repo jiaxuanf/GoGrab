@@ -56,7 +56,7 @@
       </div>
       <div>
         <h2>Welcome {{currentUserName}},</h2>
-        <h3>Check your chats</h3>
+        <h3>Check your Messages</h3>
       </div>
     </div>
     <div v-else class="header-width">
