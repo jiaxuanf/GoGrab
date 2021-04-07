@@ -101,6 +101,7 @@ import firebase from 'firebase'
         rules:'',
         images:[],
         time: Date.now(), //number
+        status:'',
       },
       img1: "",
       imageData: '',
@@ -166,6 +167,7 @@ import firebase from 'firebase'
       this.listing.ownerID = this.getCurrentUser();
       this.listing.renterID = "";
       this.listing.reviewerID = "";
+      this.listing.status = "pending";
       //upload document to firebase
 
       firebase.firestore().collection("listings")
