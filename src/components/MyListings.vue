@@ -2,10 +2,14 @@
 <div>
    <h1> {{this.username}}'s Listings</h1>
    <h2 v-if="listingsArray.length == 0">You do not have any listings yet! </h2>
+   <br>
     <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
-        {{ listing[1].model }} <br />
-        <img />
-        <br />
+        {{ listing[1].model }} 
+      <img :src='listing[1].images[0]'>
+      <br>
+      <p>From {{listing[1].afrom}} to {{listing[1].ato}}</p>
+      <p id = "status">Status: {{listing[1].status}}</p>
+      
     </li>
    <div>
 
@@ -81,5 +85,16 @@ h1 {
 h2 {
   margin-top: 20px;
   margin-left: 50px;
+}
+
+img {
+  width: 100px;
+  height: 60px;
+  
+}
+
+li {
+  margin-left: 50px;
+  width: 80%;
 }
 </style>

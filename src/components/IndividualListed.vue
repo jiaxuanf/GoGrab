@@ -44,7 +44,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    listingID: String
+    listing_id: String
   },
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.listingID)
+          const car = firebase.firestore().collection("listings").doc(this.listing_id)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
@@ -118,7 +118,7 @@ export default {
         this.$router.push({
           name: 'rentalRequest',
           params: {
-            listedID: this.listingID,
+            listedID: this.listing_id,
         }
       });
     },
