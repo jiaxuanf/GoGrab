@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ol>
+    <ol id="main">
       <h1>{{this.name}}'s' Reviews</h1>
       <StarRating
           :increment="0.1"
@@ -9,6 +9,7 @@
           :item-size= "60"
           :read-only="true"
           v-model="getAverage"
+          
         >
         </StarRating>
         <h3>{{this.getAverage.toFixed(2)}}/5</h3>
@@ -18,7 +19,7 @@
       </h2>
       <li id="review" v-for="(review, index) in reviewsArray" :key="index">
         <StarRating
-          :increment="0.1"
+          :increment="1"
           :border-width= 1.5
           :item-size= "60"
           :read-only="true"
@@ -62,9 +63,6 @@ export default {
       }).catch((error) => {
         console.log("error: " + error)
       })
-
-
-
       // get reviews
       firebase
         .firestore()
@@ -106,9 +104,12 @@ export default {
 </script>
 
 <style>
+
 #review {
   font-size: 25px;
   border: 3px solid indigo;
   padding: 10px 10px;
 }
+
+
 </style>
