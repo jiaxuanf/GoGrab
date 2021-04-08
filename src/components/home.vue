@@ -8,7 +8,7 @@
           <h2 style="text-shadow: 1px 1px #000000">Book cars from trusted hosts around the world. </h2>
         </div>
         <div class = "inputForms" > 
-          <b-form>
+          <b-form @submit = "submitSearch">
             <b-container>
               <b-row no-gutters :style = "rowStyle">
                   <b-col sm = '1' :style = "centerText" v-model = "location"> <strong> Location </strong></b-col>
@@ -19,7 +19,7 @@
                   <b-col sm = '1' :style = "centerText"><strong> To </strong> </b-col>
                   <b-col><b-form-datepicker class = "searchBar" v-model = "endDate" required> </b-form-datepicker></b-col>
                   <b-col><b-form-timepicker class = "searchBar" v-model = "endTime" required></b-form-timepicker></b-col>
-                  <b-col :style = "centerText"><b-button type = "submit" v-on:click="submitSearch"> Search </b-button> </b-col>
+                  <b-col :style = "centerText"><b-button type = "submit"  variant = primary> Search </b-button> </b-col>
               </b-row>  
             </b-container>
           </b-form>
@@ -71,7 +71,7 @@ export default {
         const startTimeStamp = moment(a).valueOf();
         const endTimeStamp = moment(b).valueOf();
         console.log(startTimeStamp);
-        this.$router.push({name: 'CarListing',  params: { location: location, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
+        this.$router.push({name: 'CarListing',  params: { search:true, location: location, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
     }
   },
 

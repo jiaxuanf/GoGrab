@@ -1,9 +1,6 @@
 <template>
-<div>
+<div style = "font-size: 20px">
     <br><br>
-    <h1>{{this.username}}'s  {{ this.listing.model }}</h1>
-    <button @click="rent">Rent</button>
-
     <b-carousel
       :interval="0"
       controls
@@ -15,29 +12,39 @@
         </template>  
       </b-carousel-slide>
     </b-carousel>
-
-
-<div class="flex-container">
-  <div class="flex-child 1">
-    <ul>
-    
-    <p>Price:  {{ this.listing.price }}</p>
-    <p>Color:  {{ this.listing.color }}</p>
-    <p>Age:  {{ this.listing.age }}</p> 
-    <p>Defect:  {{ this.listing.defect }}</p>
-    <p>Available:  {{ ' from ' + this.listing.afrom + " to " +  this.listing.ato}}</p>
-    </ul>
-    </div>
-
-  <div class="flex-child 2">
-    <ul>
-    <h2>{{ this.username }}'s Car: </h2>
-    <p>{{ this.listing.description }}</p>
-    <h2>{{this.username}}'s Rules: </h2>
-    <p>{{ this.listing.rules }}</p>
-    </ul>
-    </div>
-    </div>
+    <br> <br>
+    <b-container style = "{margin: 0}">
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>The Car</strong> </b-col>
+        <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
+          <p>Color : {{this.listing.color}} </p>
+          <p>Age : {{this.listing.age}} </p>
+          <p>Defects : {{this.listing.defect}} </p> 
+          <p>Hosted by : {{this.username}} </p>
+        </b-col>
+        <b-col sm = 2><b-button @click = "rent" variant = "primary">Rent Now!</b-button> </b-col>
+      </b-row>
+      <br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Price Per Day</strong></b-col>  
+        <b-col sm = 8><strong>${{this.listing.price}} SGD/Day </strong></b-col>
+      </b-row>
+      <br><br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Availability </strong> </b-col>
+        <b-col sm = 8><b-calendar readonly :min = "this.listing.afrom" :max = "this.listing.ato"> </b-calendar> </b-col>
+      </b-row>
+      <br><br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Car Description</strong> </b-col>
+        <b-col sm = 8>{{this.listing.description}} </b-col>
+      </b-row>
+      <b-row> 
+        <b-col sm = 2><strong>Owner's Rules</strong></b-col>
+        <b-col sm = 8>{{this.listing.rules}}</b-col>
+      </b-row>
+    </b-container>
+    <br> <br> <br>
 </div>
 </template>
 
@@ -136,7 +143,7 @@ export default {
 <style scoped>
 .carousel-item > img {
   height:600px;
-  width:80%;
+  width:75%;
   margin: 0 auto
 }
 
