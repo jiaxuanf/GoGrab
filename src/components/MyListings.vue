@@ -4,13 +4,23 @@
    <h2 v-if="listingsArray.length == 0">You do not have any listings yet! </h2>
    <br>
     <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
-        {{ listing[1].model }} 
-      <img :src='listing[1].images[0]'>
-      <br>
-      <p>From {{listing[1].afrom}} to {{listing[1].ato}}</p>
-      <p id = "status">Status: {{listing[1].status}}</p>
-      
+        {{ listing[1].model }}
+      <div class="listingInfo">
+        <br>
+        <p >From {{listing[1].afrom}} to {{listing[1].ato}}</p>
+        <div class="status">
+          <p id = "pending" v-if="listing[1].status === 'pending'" >
+            Status: {{listing[1].status}}</p>
+          <p id = "completed" v-else-if="listing[1].status === 'completed'" >
+            Status: {{listing[1].status}}</p>
+          <p id = "ongoing" v-else-if="listing[1].status === 'ongoing'" >
+            Status: {{listing[1].status}}</p>
+          <p v-else>Status not Available</p>
+        </div>
+        <img v-if="listing[1].images.length != 0" :src='listing[1].images[0]'>
+      </div>
     </li>
+
    <div>
 
    </div>
@@ -31,6 +41,7 @@ export default {
       listingsArray: [],
       uid:'',
       username:'',
+      listingStatus:'',
     }
   },
   methods: {
@@ -68,13 +79,14 @@ export default {
             console.log("Error getting documents: ", error);
         });
         },
+
   },
   created:function() {
       this.fetchListings();
-      // this.fetchUser();
+  },
 
-  }  
 }
+
 </script>
 
 <style scoped>
@@ -88,13 +100,32 @@ h2 {
 }
 
 img {
-  width: 100px;
-  height: 60px;
+  width: 200px;
+  height: 120px;
+  margin-top: 0px;
+  margin-bottom: 20px;
   
 }
 
 li {
   margin-left: 50px;
   width: 80%;
+  margin-top: 50px;
 }
+.listingInfo {
+ margin-left: 50px;
+ margin-top: 10px;
+ margin-bottom: 10px;
+ font-size: 15px;
+}
+#pending {
+  color:#EFC050
+}
+#completed {
+  color:#88B04B
+}
+#ongoing {
+  color:#7FCDCD
+}
+
 </style>
