@@ -10,6 +10,7 @@ import UpdateProfile from './components/updateProfile.vue'
 import ProfilePage from './components/profilePage.vue'
 import ChatPage from './components/Chat.vue'
 import MyRentals from './components/MyRentals.vue'
+import Dashboard from './components/Dashboard.vue'
 
 export default[
     { path: '/', component: Home},
@@ -23,6 +24,7 @@ export default[
     { path: '/profilePage', component: ProfilePage},
     { path: '/chat', component: ChatPage},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true},
+    { path: '/Dashboard', component: Dashboard},
 ]
 
 
