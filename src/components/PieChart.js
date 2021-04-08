@@ -29,15 +29,15 @@ export default {
         async fetchItems() {
             var user = firebase.auth().currentUser;
             this.uid = user.uid;
+            console.log("uid is:" + this.uid);
             await database
                 .collection("listings")
-                .doc()
                 .where("uid", "==", this.uid)
                 .get()
                 .then((snapshot) => {
-                    snapshot.docs.forEach(doc => {
-                        this.datasets.data.push(doc.data().numberOfClicks);
-                        this.labels.push(doc.data().model)
+                    snapshot.forEach(doc => {
+                        this.datacollection.datasets[0].data.push(doc.data().numberOfClicks);
+                        this.datacollection.labels.push(doc.data().model)
                     });
                 });
             this.renderChart(this.datacollection, this.options)
