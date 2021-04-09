@@ -50,8 +50,13 @@ export default {
             creditCard:'', // value = true if Chosen; value = '' if not Chosen
             cash:'',
         },
-        hostID:'',
-        renterID:''
+        ownerID:'',
+        renterID:'',
+        listing_id: this.listing_id,
+        model:'',
+        imageULR:'',
+        price:'',
+
       },
       pickUpDate:Date(this.rfrom),
       returnDate:Date(this.rto),
@@ -68,13 +73,13 @@ export default {
         return uid;
       }
     },
-    getHostID: function() {
-        console.log("this.listed_id is : "+this.listing_id)
+    getOwnerID: function() {
+        console.log("this.listed_id is : "+ this.listing_id)
         const car = firebase.firestore().collection("listings").doc(this.listing_id)
         car.get().then((doc) => {
               if (doc.exists) {
-                  this.request.hostID = doc.get("uid")
-                  console.log("hostID is " + this.request.hostID)
+                  this.request.ownerID = doc.get("ownerID")
+                  console.log("ownerID is " + this.request.ownerID)
  
               } else {
                   // doc.data() will be undefined in this case
@@ -84,27 +89,42 @@ export default {
               console.log("Error getting document:", error);
           });
     },
+
     submit : function() {
-        if (this.request.read === "true") {
-            console.log("read ✅")
+            console.log("read ✅" + this.request.read)
             this.request.renterID = this.getCurrentUser();  
             console.log(this.request.renterID)
             firebase.firestore().collection("rentalRequests")
             .add(this.request)
             .then(() => {
                 alert("Request submitted");
-                // this.$router.push("/rentalRequest");
                 this.$router.push("/MyRentals");
                 })
                 .catch((error) => {
                 alert(error.message);
                 });
             console.log("done");
-        } else {
-            console.log(this.request.read)
-        }
-
     
+    },
+    getListingInfo: function() {
+        console.log("start getListingInfo ✅")
+        const car = firebase.firestore().collection("listings").doc(this.listing_id)
+        car.get().then((doc) => {
+              if (doc.exists) {                  
+                  this.request.model = doc.get("model")
+                  console.log(this.request.model)
+                  this.request.price = doc.get("price")
+                  var images = doc.get("images")
+                  console.log("images is ")
+                  console.log(images)
+                  this.request.imageULR = images[0]
+              } else {
+                  console.log("No such document!");
+              }
+          }).catch((error) => {
+              console.log("Error getting document:", error);
+          });
+
     },
 
     calculateDays : function() {
@@ -122,7 +142,8 @@ export default {
 
   },
   created:function() {
-        this.getHostID();
+        this.getOwnerID();
+        this.getListingInfo();
         console.log(typeof this.request.read)
   }
 
