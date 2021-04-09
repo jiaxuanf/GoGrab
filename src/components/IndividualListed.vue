@@ -1,7 +1,7 @@
 <template>
 <div>
     <br><br>
-    <h1>{{this.username}}'s  {{ this.listing.model }}</h1>
+    <h1>{{this.listing.owner}}'s  {{ this.listing.model }}</h1>
     <button @click="rent">Rent</button>
     <br><br>
     <!-- <div id='scrolly'> -->
@@ -28,9 +28,9 @@
 
   <div class="flex-child 2">
     <ul>
-    <h2>{{ this.username }}'s Car: </h2>
+    <h2>About: </h2>
     <p>{{ this.listing.description }}</p>
-    <h2>{{this.username}}'s Rules: </h2>
+    <h2>Rules: </h2>
     <p>{{ this.listing.rules }}</p>
     </ul>
     </div>
@@ -61,6 +61,8 @@ export default {
         rules:'',
         images:[],
         time: '',
+        ownerID:'',
+        owner:'',
       },
       uid: "",
       username: "",
@@ -75,7 +77,9 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.listing_id)
+          console.log("start fetchItems")
+          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
+          console.log("the listing is")
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
@@ -91,6 +95,8 @@ export default {
                   this.listing.afrom = doc.get("afrom")
                   this.listing.ato = doc.get("ato")
                   this.listing.images = doc.get("images")
+                  this.listing.ownerID = doc.get("ownerID")
+                  this.fetchOwner();
               } else {
                   // doc.data() will be undefined in this case
                   console.log("No such document!");
@@ -111,6 +117,20 @@ export default {
             this.profilePhoto = snapshot.data().profilePictureURL;
           });
       },
+      fetchOwner: function () {
+        console.log("start fetchOwner" + this.listing.ownerID)
+        firebase.firestore()
+          .collection("userInfo")
+          .doc(this.listing.ownerID)
+          .get()
+          .then((snapshot) => {
+            this.listing.owner = snapshot.data().username;
+            // this.profilePhoto = snapshot.data().profilePictureURL;
+            console.log("owner is " + this.listing.owner)
+
+          });
+        return this.listing.owner
+      },
       rent: function () {
         this.$router.push("/RentalRequest");
       },
@@ -118,12 +138,14 @@ export default {
         this.$router.push({
           name: 'rentalRequest',
           params: {
-            listedID: this.listing_id,
+            listing_id: this.listing_id,
         }
       });
     },
     },
   created:function() {
+    console.log("check is listing_is is passed down here")
+    console.log(this.listing_id)
       this.fetchItems();
       this.fetchUser();
 

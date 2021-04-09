@@ -1,13 +1,13 @@
 <template>
-<div>
+<div id="rentalForm">
 <br>
 <h1>Send A Rental Request</h1>
-
+<form>
 <h3>I have read the terms and conditions as stated by the renter: </h3>
-    <form>
-    <input type="checkbox" id="read" value="read">
+    
+    <input type="checkbox" id="read" value="read" required v-model="request.read">
     <label for="read"> check </label><br>
-    </form>
+    
 
 <h3>Any notes for the owner?</h3>
     <textarea id="note" name="note" rows="4" cols="50" v-model="request.note"/>
@@ -19,15 +19,15 @@
 
 
 <h3>Payment Method</h3>
-    <form>
+   
     <input type="radio" id="creditCard" name='paymentMethod' value=true v-model="request.paymentMethod.creditCard">
     <label for="creditCard"> Credit Card </label><br>
     <input type="radio" id="cash" name='paymentMethod' value=true v-model="request.paymentMethod.cash">
     <label for="cash"> Cash </label><br>
-    </form>
+    
 
 <button @click="submit">Rent</button>
-
+</form>
 </div>
 </template>
 
@@ -36,21 +36,22 @@ import firebase from 'firebase'
 export default {
   name: 'RentalRequest',
   props: {
-    listedID: String
+    listing_id: String
   },
   data(){
     return {
       request: {
+        read:'',
         note:'',
         rfrom:'',
         rto:'', 
         total: '', //get from the collection parasm
-        uid: '',
         paymentMethod: {
             creditCard:'', // value = true if Chosen; value = '' if not Chosen
             cash:'',
         },
         hostID:'',
+        renterID:''
       },
       pickUpDate:Date(this.rfrom),
       returnDate:Date(this.rto),
@@ -68,8 +69,8 @@ export default {
       }
     },
     getHostID: function() {
-        console.log("this.listedID is : "+this.listedID)
-        const car = firebase.firestore().collection("listings").doc(this.listedID)
+        console.log("this.listed_id is : "+this.listing_id)
+        const car = firebase.firestore().collection("listings").doc(this.listing_id)
         car.get().then((doc) => {
               if (doc.exists) {
                   this.request.hostID = doc.get("uid")
@@ -84,18 +85,25 @@ export default {
           });
     },
     submit : function() {
-        this.request.uid = this.getCurrentUser();      
+        if (this.request.read === "true") {
+            console.log("read ✅")
+            this.request.renterID = this.getCurrentUser();  
+            console.log(this.request.renterID)
+            firebase.firestore().collection("rentalRequests")
+            .add(this.request)
+            .then(() => {
+                alert("Request submitted");
+                // this.$router.push("/rentalRequest");
+                this.$router.push("/MyRentals");
+                })
+                .catch((error) => {
+                alert(error.message);
+                });
+            console.log("done");
+        } else {
+            console.log(this.request.read)
+        }
 
-        firebase.firestore().collection("rentalRequests")
-        .add(this.request)
-        .then(() => {
-            alert("Request submitted");
-            // this.$router.push("/rentalRequest");
-            })
-            .catch((error) => {
-            alert(error.message);
-            });
-        console.log("done");
     
     },
 
@@ -115,6 +123,7 @@ export default {
   },
   created:function() {
         this.getHostID();
+        console.log(typeof this.request.read)
   }
 
 }
@@ -124,5 +133,9 @@ export default {
 <style scoped>
 label {
     margin: 20px;
+}
+
+#rentalForm {
+    margin-left: 50px;
 }
 </style>
