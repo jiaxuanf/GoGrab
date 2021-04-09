@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Chart from "./PieChart.js";
+import Chart from "./BarGraph.js";
 export default {
   components: {
     "chart": Chart

@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1>Pie Chart</h1>
-    <pie-chart></pie-chart>
+    <bar-graph></bar-graph>
   </div>
 </template>
 
 <script>
-import PieChart from "./PieChart.vue";
+import BarGraph from "./BarGraph.vue";
 export default {
   components: {
-    "pie-chart": PieChart,
+    "bar-graph": BarGraph,
   },
 };
 </script>

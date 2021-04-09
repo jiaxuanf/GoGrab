@@ -1,38 +1,45 @@
+import { Bar } from 'vue-chartjs'
 import database from '../main.js'
-import { Pie } from 'vue-chartjs'
 import firebase from 'firebase'
 
 export default {
-    extends: Pie,
+    extends: Bar,
     data: function () {
         return {
             datacollection: {
                 labels: [],
                 datasets: [{
                     label: "Activity Status",
-                    backgroundColor: ["#3e95cd", "#c45850"],
+                    backgroundColor: ["Green", "Blue", "Indigo"],
                     data: []
                 }],
                 uid: "",
             },
             options: {
+                legend: { display: false },
                 title: {
                     display: true,
                     text: 'Number of Clicks for each post'
                 },
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
         }
-    },
-    methods: {
+    }, methods: {
         async fetchItems() {
             var user = firebase.auth().currentUser;
-            this.uid = user.uid;
-            console.log("uid is:" + this.uid);
+            this.datacollection.uid = user.uid;
+            console.log("uid is:" + this.datacollection.uid);
             await database
                 .collection("listings")
-                .where("uid", "==", this.uid)
+                .where("uid", "==", this.datacollection.uid)
                 .get()
                 .then((snapshot) => {
                     snapshot.forEach(doc => {
@@ -40,10 +47,12 @@ export default {
                         this.datacollection.labels.push(doc.data().model)
                     });
                 });
-            this.renderChart(this.datacollection, this.options)
+            
         }
     },
-    created() {
+    mounted() {
         this.fetchItems();
+        this.renderChart(this.datacollection, this.options)
     }
 }
+
