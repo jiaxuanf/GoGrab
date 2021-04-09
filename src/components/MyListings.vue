@@ -3,7 +3,7 @@
    <h1> {{this.username}}'s Listings</h1>
    <h2 v-if="listingsArray.length == 0">You do not have any listings yet! </h2>
    <br>
-    <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
+   <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
         {{ listing[1].model }}
       <div class="listingInfo">
         <br>

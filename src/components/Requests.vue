@@ -11,15 +11,21 @@
         <div class="status">
           <p id = "pending" v-if="listing[1].status === 'Pending'" >
             Status: {{listing[1].status}}</p>
+          <p id = "ongoing" v-else-if="listing[1].status === 'Ongoing'" >
+            Status: {{listing[1].status}}</p>
           <p id = "completed" v-else-if="listing[1].status === 'Completed'" >
             Status: {{listing[1].status}}</p>
-          <p id = "ongoing" v-else-if="listing[1].status === 'Ongoing'" >
+          <p id = "denied" v-else-if="listing[1].status === 'Denied'" >
             Status: {{listing[1].status}}</p>
           <p v-else>Status not Available</p>
         </div>
         <img v-if="listing[1].imageULR!= ''" :src="listing[1].imageULR">
-        <br><button @click="approve">Approve</button>
-        <br><button>Reject</button>
+        <br><button 
+            v-bind:doc_id = "listing[0]" 
+            v-on:click = "approve($event)">Approve</button>
+        <br><button
+            v-bind:doc_id = "listing[0]" 
+            v-on:click = "reject($event)">Reject</button>
       </div>
     </li>
 
@@ -81,7 +87,27 @@ export default {
             console.log("Error getting documents: ", error);
         });
     },
-    approve: function () {
+    approve: function (event) {
+        console.log('🐻');
+        const request_id = event.target.getAttribute("doc_id");
+        console.log(request_id);
+        firebase
+        .firestore()
+        .collection("rentalRequests")
+        .doc(request_id)
+        .update({status: "Ongoing"})
+        .then(console.log('Approved'))
+
+    },
+    reject: function (event) {
+        const request_id = event.target.getAttribute("doc_id");
+
+        firebase
+        .firestore()
+        .collection("rentalRequests")
+        .doc(request_id)
+        .update({status: "Denied"})
+        .then(console.log('Rejected'))
 
     }
 
@@ -124,13 +150,16 @@ li {
  font-size: 15px;
 }
 #pending {
-  color:#EFC050
+  color:#DC4C46
 }
 #completed {
-  color:#88B04B
+  color:#A0DAA9
 }
 #ongoing {
-  color:#7FCDCD
+  color:#F5DF4D
+}
+#denied {
+    color:#DFCFBE
 }
 
 </style>
