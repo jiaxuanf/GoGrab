@@ -56,6 +56,7 @@ export default {
         model:'',
         imageULR:'',
         price:'',
+        status:'',
 
       },
       pickUpDate:Date(this.rfrom),
@@ -92,7 +93,8 @@ export default {
 
     submit : function() {
             console.log("read ✅" + this.request.read)
-            this.request.renterID = this.getCurrentUser();  
+            this.request.renterID = this.getCurrentUser(); 
+            this.request.status = "Pending" 
             console.log(this.request.renterID)
             firebase.firestore().collection("rentalRequests")
             .add(this.request)
