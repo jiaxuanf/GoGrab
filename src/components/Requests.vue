@@ -21,11 +21,17 @@
         </div>
         <img v-if="listing[1].imageULR!= ''" :src="listing[1].imageULR">
         <br><button 
+            v-if='listing[1].status == "Pending"'
             v-bind:doc_id = "listing[0]" 
             v-on:click = "approve($event)">Approve</button>
         <br><button
+            v-if='listing[1].status == "Pending"'
             v-bind:doc_id = "listing[0]" 
             v-on:click = "reject($event)">Reject</button>
+        <button 
+            v-if='listing[1].status == "Ongoing"'
+            v-bind:doc_id = "listing[0]" 
+            v-on:click = "complete($event)">Complete</button>
       </div>
     </li>
 
@@ -98,16 +104,33 @@ export default {
         .update({status: "Ongoing"})
         .then(console.log('Approved'))
 
+        alert("You have approved the request. Your renter will contact you shortly!")
+
     },
     reject: function (event) {
         const request_id = event.target.getAttribute("doc_id");
-
         firebase
         .firestore()
         .collection("rentalRequests")
         .doc(request_id)
         .update({status: "Denied"})
         .then(console.log('Rejected'))
+
+        alert("You have rejected this request.")
+
+
+    },
+    complete: function (event) {
+        const request_id = event.target.getAttribute("doc_id");
+        firebase
+        .firestore()
+        .collection("rentalRequests")
+        .doc(request_id)
+        .update({status: "Completed"})
+        .then(console.log('Completed!'))
+
+        alert("Congradulations! This rental is completed!")
+
 
     }
 
