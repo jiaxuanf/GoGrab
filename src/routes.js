@@ -37,7 +37,6 @@ export default[
     { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}},
     { path: '/MyListings', name : 'MyListings', component : MyListings, meta : {requiresAuth : true}},
     { path: '/Requests', name : 'Requests', component : Requests, meta : {requiresAuth : true}},
-
 ]
 
 
