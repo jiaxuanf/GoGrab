@@ -15,11 +15,11 @@ import RentalRequest from './components/rentalRequest.vue'
 
 export default[
     { path: '/', component: Home, meta: {requiresAuth: true}},
-    { path: '/listing', component: IndividualListing, name : 'IndividualListing', meta: {requiresAuth: true}},
-    { path: '/listed', component: IndividualListed, name : 'IndividualListed', meta: {requiresAuth: true}},
+    { path: '/listing', component: IndividualListing, name : 'IndividualListing', props:true, meta: {requiresAuth: true}},
+    { path: '/listed', component: IndividualListed, name : 'IndividualListed', props:true, meta: {requiresAuth: true}},
     { path : '/login', component: Login, name :'Login'},
     { path: '/signup', component: SignUp},
-    { path : '/CarListing', component:CarListing, name: 'CarListing' , meta: {requiresAuth: true}},
+    { path : '/CarListing', component:CarListing, name: 'CarListing' , props:true, meta: {requiresAuth: true}},
     { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true, meta: {requiresAuth: true} },
     { path: '/updateProfile', component: UpdateProfile, meta: {requiresAuth: true}},
     { path: '/profilePage', component: ProfilePage, meta: {requiresAuth: true}},

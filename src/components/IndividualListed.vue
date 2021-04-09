@@ -1,40 +1,50 @@
 <template>
-<div>
+<div style = "font-size: 20px">
     <br><br>
-    <h1>{{this.username}}'s  {{ this.listing.model }}</h1>
-    <button @click="rent">Rent</button>
-    <br><br>
-    <!-- <div id='scrolly'> -->
-      <a id='scrolly' v-for="(image, index) in this.listing.images" :key="index" >
-      <img :src='image'>
-    <!-- </div> -->
-    </a>
-
-
-    <br><br><br>
-  
-
-<div class="flex-container">
-  <div class="flex-child 1">
-    <ul>
-    
-    <p>Price:  {{ this.listing.price }}</p>
-    <p>Color:  {{ this.listing.color }}</p>
-    <p>Age:  {{ this.listing.age }}</p> 
-    <p>Defect:  {{ this.listing.defect }}</p>
-    <p>Available:  {{ ' from ' + this.listing.afrom + " to " +  this.listing.ato}}</p>
-    </ul>
-    </div>
-
-  <div class="flex-child 2">
-    <ul>
-    <h2>{{ this.username }}'s Car: </h2>
-    <p>{{ this.listing.description }}</p>
-    <h2>{{this.username}}'s Rules: </h2>
-    <p>{{ this.listing.rules }}</p>
-    </ul>
-    </div>
-    </div>
+    <b-carousel
+      :interval="0"
+      controls
+      no-animation
+      indicators style = "{width:80%; height:600px; margin-left:auto; margin-right:auto; text-align:center;}">  
+      <b-carousel-slide v-for = "(image, index) in this.listing.images" :key = "index">
+        <template #img style = "{margin-left:auto; margin-right:auto}"> 
+          <img v-bind:src = "image" style = "{margin-left:auto; margin-right:auto}">    
+        </template>  
+      </b-carousel-slide>
+    </b-carousel>
+    <br> <br>
+    <b-container style = "{margin: 0}">
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>The Car</strong> </b-col>
+        <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
+          <p>Color : {{this.listing.color}} </p>
+          <p>Age : {{this.listing.age}} </p>
+          <p>Defects : {{this.listing.defect}} </p> 
+          <p>Hosted by : {{this.username}} </p>
+        </b-col>
+        <b-col sm = 2><b-button @click = "rent" variant = "primary">Rent Now!</b-button> </b-col>
+      </b-row>
+      <br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Price Per Day</strong></b-col>  
+        <b-col sm = 8><strong>${{this.listing.price}} SGD/Day </strong></b-col>
+      </b-row>
+      <br><br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Availability </strong> </b-col>
+        <b-col sm = 8><b-calendar readonly :min = "this.listing.afrom" :max = "this.listing.ato"> </b-calendar> </b-col>
+      </b-row>
+      <br><br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Car Description</strong> </b-col>
+        <b-col sm = 8>{{this.listing.description}} </b-col>
+      </b-row>
+      <b-row> 
+        <b-col sm = 2><strong>Owner's Rules</strong></b-col>
+        <b-col sm = 8>{{this.listing.rules}}</b-col>
+      </b-row>
+    </b-container>
+    <br> <br> <br>
 </div>
 </template>
 
@@ -75,12 +85,11 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.listingID)
+          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
                   console.log("Document data:", doc.data());
-                  
                   this.listing.model = doc.get("model")
                   this.listing.price = doc.get("price")
                   this.listing.color = doc.get("color")
@@ -132,37 +141,10 @@ export default {
 
 </script>
 <style scoped>
-#scrolly {
-            height: 300px;
-            width: 800px;
-            overflow: auto;
-            overflow-y: hidden;
-            margin: 0 auto;
-            white-space: nowrap
-        }
-
-img {
-            width: 525px;
-            height: 300px;
-            margin: 20px 10px;
-            display: inline;
-            margin-left: 40px;
-            margin-right: 40px;
-        }
-ul {
-            text-align: left;
-            margin-left: 25%;
-
-}
-.flex-container {
-    display: flex;
+.carousel-item > img {
+  height:600px;
+  width:75%;
+  margin: 0 auto
 }
 
-.flex-child {
-    flex: 0.5;
-}  
-
-.flex-child:first-child {
-    margin-left: 10px;
-} 
 </style>

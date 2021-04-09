@@ -1,18 +1,25 @@
 <template>
   <div>
-    <h1>LOGIN</h1>
-    <form @submit.prevent="login">
-      <label for="email">Email:</label><br />
-      <input type="email" placeholder="Email address..." v-model="email" />
-      <br />
-      <label for="password">Password:</label>
-      <br />
-      <input type="password" placeholder="password..." v-model="password" />
-      <br />
-      <button type="submit">Login</button>
-    </form>
-    <h4>Do not have an account?</h4>
-    <span v-on:click="signUp()"> Sign up here </span>
+    <b-card style = "width:60%; height:100%; margin-left:auto; margin-right:auto; margin-top:100px;" class = "text-center"> 
+      <b-row no-gutters>
+        <b-col md = "6">
+          <b-card-body>
+            <h2>Login to GoGrab</h2>
+              <b-form @submit.prevent="login">
+                <label for = "email"> Email: </label> <br>
+                <b-form-input type = "email" placeholder="Email Address" v-model = "email" ></b-form-input> <br>
+                <label for = "password"> Password: </label>
+                <b-form-input type = "password" placeholder = "Password" v-model = "password"> </b-form-input> <br>
+                <div style = "text-align:center"> <b-button type = "submit" variant = "primary"> Login </b-button> <br><br>
+                <h5> Don't have an account yet? </h5> 
+                <b-button type = "button" v-on:click = "signUp()" variant = "primary">Sign Up Here </b-button>
+                </div>
+              </b-form>
+          </b-card-body>
+        </b-col>
+        <b-col md = "6"><b-card-img :src = "require('../assets/Loginpage.jpg')" right></b-card-img></b-col>
+      </b-row>
+    </b-card>
   </div>
 </template>
 
@@ -60,10 +67,15 @@ export default {
                 this.$router.push({ path: "/" });
               })
               .catch((error) => {
+                console.log("test")
                 alert(error.message);
               });
           }
         })
+        .catch((error) => {
+                console.log("test")
+                alert(error.message);
+        });
     },
   },
 };
@@ -82,5 +94,10 @@ form {
 }
 label {
   color: black;
+}
+
+.card-img-right {
+    max-width: 100%;
+    max-height: 100%;
 }
 </style>

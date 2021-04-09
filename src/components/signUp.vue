@@ -1,20 +1,28 @@
 <template>
-  <div style="margin-left: 20px">
-    <form @submit.prevent="register">
-      <h1>SIGN UP</h1>
-      <label for="username">Username:</label><br />
-      <input type="username" placeholder="Username..." v-model="username" />
-      <br />
-      <label for="email">Email:</label><br />
-      <input type="email" placeholder="Email address..." v-model="email" />
-      <br />
-      <label for="password">Password:</label>
-      <br />
-      <input type="password" placeholder="password..." v-model="password" />
-
-      <b-button style="border-radius: 20px" type="submit">Sign Up!</b-button>
-    </form>
-    <span v-on:click="goToLogin()"> Login </span>
+  <div>
+    <b-card style = "width:60%; height:100%; margin-left:auto; margin-right:auto; margin-top:20px;" class = "text-center"> 
+      <b-row no-gutters>
+        <b-col md = "6">
+          <b-card-body>
+            <h2>Sign Up for GoGrab</h2>
+              <b-form @submit.prevent="register">
+                <label for = "password"> Username: </label>
+                <b-form-input type = "password" placeholder = "Password" v-model = "username"> </b-form-input> <br>
+                <label for = "email"> Email: </label> <br>
+                <b-form-input type = "email" placeholder="Email Address" v-model = "email" ></b-form-input> <br>
+                <label for = "password"> Password: </label>
+                <b-form-input type = "password" placeholder = "Password" v-model = "password"> </b-form-input> <br>
+                <div style = "text-align:center"> <b-button type = "submit" variant = "primary"> Sign Up </b-button> <br><br>
+                </div>
+              </b-form>
+              <div><b-button v-on:click = "goToLogin()">Return to login </b-button> </div>
+          </b-card-body>
+        </b-col>
+        <b-col md = "6"><b-card-img :src = "require('../assets/Loginpage.jpg')" right></b-card-img></b-col>
+        
+      </b-row>
+    </b-card>
+    
   </div>
 </template>
 
@@ -87,5 +95,10 @@ form {
 }
 label {
   color: black;
+}
+
+.card-img-right {
+    max-width: 100%;
+    max-height: 100%;
 }
 </style>
