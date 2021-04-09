@@ -1,27 +1,24 @@
 <template>
   <div>
     <ol>
-      <h1>My Rentals</h1>
-      <br />
-      <h2 v-if="listingsArray.length == 0">
-        No rentals yet! Rent some cars today! 🚘
-      </h2>
-      <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
-        {{ listing[1].model }} <br />
-        <img />
+      <h1>My Rentals </h1>
+      <br>
+      <h2 v-if="rentalsArray.length == 0">No rentals yet! Rent some cars today! 🚘</h2>
+      <li id="listing" v-for="(rental, index) in rentalsArray" :key="index">
+        {{ rental[1].model }} <br />
+        <img :src = "rental[1].imageULR"/>
         <br />
-        DATE: {{ listing[1].afrom }} -- {{ listing[1].ato }}<br />${{
-          listing[1].price
-        }}
+        DATE: {{ rental[1].rfrom }} -- {{ rental[1].rto }}<br />${{ rental[1].total }}
         <br />
+        
         <button
           id="reviewButton"
           v-on:click="
-            listing_ID = listing[0];
-            owner_ID = listing[1].ownerID;
+            rental = rental[0];
+            owner_ID = rental[1].ownerID
             goReview();
           "
-          v-if="!listing[1].reviewerID"
+          v-if="!rental[1].reviewerID"
         >
           Review Now!
         </button>
@@ -37,33 +34,53 @@ export default {
   components: {},
   data() {
     return {
-      listingsArray: [],
+      rentalsArray: [],
       listing_ID: "",
       owner_ID: "",
+
+      username:'',
+      uid:'',
+      
     };
   },
   methods: {
-    fetchListings: function () {
-      const user = firebase.auth().currentUser;
-      console.log("current user: " + user.uid);
-      //current logged in user
-      firebase
-        .firestore()
-        .collection("listings")
-        .where("renterID", "==", user.uid)
+    fetchUser: function () {
+      var user = firebase.auth().currentUser;
+      this.uid = user.uid;
+      firebase.firestore()
+        .collection("userInfo")
+        .doc(this.uid)
         .get()
         .then((snapshot) => {
-          // var temp = [];
-          snapshot
-            .forEach((doc) => {
-              console.log(doc.id + " ==>" + doc.data());
-              this.listingsArray.push([doc.id, doc.data()]);
-            })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
-            });
+          this.username = snapshot.data().username;
         });
+      console.log("uid is "+ this.uid)
     },
+    fetchRentals: function () {
+      this.fetchUser();
+      console.log("start fetching rentals")
+     //current logged in user
+      firebase
+        .firestore()
+        .collection("rentalRequests")
+        .where("renterID", "==", this.uid)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log("start individual fetching ")
+              // doc.data() is never undefined for query doc snapshots
+              this.rentalsArray.push([doc.id, doc.data()]);
+              console.log(doc.id, " => ", doc.data());
+            });
+            this.fetchListings();
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
+        
+
+    },
+    
     goReview: function () {
       console.log("listing_ID: " + this.listing_ID);
       console.log("owner_ID: " + this.owner_ID);
@@ -77,9 +94,9 @@ export default {
     },
   },
   created: function () {
-    const user = firebase.auth().currentUser;
-    console.log(user.uid);
-    this.fetchListings();
+
+    this.fetchRentals();
+
     console.log("after created functions");
   },
 };
@@ -102,5 +119,10 @@ export default {
 #listing {
   font-size: 25px;
   border: 3px solid indigo;
+}
+
+img {
+  width: 200px;
+  height: 150px;
 }
 </style>

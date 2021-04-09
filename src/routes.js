@@ -13,6 +13,10 @@ import MyRentals from './components/MyRentals.vue'
 import reviewsPage from './components/reviewsPage.vue'
 import Dashboard from './components/Dashboard.vue'
 import RentalRequest from './components/rentalRequest.vue' 
+import MyListings from './components/MyListings.vue' 
+import Requests from './components/Requests.vue' 
+
+
 
 
 export default[
@@ -30,6 +34,10 @@ export default[
     { path : '/reviewsPage', name: 'reviewsPage', component:reviewsPage, props: true, meta: {requiresAuth: true} },
     { path : '/dashboard', name: 'dashboard', component:Dashboard, props: true, meta: {requiresAuth: true} },
     { path: '/rentalRequest', name: 'rentalRequest', component : RentalRequest, props: true, meta:{requiresAuth: true}},
+    { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}},
+    { path: '/MyListings', name : 'MyListings', component : MyListings, meta : {requiresAuth : true}},
+    { path: '/Requests', name : 'Requests', component : Requests, meta : {requiresAuth : true}},
+
 ]
 
 

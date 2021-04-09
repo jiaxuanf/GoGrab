@@ -54,7 +54,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    listingID: String
+    listing_id: String
   },
   data() {
     return {
@@ -71,6 +71,8 @@ export default {
         rules:'',
         images:[],
         time: '',
+        ownerID:'',
+        owner:'',
       },
       uid: "",
       username: "",
@@ -100,6 +102,8 @@ export default {
                   this.listing.afrom = doc.get("afrom")
                   this.listing.ato = doc.get("ato")
                   this.listing.images = doc.get("images")
+                  this.listing.ownerID = doc.get("ownerID")
+                  this.fetchOwner();
               } else {
                   // doc.data() will be undefined in this case
                   console.log("No such document!");
@@ -120,19 +124,36 @@ export default {
             this.profilePhoto = snapshot.data().profilePictureURL;
           });
       },
+      fetchOwner: function () {
+        console.log("start fetchOwner" + this.listing.ownerID)
+        firebase.firestore()
+          .collection("userInfo")
+          .doc(this.listing.ownerID)
+          .get()
+          .then((snapshot) => {
+            this.listing.owner = snapshot.data().username;
+            // this.profilePhoto = snapshot.data().profilePictureURL;
+            console.log("owner is " + this.listing.owner)
+
+          });
+        return this.listing.owner
+      },
       rent: function () {
-        this.$router.push("/RentalRequest");
+        const listing_id = this.$route.params.listing_id
+        this.$router.push({name: 'rentalRequest',  params: { listing_id: listing_id }})
       },
       goListed: function () {
         this.$router.push({
           name: 'rentalRequest',
           params: {
-            listedID: this.listingID,
+            listing_id: this.listing_id,
         }
       });
     },
     },
   created:function() {
+    console.log("check is listing_is is passed down here")
+    console.log(this.listing_id)
       this.fetchItems();
       this.fetchUser();
 
