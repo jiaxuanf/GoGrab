@@ -50,6 +50,7 @@ export default {
               password: this.password,
               phoneNumber: "",
               profilePictureURL: "",
+              chatList: [],
             })
             .then(() => {
               localStorage.setItem("id", res.user.uid);
