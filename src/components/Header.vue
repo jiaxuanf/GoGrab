@@ -4,6 +4,7 @@
       <b-navbar toggleable = "lg" type = "light" variant = "primary" class = "navbarCol">  
         <b-navbar-brand  class="d-inline-block align-top" href = "/"><img src = "../assets/GoGrab_Logo_transparent.png" style = "width:50px; height:50px"/> </b-navbar-brand>
         <b-navbar-nav class = "ml-auto"> 
+
           <b-nav-item-dropdown text = "User" style = "margin:0;"> 
             <b-dropdown-item class  = "routerLinks" to = "/updateProfile">Profile</b-dropdown-item>
             <b-dropdown-item @click = "logout" style = "margin:0px">Logout</b-dropdown-item>

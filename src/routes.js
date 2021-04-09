@@ -11,7 +11,9 @@ import ProfilePage from './components/profilePage.vue'
 import ChatPage from './components/Chat.vue'
 import MyRentals from './components/MyRentals.vue'
 import reviewsPage from './components/reviewsPage.vue'
+import Dashboard from './components/Dashboard.vue'
 import RentalRequest from './components/rentalRequest.vue' 
+
 
 export default[
     { path: '/', component: Home, meta: {requiresAuth: true}},
@@ -25,8 +27,9 @@ export default[
     { path: '/profilePage', component: ProfilePage, meta: {requiresAuth: true}},
     { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true, meta: {requiresAuth: true}},
+    { path : '/reviewsPage', name: 'reviewsPage', component:reviewsPage, props: true, meta: {requiresAuth: true} },
+    { path : '/dashboard', name: 'dashboard', component:Dashboard, props: true, meta: {requiresAuth: true} },
     { path: '/rentalRequest', name: 'rentalRequest', component : RentalRequest, props: true, meta:{requiresAuth: true}},
-    { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}}
 ]
 
 

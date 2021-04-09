@@ -11,6 +11,7 @@
     "@vue/cli": "^4.5.12",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "chartjs-plugin-labels": "^1.1.0",
     "core-js": "^3.6.5",
     "firebase": "^8.3.1",
     "has-value": "^2.0.2",
