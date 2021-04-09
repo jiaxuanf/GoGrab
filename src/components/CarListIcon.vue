@@ -1,9 +1,9 @@
 <template>
-    <div v-bind:doc_id = "rental[0]" v-on:click = "moveIndividual($event)">
-        <div v-bind:doc_id = "rental[0]" > <img id = "carImage" v-bind:doc_id = "rental[0]" v-bind:src = "rental[1]['images'][0]" /> </div>
-        <p id="NameRating" v-bind:doc_id = "rental[0]" > <strong v-bind:doc_id = "rental[0]" >{{rental[1]['model']}}</strong> <br> {{rental[1]['age']}} Years Old </p> <br><br>
-        <p id="Price" v-bind:doc_id = "rental[0]" >${{rental[1]['price']}} SGD/Day</p>
-    </div>
+    <b-card v-bind:id = "rental[0]" v-on:click = "moveIndividual">
+        <b-card-img v-bind:src = "rental[1]['images'][0]" style = "max-width:500px; height:300px;"> </b-card-img>
+        <b-card-title>{{rental[1]['model']}} </b-card-title>
+        <b-card-text>${{rental[1]['price']}} SGD/Day</b-card-text>
+    </b-card>
 </template>
 
 <script>
@@ -16,16 +16,13 @@ export default {
         rental : Array,
     },
 
-    methods : {
-        moveIndividual : function(event) {
-            const listing_id = event.target.getAttribute("doc_id");
+    methods : { 
+        moveIndividual : function() {
+
+            const listing_id = this.rental[0];
             this.$router.push({name: 'IndividualListed',  params: { listing_id: listing_id }})
         }
      },
-
-    created:function() {
-        console.log(this.rental[1]);
-    }
 }
 </script>
 

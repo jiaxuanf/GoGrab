@@ -31,12 +31,13 @@
 import firebase from "firebase";
 
 export default {
-  components: { },
+  components: {},
   data() {
     return {
       rentalsArray: [],
       listing_ID: "",
       owner_ID: "",
+
       username:'',
       uid:'',
       
@@ -84,16 +85,18 @@ export default {
       console.log("listing_ID: " + this.listing_ID);
       console.log("owner_ID: " + this.owner_ID);
       this.$router.push({
-        name: 'reviewForm',
+        name: "reviewForm",
         params: {
           listingID: this.listing_ID,
-          ownerID: this.owner_ID
-        }
+          ownerID: this.owner_ID,
+        },
       });
     },
   },
   created: function () {
+
     this.fetchRentals();
+
     console.log("after created functions");
   },
 };
