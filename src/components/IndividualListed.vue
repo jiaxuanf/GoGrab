@@ -1,36 +1,50 @@
 <template>
-<div>
-    <h1>{{ this.listing.model }}</h1>
-
-    <p id='scrolly'>
-    <img src="https://cdn11.bigcommerce.com/s-yrkef1j7/images/stencil/1280x1280/products/1503/30661/QQ20190428230137__95937.1556517799.png?c=2" alt="Izoa">
-    <img src="https://cdn11.bigcommerce.com/s-yrkef1j7/images/stencil/1280x1280/products/1503/30658/QQ20190428230027__93343.1556517796.png?c=2" alt="Izoa">
-    <img src="https://cdn11.bigcommerce.com/s-yrkef1j7/images/stencil/1280x1280/products/1503/30663/QQ20190428230148__69023.1556517796.png?c=2" alt="Izoa">
-    </p>
-    <br><br><br>
-  
-
-<div class="flex-container">
-  <div class="flex-child 1">
-    <ul>
-    
-    <p>Price:  {{ this.listing.price }}</p>
-    <p>Color:  {{ this.listing.color }}</p>
-    <p>Age:  {{ this.listing.age }}</p> 
-    <p>Defect:  {{ this.listing.defect }}</p>
-    <p>Available:  {{ ' from ' + this.listing.afrom + " to " +  this.listing.ato}}</p>
-    </ul>
-    </div>
-
-  <div class="flex-child 2">
-    <ul>
-    <h2>{{ this.username }}'s Car: </h2>
-    <p>{{ this.listing.description }}</p>
-    <h2>Owner's Rules: </h2>
-    <p>{{ this.listing.rules }}</p>
-    </ul>
-    </div>
-    </div>
+<div style = "font-size: 20px">
+    <br><br>
+    <b-carousel
+      :interval="0"
+      controls
+      no-animation
+      indicators style = "{width:80%; height:600px; margin-left:auto; margin-right:auto; text-align:center;}">  
+      <b-carousel-slide v-for = "(image, index) in this.listing.images" :key = "index">
+        <template #img style = "{margin-left:auto; margin-right:auto}"> 
+          <img v-bind:src = "image" style = "{margin-left:auto; margin-right:auto}">    
+        </template>  
+      </b-carousel-slide>
+    </b-carousel>
+    <br> <br>
+    <b-container style = "{margin: 0}">
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>The Car</strong> </b-col>
+        <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
+          <p>Color : {{this.listing.color}} </p>
+          <p>Age : {{this.listing.age}} </p>
+          <p>Defects : {{this.listing.defect}} </p> 
+          <p>Hosted by : {{this.username}} </p>
+        </b-col>
+        <b-col sm = 2><b-button @click = "rent" variant = "primary">Rent Now!</b-button> </b-col>
+      </b-row>
+      <br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Price Per Day</strong></b-col>  
+        <b-col sm = 8><strong>${{this.listing.price}} SGD/Day </strong></b-col>
+      </b-row>
+      <br><br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Availability </strong> </b-col>
+        <b-col sm = 8><b-calendar readonly :min = "this.listing.afrom" :max = "this.listing.ato"> </b-calendar> </b-col>
+      </b-row>
+      <br><br>
+      <b-row no-gutters style = "{width: 60%}"> 
+        <b-col sm = 2><strong>Car Description</strong> </b-col>
+        <b-col sm = 8>{{this.listing.description}} </b-col>
+      </b-row>
+      <b-row> 
+        <b-col sm = 2><strong>Owner's Rules</strong></b-col>
+        <b-col sm = 8>{{this.listing.rules}}</b-col>
+      </b-row>
+    </b-container>
+    <br> <br> <br>
 </div>
 </template>
 
@@ -40,7 +54,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    msg: String
+    listingID: String
   },
   data() {
     return {
@@ -62,21 +76,21 @@ export default {
       username: "",
       email: "",
       phoneNumber: "",
-      img1: "",
+      profilePhoto: "", //URL
       imageData: "",
       uploadValue: 0,
-      carInfo:[]
+      carInfo:[],
+      // listedID:'',
     }
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc('GAnh5rlge1Udu3Z6STMR')
+          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
                   console.log("Document data:", doc.data());
-                  
-                  // this.listing.model = doc.get("model")
+                  this.listing.model = doc.get("model")
                   this.listing.price = doc.get("price")
                   this.listing.color = doc.get("color")
                   this.listing.age = doc.get("age")
@@ -85,6 +99,7 @@ export default {
                   this.listing.rules = doc.get("rules")
                   this.listing.afrom = doc.get("afrom")
                   this.listing.ato = doc.get("ato")
+                  this.listing.images = doc.get("images")
               } else {
                   // doc.data() will be undefined in this case
                   console.log("No such document!");
@@ -92,47 +107,44 @@ export default {
           }).catch((error) => {
               console.log("Error getting document:", error);
           });
+        },
+      fetchUser: function () {
+        var user = firebase.auth().currentUser;
+        this.uid = user.uid;
+        firebase.firestore()
+          .collection("userInfo")
+          .doc(this.uid)
+          .get()
+          .then((snapshot) => {
+            this.username = snapshot.data().username;
+            this.profilePhoto = snapshot.data().profilePictureURL;
+          });
+      },
+      rent: function () {
+        this.$router.push("/RentalRequest");
+      },
+      goListed: function () {
+        this.$router.push({
+          name: 'rentalRequest',
+          params: {
+            listedID: this.listingID,
         }
-
+      });
+    },
     },
   created:function() {
-    this.fetchItems();
+      this.fetchItems();
+      this.fetchUser();
+
   }
 }
 
 </script>
 <style scoped>
-#scrolly {
-            height: 300px;
-            width: 800px;
-            overflow: auto;
-            overflow-y: hidden;
-            margin: 0 auto;
-            white-space: nowrap
-        }
-
-img {
-            width: 525px;
-            height: 300px;
-            margin: 20px 10px;
-            display: inline;
-            margin-left: 40px;
-            margin-right: 40px;
-        }
-ul {
-            text-align: left;
-            margin-left: 25%;
-
-}
-.flex-container {
-    display: flex;
+.carousel-item > img {
+  height:600px;
+  width:75%;
+  margin: 0 auto
 }
 
-.flex-child {
-    flex: 0.5;
-}  
-
-.flex-child:first-child {
-    margin-left: 10px;
-} 
 </style>

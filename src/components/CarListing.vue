@@ -4,12 +4,8 @@
             <input  type="search" placeholder="Search.." />
             <button> Search </button> 
         </div>
-        
-        
-
-
         <div id = "carDisplay"> 
-            <b-container class="bv-example-row" >
+            <b-container class="bv-example-row"  style = "max-width:90%;" >
                 <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index">
                     <b-col sm = '4' v-for="(carData,index) in chunk" :key="index"><car-list-icon v-bind:rental="carData"></car-list-icon></b-col>
                 </b-row>
@@ -21,7 +17,7 @@
 <script>
 import CarListIcon from './CarListIcon.vue'
 import database from '../main.js'
-
+import moment from "moment";
 
 export default {
     components: {
@@ -48,14 +44,36 @@ export default {
                 }
             })
         },
-        checkChunked : function () {
-            console.log(this.chunkedCarArray[0][0])
+
+        fetchItemsFromSearch : function(startTime, endTime) {
+            database.collection('listings').get().then(snapshot => {
+                var temp = [];
+                snapshot.docs.forEach(doc => {
+                    const docStartTime = moment(doc.data()['afrom']).valueOf();
+                    const docEndTime = moment(doc.data()['ato']).valueOf();
+                    if (docStartTime >= startTime && docEndTime <= endTime) {
+                        temp.push([doc.id, doc.data()]);
+                    }
+                    if (temp.length == 3) {
+                        this.chunkedCarArray.push(temp);
+                        temp = [];
+                    }
+                });
+                if (temp.length != 0) {
+                    this.chunkedCarArray.push(temp);
+                }
+            })
         }
     },
 
     created:function() {
-        this.fetchItems();
-        console.log(this.chunkedCarArray);
+        if (this.$route.params.search) {
+            const startTime = this.$route.params.startTimeStamp;
+            const endTime = this.$route.params.endTimeStamp;
+            this.fetchItemsFromSearch(startTime, endTime)
+        } else {
+            this.fetchItems()
+        }
     }
 }
 </script>
