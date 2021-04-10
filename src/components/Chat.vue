@@ -13,35 +13,88 @@
             alt="user"
             width="50px"
             height="50px"
-            style="border-radius: 50%; background: white;"
+            style="border-radius: 50%; background: white"
           />
         </div>
-        <p style="font-size:30px; margin-right:60px"> {{currentUserName}} </p>
-        <button type="button" class="btn btn-primary" v-on:click="logout">Logout</button>
+        <p style="font-size: 30px; margin-right: 60px">{{ currentUserName }}</p>
+        <button type="button" class="btn btn-primary" v-on:click="logout">
+          Logout
+        </button>
       </div>
-      <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
+      <div style="height: 1px; border-bottom: 1px solid; color: white"></div>
       <ul class="list-unstyled components">
+        <h3 class="chatHeading" style="text-align: center">Your Chats</h3>
         <li
           class="active mb-3"
           v-on:click="letsChat(item)"
-          v-for="item in searchUsers"
+          v-for="item in this.userChats"
           :key="item.id"
           v-show="item.id != currentUserId"
         >
-          <div class="d-flex" style="cursor: pointer; padding-bottom: 15px; width: 100%">
+          <div
+            class="d-flex"
+            style="cursor: pointer; padding-bottom: 15px; width: 100%"
+          >
             <div style="width: 30%">
               <img
                 :src="item.URL"
                 alt="user"
                 width="50px"
                 height="50px"
-                style="border-radius: 50%; background: white;"
+                style="border-radius: 50%; background: white"
               />
             </div>
             <div
-              style="padding: 10px 0px 0px; width: 50%; display: flex; justify-content: space-between"
+              style="
+                padding: 10px 0px 0px;
+                width: 50%;
+                display: flex;
+                justify-content: space-between;
+              "
             >
-              <h6 style="line-height: 2; font-weight: 600; color: white; font-size:25px;s">{{item.name}}</h6>
+              <h6
+                style="line-height: 2; font-weight: 600; color: white; font-size:25px;s"
+              >
+                {{ item.name }}
+              </h6>
+            </div>
+          </div>
+          <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
+        </li>
+        <h3 class="chatHeading" style="text-align: center">Find Other Users</h3>
+        <li
+          class="active mb-3"
+          v-on:click="letsChat(item)"
+          v-for="item in this.searchUsers"
+          :key="item.id"
+          v-show="item.id != currentUserId"
+        >
+          <div
+            class="d-flex"
+            style="cursor: pointer; padding-bottom: 15px; width: 100%"
+          >
+            <div style="width: 30%">
+              <img
+                :src="item.URL"
+                alt="user"
+                width="50px"
+                height="50px"
+                style="border-radius: 50%; background: white"
+              />
+            </div>
+            <div
+              style="
+                padding: 10px 0px 0px;
+                width: 50%;
+                display: flex;
+                justify-content: space-between;
+              "
+            >
+              <h6
+                style="line-height: 2; font-weight: 600; color: white; font-size:25px;s"
+              >
+                {{ item.name }}
+              </h6>
             </div>
           </div>
           <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
@@ -50,17 +103,20 @@
     </nav>
 
     <!-- Page Content  -->
-    <div id="content" v-if="currentPeerUser===null">
+    <div id="content" v-if="currentPeerUser === null">
       <div class="my-4">
         <img :src="photoURL" width="200px" class="br-50" />
       </div>
       <div>
-        <h2>Welcome {{currentUserName}},</h2>
-        <h3>Check your chats</h3>
+        <h2>Welcome {{ currentUserName }},</h2>
+        <h3>Check your Messages</h3>
       </div>
     </div>
     <div v-else class="header-width">
-      <ChatBox v-bind:currentPeerUser="currentPeerUser" />
+      <ChatBox
+        v-bind:userChats="userChats"
+        v-bind:currentPeerUser="currentPeerUser"
+      />
     </div>
   </div>
 </template>
@@ -68,11 +124,12 @@
 <script>
 import firebase from "firebase";
 import ChatBox from "./ChatBox";
+import database from "../main.js";
 
 export default {
   app: "Chat",
   components: {
-    ChatBox
+    ChatBox,
   },
   data() {
     return {
@@ -81,7 +138,8 @@ export default {
       currentUserId: localStorage.getItem("id"),
       currentUserPhoto: localStorage.getItem("photoURL"),
       searchUsers: [],
-      photoURL: localStorage.getItem("photoURL")
+      photoURL: localStorage.getItem("photoURL"),
+      userChats: [],
     };
   },
   methods: {
@@ -93,14 +151,66 @@ export default {
       this.$router.push("/");
       localStorage.clear();
     },
-    letsChat(item) {
+    async letsChat(item) {
       this.currentPeerUser = item;
+      console.log("lets chat button is pressed: " + this.currentPeerUser);
+
+      if (!this.userChats.includes(this.currentPeerUser)) {
+        this.userChats.push(this.currentPeerUser);
+        var currentUserChat = [];
+        var peerUserChat = [];
+        var peerUserPhoto = "";
+        var peerUserName = "";
+        await database
+          .collection("userInfo")
+          .doc(this.currentUserId)
+          .get()
+          .then((doc) => {
+            currentUserChat = doc.data().chatList;
+          });
+        console.log("finding whats current user chat");
+        console.log(currentUserChat);
+        currentUserChat.push(this.currentPeerUser);
+        console.log(currentUserChat);
+        await database.collection("userInfo").doc(this.currentUserId).update({
+          chatList: currentUserChat,
+        });
+        await database
+          .collection("userInfo")
+          .doc(this.currentPeerUser)
+          .get()
+          .then((doc) => {
+            peerUserChat = doc.data().chatList;
+            peerUserPhoto = doc.data().profilePictureURL;
+            peerUserName = doc.data().username;
+          });
+        await database
+          .collection("userInfo")
+          .doc(this.currentPeerUser)
+          .update({
+            chatList: peerUserChat.push(this.currentUserId),
+          });
+        this.userChats.push({
+          id: this.currentPeerUser,
+          URL: peerUserPhoto,
+          name: peerUserName,
+        });
+      }
     },
     async getUserList() {
-      const result = await firebase
+      console.log("under get userlist, currentuid is:" + this.currentUserId);
+      await firebase
         .firestore()
         .collection("userInfo")
-        .get();
+        .where("id", "==", this.currentUserId)
+        .get()
+        .then((snapshot) => {
+          console.log("Chatlist is:" + snapshot.chatList)
+          this.userChat = snapshot.chatList;
+        });
+      console.log("under get userlist, current userChat is:" + this.userChat);
+
+      const result = await firebase.firestore().collection("userInfo").get();
       if (result.docs.length > 0) {
         let listUsers = [];
         listUsers = [...result.docs];
@@ -116,13 +226,14 @@ export default {
           });
         });
       }
-    }
+    },
   },
   created() {
-    if (!Object.prototype.hasOwnProperty.call(localStorage,"id")) this.$router.push("/");
+    if (!Object.prototype.hasOwnProperty.call(localStorage, "id"))
+      this.$router.push("/");
     this.getUserList();
-    console.log("name is" + localStorage.getItem("name"))
-  }
+    console.log("name is" + localStorage.getItem("name"));
+  },
 };
 </script>
 
@@ -149,7 +260,7 @@ export default {
   width: 350px;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 200vh;
   z-index: 999;
   background: rgb(117, 112, 117);
   color: black;
@@ -222,16 +333,6 @@ ul.CTAs a {
   margin-bottom: 5px;
 }
 
-a.download {
-  background: #fff;
-  color: #7386d5;
-}
-
-a.article,
-a.article:hover {
-  background: #6d7fcc !important;
-  color: #fff !important;
-}
 #content {
   width: calc(100% - 350px);
   padding: 40px;
@@ -253,4 +354,7 @@ a.article:hover {
   display: none;
 }
 
+.chatHeading {
+  background-color: black;
+}
 </style>

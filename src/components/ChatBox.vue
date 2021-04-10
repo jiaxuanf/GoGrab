@@ -2,14 +2,24 @@
   <div style="display: flex; flex-direction: column; height: 100vh">
     <header>
       <div style="height: 60px; background: lightgrey">
-        <img :src="currentPeerUser.URL" width="50px" height="45px" style="margin-left:20px" class="br-50 header-image" />
+        <img
+          :src="currentPeerUser.URL"
+          width="50px"
+          height="45px"
+          style="margin-left: 20px"
+          class="br-50 header-image"
+        />
         <div class="header-image">
-          <h6 class="mt-2" style="font-weight: 600">{{currentPeerUser.name}}</h6>
+          <h6 class="mt-2" style="font-weight: 600">
+            {{ currentPeerUser.name }}
+          </h6>
         </div>
       </div>
     </header>
     <div style="background: #efe9e2; flex: 1; overflow-y: auto">
-      <h2 class="welcome" style="margin-left:20px">Chat with {{currentPeerUser.name}}</h2>
+      <h2 class="welcome" style="margin-left: 20px">
+        Chat with {{ currentPeerUser.name }}
+      </h2>
       <div class="text-outer">
         <div
           :class="item.idFrom === currentUserId ? 'textFrom' : 'textTo'"
@@ -17,7 +27,7 @@
           v-for="item in listMessage"
           :key="item.id"
         >
-          <h6>{{item.content}}</h6>
+          <h6>{{ item.content }}</h6>
         </div>
       </div>
     </div>
@@ -40,8 +50,11 @@
           />
           <input
             type="text"
-            style="width: 85%; border: 1px solid transparent; border-radius: 4px;
-            padding: 5px 10px;
+            style="
+              width: 85%;
+              border: 1px solid transparent;
+              border-radius: 4px;
+              padding: 5px 10px;
             "
             class="mr-3"
             v-model="inputValue"
@@ -67,7 +80,10 @@ import moment from "moment";
 
 export default {
   app: "ChatBox",
-  props: ["currentPeerUser"],
+  props: {
+    currentPeerUser: String,
+    userChats: Array,
+  },
   data() {
     return {
       currentUserName: localStorage.getItem("name"),
@@ -76,31 +92,31 @@ export default {
       inputValue: "",
       photoURL: localStorage.getItem("photoURL"),
       listMessage: [],
-      groupChatId: null
+      groupChatId: null,
     };
   },
   watch: {
-    currentPeerUser: function(newVal, oldVal) {
+    currentPeerUser: function (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.getMessages();
       }
-    }
+    },
   },
   methods: {
-    sendMessage(content) {
+    async sendMessage(content) {
       if (content.trim() === "") {
         return;
       }
-      const timestamp = moment()
-        .valueOf()
-        .toString();
+    
+      const timestamp = moment().valueOf().toString();
       const message = {
         id: timestamp,
         idFrom: this.currentUserId,
         idTo: this.currentPeerUser.id,
         timestamp: timestamp,
-        content: content.trim()
+        content: content.trim(),
       };
+
       firebase
         .firestore()
         .collection("Messages")
@@ -121,10 +137,10 @@ export default {
         .collection("Messages")
         .doc(groupChatId)
         .collection(groupChatId)
-        .onSnapshot(Snapshot => {
+        .onSnapshot((Snapshot) => {
           if (Snapshot.docChanges().length > 0) {
             this.groupChatId = groupChatId;
-            Snapshot.docChanges().forEach(res => {
+            Snapshot.docChanges().forEach((res) => {
               this.listMessage.push(res.doc.data());
             });
           } else {
@@ -134,8 +150,8 @@ export default {
               .collection("Messages")
               .doc(this.groupChatId)
               .collection(this.groupChatId)
-              .onSnapshot(Snapshot => {
-                Snapshot.docChanges().forEach(res => {
+              .onSnapshot((Snapshot) => {
+                Snapshot.docChanges().forEach((res) => {
                   console.log("res", res);
                   if (res.type === "added") {
                     this.listMessage.push(res.doc.data());
@@ -144,11 +160,13 @@ export default {
               });
           }
         });
-    }
+    },
   },
   mounted() {
-    this.getMessages();
-  }
+    if (this.currentPeerUser) {
+      this.getMessages();
+    }
+  },
 };
 </script>
 

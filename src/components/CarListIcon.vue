@@ -7,38 +7,61 @@
 </template>
 
 <script>
+import firebase from "firebase";
+import database from "../main.js";
 export default {
-    data()  {
-        return {
-        }
-    },
-    props : {
-        rental : Array,
-    },
+  data() {
+    return {
+      uid: "",
+    };
+  },
+  props: {
+    rental: Array,
+  },
 
-    methods : { 
-        moveIndividual : function() {
+  methods: {
+    async moveIndividual(event) {
+      var user = firebase.auth().currentUser;
+      this.uid = user.uid;
+      var doc = database.collection("listings").doc(this.rental[0]);
+      doc.get().then((doc) => {
+        database
+          .collection("listings")
+          .doc(this.rental[0])
+          .update({
+            numberOfClicks: doc.data().numberOfClicks + 1,
+          });
+      });
 
-            const listing_id = this.rental[0];
-            this.$router.push({name: 'IndividualListed',  params: { listing_id: listing_id }})
-        }
-     },
-}
+      console.log("number of clicks: " + (await doc.get("numberOfClicks")));
+      const listing_id = event.target.getAttribute("doc_id");
+
+      this.$router.push({
+        name: "IndividualListed",
+        params: { listing_id: listing_id },
+      });
+    },
+  },
+
+  created: function () {
+    console.log(this.rental[1]);
+  },
+};
 </script>
 
 
 <style scoped>
 #NameRating {
-    float:left;
-    text-align: left;
+  float: left;
+  text-align: left;
 }
 
 #Price {
-    float:right;
+  float: right;
 }
 
 #carImage {
-    width:200px;
-    height:200px;
-} 
+  width: 200px;
+  height: 200px;
+}
 </style>

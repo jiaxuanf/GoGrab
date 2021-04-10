@@ -102,6 +102,7 @@ import firebase from 'firebase'
         images:[],
         time: Date.now(), //number
         status:'',
+        numberOfClicks: 0,
       },
       img1: "",
       imageData: '',

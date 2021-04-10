@@ -17,8 +17,6 @@ import MyListings from './components/MyListings.vue'
 import Requests from './components/Requests.vue' 
 
 
-
-
 export default[
     { path: '/', component: Home, meta: {requiresAuth: true}},
     { path: '/listing', component: IndividualListing, name : 'IndividualListing', props:true, meta: {requiresAuth: true}},
@@ -37,6 +35,7 @@ export default[
     { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}},
     { path: '/MyListings', name : 'MyListings', component : MyListings, meta : {requiresAuth : true}},
     { path: '/Requests', name : 'Requests', component : Requests, meta : {requiresAuth : true}},
+    { path: '/Dashboard', component: Dashboard},
 ]
 
 
