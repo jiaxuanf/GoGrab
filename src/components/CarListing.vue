@@ -1,9 +1,5 @@
 <template>
     <div>
-        <div id = "carSearch">
-            <input  type="search" placeholder="Search.." />
-            <button> Search </button> 
-        </div>
         <div id = "carDisplay"> 
             <b-container class="bv-example-row"  style = "max-width:90%;" >
                 <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index">

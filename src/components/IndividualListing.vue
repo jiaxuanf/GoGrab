@@ -1,12 +1,12 @@
 <template>
   <div id=app style = "font-size: 20px">
 
-    <b-form v-on:submit.prevent = "list" style = "margin-left:20%; margin-right:10%; margin-top: 40px;">  
+    <b-form v-on:submit.prevent = "list" style = "margin-left:20%; margin-right:10%; margin-top: 40px; margin-bottom: 40px;">  
       <h1>Start Listing your car </h1> <br>
       
       <h3>1. Basic Information </h3>
       <label for = "brand">Select your car Brand:</label> <br>
-      <b-form-select id = "brand" v-model = "listing.brand" :options = "options" required style = "width:60%;"> </b-form-select>
+      <b-form-select id = "brand" v-model = "listing.brand" :options = "brandOptions" required style = "width:60%;"> </b-form-select>
       <br><br> 
 
       <label for = "model">Car Model: </label><br>
@@ -16,6 +16,9 @@
       <label for = "numSeater" >Number of Seats: </label><br>
       <b-form-input v-model = "listing.numSeats" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
       <br><br>
+
+      <label for = "type">Car Type: </label><br>
+      <b-form-radio-group v-model = "listing.carType" :options = "typeOptions" buttons required button-variant = "outline-primary"> </b-form-radio-group><br><br>
 
       <label for = "age">Car Age:</label><br>
       <b-form-input v-model = "listing.age" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
@@ -97,13 +100,21 @@ import firebase from 'firebase'
         images:[],
         time: Date.now(), //number
         status:'',
+        carType : '',
         numberOfClicks: 0,
       },
       img1: "",
       imageData: null,
       uploadValue: 0,
       listingID:null,
-      options : ["Abarth",
+      typeOptions : [
+        "SUV",
+        "MPV",
+        "Sedan",
+        "Sports",
+        "Mini"
+      ],
+      brandOptions : ["Abarth",
         "Alfa Romeo",
         "Aston Martin",
         "Audi",
