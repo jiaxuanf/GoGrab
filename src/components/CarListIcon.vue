@@ -42,10 +42,6 @@ export default {
       });
     },
   },
-
-  created: function () {
-    console.log(this.rental[1]);
-  },
 };
 </script>
 

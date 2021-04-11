@@ -73,6 +73,7 @@ export default {
         time: '',
         ownerID:'',
         owner:'',
+        carType : '',
       },
       uid: "",
       username: "",
@@ -103,6 +104,7 @@ export default {
                   this.listing.ato = doc.get("ato")
                   this.listing.images = doc.get("images")
                   this.listing.ownerID = doc.get("ownerID")
+                  this.listing.carType = doc.get("carType")
                   this.fetchOwner();
               } else {
                   // doc.data() will be undefined in this case

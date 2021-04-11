@@ -1,5 +1,20 @@
 <template>
     <div>
+        
+        <b-form inline style = "max-width:90%; margin: 0 auto; margin-top:40px; padding:0;" class = "mx-auto" v-on:submit.prevent = "applyFilter"> 
+            <h3 >Filters </h3>
+            <label class = "ml-4">Car Brand</label> 
+            <b-form-select v-model = "filters.brand" :options = "brandOptions" placeholder = "Brands" class = "ml-2"> </b-form-select>
+            <label class = "ml-4">Car Type</label>
+            <b-form-select v-model = "filters.type" :options = "typeOptions" placeholder = "Car Type" class = "ml-2"> </b-form-select>
+            <label class = "ml-4">Maximum Price </label>
+            <b-form-input type = "number" v-model = "filters.maxPrice" min = "0" placeholder = "Maximum Price" class = "ml-2"> </b-form-input>
+            <label class = "ml-4">Start Date </label>
+            <b-form-datepicker class = "ml-2" v-model = "filters.startDate" :min = "new Date()" required> </b-form-datepicker>
+            <label class = "ml-4">End Date </label>
+            <b-form-datepicker class = "ml-2" v-model = "filters.endDate" :min = "filters.startDate" required>  </b-form-datepicker>
+            <b-button type = "Submit" variant = primary class = "ml-4">Filter </b-button>
+        </b-form>
         <div id = "carDisplay"> 
             <b-container class="bv-example-row"  style = "max-width:90%;" >
                 <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index">
@@ -14,6 +29,7 @@
 import CarListIcon from './CarListIcon.vue'
 import database from '../main.js'
 import moment from "moment";
+import _ from "lodash";
 
 export default {
     components: {
@@ -21,7 +37,89 @@ export default {
     },
     data()  {
         return {
-             chunkedCarArray : []
+            fullCarArray : [],
+            chunkedCarArray : [],
+            filters : {
+                brand : null,
+                type : null,
+                maxPrice : null,
+                startDate : null,
+                endDate : null,
+            },
+            typeOptions : [
+                {value : null, text : "None"},
+                "SUV",
+                "MPV",
+                "Sedan",
+                "Sports",
+                "Mini"
+            ],
+            brandOptions : [{value : null, text : "None"},
+                "Abarth",
+                "Alfa Romeo",
+                "Aston Martin",
+                "Audi",
+                "Bentley",
+                "BMW",
+                "Bugatti",
+                "Cadillac",
+                "Chevrolet",
+                "Chrysler",
+                "Citroën",
+                "Dacia",
+                "Daewoo",
+                "Daihatsu",
+                "Dodge",
+                "Donkervoort",
+                "DS",
+                "Ferrari",
+                "Fiat",
+                "Fisker",
+                "Ford",
+                "Honda",
+                "Hummer",
+                "Hyundai",
+                "Infiniti",
+                "Iveco",
+                "Jaguar",
+                "Jeep",
+                "Kia",
+                "KTM",
+                "Lada",
+                "Lamborghini",
+                "Lancia",
+                "Land Rover",
+                "Landwind",
+                "Lexus",
+                "Lotus",
+                "Maserati",
+                "Maybach",
+                "Mazda",
+                "McLaren",
+                "Mercedes-Benz",
+                "MG",
+                "Mini",
+                "Mitsubishi",
+                "Morgan",
+                "Nissan",
+                "Opel",
+                "Peugeot",
+                "Porsche",
+                "Renault",
+                "Rolls-Royce",
+                "Rover",
+                "Saab",
+                "Seat",
+                "Skoda",
+                "Smart",
+                "SsangYong",
+                "Subaru",
+                "Suzuki",
+                "Tesla",
+                "Toyota",
+                "Volkswagen",
+                "Volvo"
+            ],
         }
     },
     methods : {
@@ -29,6 +127,7 @@ export default {
             database.collection('listings').get().then(snapshot => {
                 var temp = [];
                 snapshot.docs.forEach(doc => {
+                    this.fullCarArray.push([doc.id, doc.data()]);
                     temp.push([doc.id, doc.data()]);
                     if (temp.length == 3) {
                         this.chunkedCarArray.push(temp);
@@ -41,10 +140,48 @@ export default {
             })
         },
 
+        applyFilter : function() {
+            var tempArray = _.cloneDeep(this.fullCarArray);
+            console.log(tempArray);
+            if (this.filters.startDate == null || this.filters.endDate == null) {
+                alert("Please Enter a start and end date");
+                return;
+            }
+
+            if (this.filters.brand != null) {
+                tempArray = tempArray.filter((car) => car[1]['brand'] == this.filters.brand);
+            } if (this.filters.carType != null) {
+                tempArray = tempArray.filter((car) => car[1]['carType'] == this.filters.carType);
+            } if (this.filters.maxPrice != null) {
+                tempArray = tempArray.filter((car) => car[1]['price'] <= this.filters.maxPrice);
+            }       
+            tempArray = tempArray.filter((car) => {
+                const docStartTime = moment(car[1]['afrom']).valueOf();
+                const docEndTime = moment(car[1]['ato']).valueOf();
+                const startTime = moment(this.filters.startDate).valueOf();
+                const endTime = moment(this.filters.endDate).valueOf();
+                return ((docStartTime <= startTime && docEndTime >= startTime) && (docStartTime <= endTime && docEndTime >= endTime));
+            });
+            console.log(tempArray);
+            this.chunkedCarArray = [];
+            //Chunk the array 
+            var temp = [];
+            for (let i = 0; i < tempArray.length; i++) {
+                temp.push(tempArray[i]);
+                if (temp.length == 3) {
+                    this.chunkedCarArray.push(temp);
+                    temp = [];
+                }
+            } if (temp.length != 0) {
+                this.chunkedCarArray.push(temp);
+            }
+        },
+
         fetchItemsFromSearch : function(startTime, endTime) {
             database.collection('listings').get().then(snapshot => {
                 var temp = [];
                 snapshot.docs.forEach(doc => {
+                    this.fullCarArray.push([doc.id, doc.data()]);
                     const docStartTime = moment(doc.data()['afrom']).valueOf();
                     const docEndTime = moment(doc.data()['ato']).valueOf();
                     if (docStartTime >= startTime && docEndTime <= endTime) {
