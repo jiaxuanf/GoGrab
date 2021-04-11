@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="stats">
-      <p class="stat">Reviews: {{ this.numReviews }}</p>
       <div class="topStat">
         <div id="profilePicture">
           <img
