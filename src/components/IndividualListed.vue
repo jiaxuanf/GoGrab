@@ -154,9 +154,8 @@ export default {
   created:function() {
     console.log("check is listing_is is passed down here")
     console.log(this.listing_id)
-      this.fetchItems();
-      this.fetchUser();
-
+    this.fetchItems();
+    this.fetchUser();
   }
 }
 

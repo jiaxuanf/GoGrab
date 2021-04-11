@@ -20,7 +20,7 @@ export default {
   },
 
   methods: {
-    async moveIndividual(event) {
+    async moveIndividual() {
       var user = firebase.auth().currentUser;
       this.uid = user.uid;
       var doc = database.collection("listings").doc(this.rental[0]);
@@ -34,7 +34,7 @@ export default {
       });
 
       console.log("number of clicks: " + (await doc.get("numberOfClicks")));
-      const listing_id = event.target.getAttribute("doc_id");
+      const listing_id = this.rental[0];
 
       this.$router.push({
         name: "IndividualListed",
