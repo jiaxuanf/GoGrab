@@ -77,11 +77,12 @@
 <script>
 import firebase from "firebase";
 import moment from "moment";
+import database from "../main.js";
 
 export default {
   app: "ChatBox",
   props: {
-    currentPeerUser: String,
+    currentPeerUser: Object,
     userChats: Array,
   },
   data() {
@@ -107,7 +108,61 @@ export default {
       if (content.trim() === "") {
         return;
       }
-    
+      console.log("current peer user is: " + this.currentPeerUser.id);
+
+      if (!this.userChats.includes(this.currentPeerUser)) {
+        console.log("ran");
+        this.userChats.push(this.currentPeerUser);
+        console.log("pushing happened");
+        var currentUserChat = [];
+        var peerUserChat = [];
+        console.log("currenUserChat array is:")
+        console.log(currentUserChat)
+        await database
+          .collection("userInfo")
+          .doc(this.currentUserId)
+          .get()
+          .then((doc) => {
+            console.log("entered doc part");
+            currentUserChat = doc.data().chatList;
+          });
+        console.log("finding whats current user chat");
+        console.log(currentUserChat);
+        currentUserChat.push(this.currentPeerUser);
+        console.log(currentUserChat);
+        for (var x in currentUserChat) {
+          console.log(x);
+        }
+        console.log("before updating");
+        await database.collection("userInfo").doc(this.currentUserId).update({
+          chatList: currentUserChat,
+        });
+        console.log("after updating");
+        /*await database
+          .collection("userInfo")
+          .doc(this.currentPeerUser.id)
+          .get()
+          .then((doc) => {
+            peerUserChat = doc.data().chatList;
+            peerUserPhoto = doc.data().profilePictureURL;
+            peerUserName = doc.data().username;
+          });*/
+        console.log("after line 149");
+        console.log(peerUserChat)
+        peerUserChat.push({
+          id: this.currentUserId,
+          name: this.currentUserName,
+          URL: this.currentUserPhoto,
+        });
+        console.log("after pushign into peeruserchat")
+        console.log(peerUserChat)
+        await database
+          .collection("userInfo")
+          .doc(this.currentPeerUser.id)
+          .update({
+            chatList: peerUserChat,
+          });
+      }
       const timestamp = moment().valueOf().toString();
       const message = {
         id: timestamp,
