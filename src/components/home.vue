@@ -47,7 +47,7 @@ export default {
     props: {},
   data() {
     return {
-      rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; ",
+      rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; height:70px;",
       centerText: "margin:auto;",
       location : "",
       startDate : "",

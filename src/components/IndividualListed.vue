@@ -109,7 +109,7 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
+          const car = firebase.firestore().collection("listings").doc(this.$route.query.listing_id)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {

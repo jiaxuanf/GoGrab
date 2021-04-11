@@ -153,7 +153,7 @@ export default {
             } if (this.filters.carType != null) {
                 tempArray = tempArray.filter((car) => car[1]['carType'] == this.filters.carType);
             } if (this.filters.maxPrice != null) {
-                tempArray = tempArray.filter((car) => car[1]['price'] <= this.filters.maxPrice);
+                tempArray = tempArray.filter((car) => Number(car[1]['price']) <= Number(this.filters.maxPrice));
             }       
             tempArray = tempArray.filter((car) => {
                 const docStartTime = moment(car[1]['afrom']).valueOf();

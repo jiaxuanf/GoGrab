@@ -40,7 +40,7 @@ export default {
 
       this.$router.push({
         name: "IndividualListed",
-        params: { listing_id: listing_id },
+        query: { listing_id: listing_id },
       });
     },
   },
