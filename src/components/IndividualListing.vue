@@ -103,6 +103,9 @@ import firebase from 'firebase'
         time: Date.now(), //number
         status:'',
         numberOfClicks: 0,
+        ownerID:"",
+        renterID:"",
+        reviewerID:"",
       },
       img1: "",
       imageData: '',

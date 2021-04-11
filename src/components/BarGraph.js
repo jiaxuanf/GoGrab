@@ -51,6 +51,7 @@ export default {
                         console.log(this.datacollection.datasets[0].backgroundColor);
 
                     });
+                    this.renderChart(this.datacollection, this.options)
                 });
         },
         getRandomColor() {
@@ -64,12 +65,6 @@ export default {
     },
     mounted() {
         this.fetchItems();
-        this.renderChart(this.datacollection, this.options)
     },
-    watch: {
-        data: function () {
-            this.renderChart(this.datacollection, this.options)
-        }
-    }
 }
 
