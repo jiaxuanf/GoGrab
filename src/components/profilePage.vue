@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="stats">
-      <p class="stat">Reviews: {{ this.numReviews }}</p>
       <div class="topStat">
         <div id="profilePicture">
           <img
@@ -13,8 +12,9 @@
           />
           <div id="statsView">
             <div class="name">{{ this.username }}</div>
-            <button class="numReviews">Reviews: {{ this.numReviews }}</button>
-            <div class="followers">Followers: {{ this.numFollowers }}</div>
+            <button class="numReviews" v-on:click="goReviewsPage()">Reviews: {{ this.numReviews }}</button>
+            <button class="numReviews" v-on:click="goDashboard()">Dashboard</button>
+
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@ export default {
       console.log("userID: " + user.uid);
       firebase
         .firestore()
-        .collection("listings")
+        .collection("reviews")
         .where("ownerID", "==", user.uid)
         .get()
         .then((snapshot) => {
@@ -119,6 +119,9 @@ export default {
 
     goReviewsPage: function () {
       this.$router.push({ path: "/reviewsPage" });
+    },
+    goDashboard: function () {
+      this.$router.push({ path: "/Dashboard" });
     },
   },
   created() {

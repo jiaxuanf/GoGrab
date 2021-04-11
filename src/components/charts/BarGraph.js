@@ -1,5 +1,5 @@
 import { Bar } from 'vue-chartjs'
-import database from '../main.js'
+import database from '../../main.js'
 import firebase from 'firebase'
 
 export default {
@@ -9,7 +9,7 @@ export default {
             datacollection: {
                 labels: [],
                 datasets: [{
-                    label: "Activity Status",
+                    label: "a",
                     backgroundColor: ["Green", "Blue", "Indigo"],
                     data: []
                 }],
@@ -19,6 +19,7 @@ export default {
                 legend: { display: false },
                 title: {
                     display: true,
+                    fontSize: 25,
                     text: 'Number of Clicks for each post'
                 },
                 responsive: true,
@@ -39,7 +40,7 @@ export default {
             console.log("uid is:" + this.datacollection.uid);
             await database
                 .collection("listings")
-                .where("uid", "==", this.datacollection.uid)
+                .where("ownerID", "==", user.uid)
                 .get()
                 .then((snapshot) => {
                     snapshot.forEach(doc => {
@@ -47,7 +48,7 @@ export default {
                         this.datacollection.labels.push(doc.data().model)
                     });
                 });
-            
+            console.log(this.datacollection.datasets[0].data)
         }
     },
     mounted() {
