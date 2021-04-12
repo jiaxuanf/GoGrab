@@ -32,7 +32,7 @@ export default {
   methods : {
     logout : function() {
       firebase.auth().signOut();
-      this.$router.push("/");
+      this.$router.push("/login");
       localStorage.clear();
     },
   },

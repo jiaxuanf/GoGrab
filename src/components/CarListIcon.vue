@@ -1,8 +1,10 @@
 <template>
-    <b-card v-bind:id = "rental[0]" v-on:click = "moveIndividual">
+    <b-card v-bind:id = "rental[0]" v-on:click = "moveIndividual" style = "height:450px;">
         <b-card-img v-bind:src = "rental[1]['images'][0]" style = "max-width:500px; height:300px;"> </b-card-img>
-        <b-card-title>{{rental[1]['model']}} </b-card-title>
-        <b-card-text>${{rental[1]['price']}} SGD/Day</b-card-text>
+        <b-card-title class = "mb-1">{{rental[1]['model']}} </b-card-title>
+        <b-card-text class = "mb-0">{{rental[1]['brand']}}</b-card-text>
+        <hr>
+        <b-card-text style ="text-align:right"><strong>${{rental[1]['price']}} SGD/Day</strong></b-card-text>
     </b-card>
 </template>
 
@@ -20,7 +22,7 @@ export default {
   },
 
   methods: {
-    async moveIndividual(event) {
+    async moveIndividual() {
       var user = firebase.auth().currentUser;
       this.uid = user.uid;
       var doc = database.collection("listings").doc(this.rental[0]);
@@ -34,17 +36,13 @@ export default {
       });
 
       console.log("number of clicks: " + (await doc.get("numberOfClicks")));
-      const listing_id = event.target.getAttribute("doc_id");
+      const listing_id = this.rental[0];
 
       this.$router.push({
         name: "IndividualListed",
-        params: { listing_id: listing_id },
+        query: { listing_id: listing_id },
       });
     },
-  },
-
-  created: function () {
-    console.log(this.rental[1]);
   },
 };
 </script>

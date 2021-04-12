@@ -15,10 +15,8 @@
                   <b-col sm = '2'> <b-form-input class = "searchBar" placeholder = "Location" required> </b-form-input></b-col> 
                   <b-col sm = '1' :style = "centerText"><strong> From </strong> </b-col>
                   <b-col><b-form-datepicker class = "searchBar" v-model = "startDate" required> </b-form-datepicker></b-col> 
-                  <b-col><b-form-timepicker class = "searchBar" v-model = "startTime" required></b-form-timepicker></b-col>
                   <b-col sm = '1' :style = "centerText"><strong> To </strong> </b-col>
                   <b-col><b-form-datepicker class = "searchBar" v-model = "endDate" required> </b-form-datepicker></b-col>
-                  <b-col><b-form-timepicker class = "searchBar" v-model = "endTime" required></b-form-timepicker></b-col>
                   <b-col :style = "centerText"><b-button type = "submit"  variant = primary> Search </b-button> </b-col>
               </b-row>  
             </b-container>
@@ -49,7 +47,7 @@ export default {
     props: {},
   data() {
     return {
-      rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; ",
+      rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; height:70px;",
       centerText: "margin:auto;",
       location : "",
       startDate : "",
