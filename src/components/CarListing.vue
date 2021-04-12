@@ -150,8 +150,8 @@ export default {
 
             if (this.filters.brand != null) {
                 tempArray = tempArray.filter((car) => car[1]['brand'] == this.filters.brand);
-            } if (this.filters.carType != null) {
-                tempArray = tempArray.filter((car) => car[1]['carType'] == this.filters.carType);
+            } if (this.filters.type != null) {
+                tempArray = tempArray.filter((car) => car[1]['carType'] == this.filters.type);
             } if (this.filters.maxPrice != null) {
                 tempArray = tempArray.filter((car) => Number(car[1]['price']) <= Number(this.filters.maxPrice));
             }       

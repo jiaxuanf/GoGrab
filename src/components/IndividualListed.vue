@@ -165,8 +165,7 @@ export default {
         return this.listing.owner
       },
       rent: function () {
-        const listingID = this.$route.params.listingID
-        this.$router.push({name: 'rentalRequest',  params: { listing_id: listingID}})
+        this.$router.push({name: 'rentalRequest',  query: { listing_id: this.$route.query.listing_id}})
       },
     },
   created:function() {
