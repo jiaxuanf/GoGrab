@@ -12,10 +12,12 @@
 <h3>Any notes for the owner?</h3>
     <textarea id="note" name="note" rows="4" cols="50" v-model="request.note"/>
 <h3>Choose the rental d do you intend to rent the car?</h3>
-    <label for="rfrom">Rent From:  </label> <input type="date" id="rfrom" name="rfrom" v-model="request.rfrom"> 
-    <label for="rto"> To:  </label> <input type="date" id="rto" name="rto" v-model="request.rto" onchange="calculateDays"><br><br>
+    <label for="rfrom">Rent From:  </label> <input type="date" id="rfrom" name="rfrom" v-model="request.rfrom" @change="calculateDays"> 
+    <label for="rto"> To:  </label> <input type="date" id="rto" name="rto" v-model="request.rto" @change="calculateDays"><br><br>
+<h3>Price/day</h3>
+<p id="dailyPrice"> </p>
 <h3>Total</h3>
-<p id="numdays"></p>
+<p id="numdays"> </p>
 
 
 <h3>Payment Method</h3>
@@ -116,6 +118,7 @@ export default {
                   this.request.model = doc.get("model")
                   console.log(this.request.model)
                   this.request.price = doc.get("price")
+                  document.getElementById("dailyPrice").innerText=this.request.price
                   var images = doc.get("images")
                   console.log("images is ")
                   console.log(images)
@@ -132,11 +135,15 @@ export default {
     calculateDays : function() {
         var rfrom = new Date(this.request.rfrom)
         var rto = new Date(this.request.rto)
-        var days = parseInt( (rfrom - rto) / (24 * 3600 * 1000) )
+        var days = parseInt( (rto - rfrom) / (24 * 3600 * 1000) )
         if (document.getElementById("rto")) {
-            document.getElementById("numdays").value=days
-            return days
+            var total = days * this.request.price
+            document.getElementById("numdays").innerText=total
+            this.request.total = total
+        } else {
+            document.getElementById("numdays").innerText=0
         }
+        
     },
     // calculateDays: function() {
     //     return Math.floor((Date.UTC(this.returnDate.getFullYear(), this.returnDate.getMonth(), this.returnDate.getDate()) - Date.UTC(this.pickUpDate.getFullYear(), this.pickUpDate.getMonth(), this.pickUpDate.getDate()) ) /(1000 * 60 * 60 * 24));

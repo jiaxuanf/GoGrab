@@ -9,8 +9,19 @@
         <img :src = "rental[1].imageULR"/>
         <br />
         DATE: {{ rental[1].rfrom }} -- {{ rental[1].rto }}<br />${{ rental[1].total }}
+        <div class="status">
+          <p id = "pending" v-if="rental[1].status === 'Pending'" >
+            Status: {{rental[1].status}}</p>
+          <p id = "ongoing" v-else-if="rental[1].status === 'Ongoing'" >
+            Status: {{rental[1].status}}</p>
+          <p id = "completed" v-else-if="rental[1].status === 'Completed'" >
+            Status: {{rental[1].status}}</p>
+          <p id = "denied" v-else-if="rental[1].status === 'Denied'" >
+            Status: {{rental[1].status}}</p>
+          <p v-else>Status not Available</p>
+        </div>
         <br />
-        
+        <div v-if="rental[1].status === 'Completed'">
         <button
           id="reviewButton"
           v-on:click="
@@ -22,6 +33,8 @@
         >
           Review Now!
         </button>
+        </div>
+        <button @click="chat">Chat with Owner</button>
       </li>
     </ol>
   </div>
@@ -92,6 +105,9 @@ export default {
         },
       });
     },
+    chat: function () {
+      this.$router.push('/chat')
+    }
   },
   created: function () {
 
@@ -124,5 +140,18 @@ export default {
 img {
   width: 200px;
   height: 150px;
+}
+
+#pending {
+  color:#DC4C46
+}
+#completed {
+  color:#A0DAA9
+}
+#ongoing {
+  color:#F5DF4D
+}
+#denied {
+    color:#DFCFBE
 }
 </style>

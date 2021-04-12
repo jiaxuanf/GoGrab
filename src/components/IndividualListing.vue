@@ -13,6 +13,7 @@
       <b-form-input v-model = "listing.model" placeholder = "Enter your car model..." required style = "width:60%;"> </b-form-input>
       <br><br>
 
+
       <label for = "numSeater" >Number of Seats: </label><br>
       <b-form-input v-model = "listing.numSeats" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
       <br><br>
@@ -249,9 +250,11 @@ import firebase from 'firebase'
       .add(this.listing)
       .then((doc) => {
         // get listinID ready to pass to IndividualListed 
+
         this.listingID = doc.id;
         const listing_id = this.listingID;
         this.$router.push({name: "IndividualListed", query: { listing_id: listing_id }});
+
       }) 
       .catch((error) => {
           alert(error.message);
