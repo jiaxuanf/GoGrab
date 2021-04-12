@@ -15,7 +15,7 @@
     <br> <br>
     <b-container style = "{margin: 0}">
       <b-row no-gutters style = "{width: 60%}"> 
-        <b-col sm = 2><strong>The Car</strong> </b-col>
+        <b-col sm = 2><strong>The Car:</strong> </b-col>
         <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
           <b-row>
             <b-col><img src = "../assets/business-and-trade.png" style = "width:30px; height:30px;">  Brand: {{this.listing.brand}}  </b-col>
@@ -73,7 +73,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    listing_id: String
+    listingID: String
   },
   data() {
     return {
@@ -165,17 +165,9 @@ export default {
         return this.listing.owner
       },
       rent: function () {
-        const listing_id = this.$route.params.listing_id
-        this.$router.push({name: 'rentalRequest',  params: { listing_id: listing_id }})
+        const listingID = this.$route.params.listingID
+        this.$router.push({name: 'rentalRequest',  params: { listing_id: listingID}})
       },
-      goListed: function () {
-        this.$router.push({
-          name: 'rentalRequest',
-          params: {
-            listing_id: this.listing_id,
-        }
-      });
-    },
     },
   created:function() {
     console.log("check is listing_is is passed down here")

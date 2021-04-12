@@ -73,7 +73,7 @@ export default {
   },
 
   methods: {
-    async fetchItems() {
+     fetchItems() {
       const user = firebase.auth().currentUser;
       this.uid = user.uid;
       console.log("this is ran");
@@ -88,10 +88,10 @@ export default {
           this.img = snapshot.data().profilePictureURL;
         });
     },
-    async getListings() {
+     getListings() {
       console.log("went through getlistings()");
       console.log("id is: " + this.uid);
-      await firebase
+       firebase
         .firestore()
         .collection("listings")
         .where("ownerID", "==", this.uid)
@@ -126,6 +126,9 @@ export default {
     goToReviewsPage: function () {
       console.log("button pressed");
       this.$router.push({ path: "/reviewsPage" });
+    },
+    goDashboard: function () {
+      this.$router.push({ path: "/Dashboard" });
     },
   },
   created() {

@@ -2,6 +2,7 @@
   <div>
       <h1>Summary</h1>
       <doughnut-chart> </doughnut-chart>
+      <br> <br> <br>
       <bar-graph></bar-graph>
   </div>
 </template>
@@ -9,7 +10,7 @@
 <script>
 
 import DoughnutChart from "./charts/DoughnutChart.vue";
-import BarGraph from "./BarGraph.vue";
+import BarGraph from "./charts/BarGraph.vue";
 
 export default {
     components: {

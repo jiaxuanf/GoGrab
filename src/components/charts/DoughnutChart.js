@@ -12,11 +12,11 @@ export default {
           {
             label: "",
             backgroundColor: [
-              "#cd3e3e",
-              "#cd623e",
-              "#e3e300",
+              "#fc0303",
+              "#fcad03",
+              "#fbff00",
               "#75cd3e",
-              "#3ecd51",
+              "#00ff15",
             ],
             data: [],
           },
@@ -64,19 +64,15 @@ export default {
         .then((snapshot) => {
           // var temp = [];
           snapshot.forEach((doc) => {
-            console.log(doc.id + " ==>" + doc.data());
             //   if-else for various ratings, update datacollection data
             if (doc.data().reviewValue == 1) {
               this.chartData.oneStar += 1;
             } else if (doc.data().reviewValue == 2) {
               this.chartData.twoStar += 1;
-              console.log("twoStar incremented: " + this.chartData.twoStar);
             } else if (doc.data().reviewValue == 3) {
               this.chartData.threeStar += 1;
-              console.log("threeStar incremented: " + this.chartData.threeStar);
             } else if (doc.data().reviewValue == 4) {
               this.chartData.fourStar += 1;
-              console.log("fourStar incremented: " + this.chartData.fourStar);
             } else {
               this.chartData.fiveStar += 1;
             }
@@ -87,7 +83,6 @@ export default {
       this.datacollection.datasets[0].data.push(this.chartData.threeStar);
       this.datacollection.datasets[0].data.push(this.chartData.fourStar);
       this.datacollection.datasets[0].data.push(this.chartData.fiveStar);
-      console.log("chart data: " + this.datacollection.datasets[0].data);
       this.renderChart(this.datacollection, this.options);
     },
   },

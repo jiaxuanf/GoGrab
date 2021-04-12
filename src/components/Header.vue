@@ -10,6 +10,7 @@
           </b-nav-item-dropdown>
           <b-nav-item class = "routerLinks" to = "/chat"  type = "dark">Messages</b-nav-item>
           <b-nav-item class = "routerLinks" to = "/CarListing"  type = "dark">Cars</b-nav-item>
+          <b-nav-item class = "routerLinks" to = "/MyListings"  type = "dark">My Listings</b-nav-item>
           <b-nav-item class = "routerLinks" to = "/MyRentals"  type = "dark">My Rentals</b-nav-item>
           <b-nav-item class = "routerLinks" to = "/Requests"  type = "dark">My Requests</b-nav-item>
           <b-nav-item class = "routerLinks" to = "/MyListings"  type = "dark">My Listings</b-nav-item>
