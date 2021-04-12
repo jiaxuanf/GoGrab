@@ -8,7 +8,7 @@
       <div class="listingInfo">
         <br>
         <p >From {{listing[1].afrom}} to {{listing[1].ato}}</p>
-        <div class="status">
+        <!-- <div class="status">
           <p id = "pending" v-if="listing[1].status === 'pending'" >
             Status: {{listing[1].status}}</p>
           <p id = "completed" v-else-if="listing[1].status === 'completed'" >
@@ -16,7 +16,7 @@
           <p id = "ongoing" v-else-if="listing[1].status === 'ongoing'" >
             Status: {{listing[1].status}}</p>
           <p v-else>Status not Available</p>
-        </div>
+        </div> -->
         <img v-if="listing[1].images.length != 0" :src='listing[1].images[0]'>
       </div>
     </li>

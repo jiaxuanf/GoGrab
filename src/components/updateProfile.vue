@@ -1,25 +1,9 @@
 
 <template>
   <div>
-    <h1>Update your profile, {{ this.username }}!</h1>
-    <br />
-    <div id="information">
-      <h3>Contact Information</h3>
-      <form>
-        <label for="email">Email:</label><br />
-        <input type="email" placeholder="Email address..." v-model="email" />
-        <br />
-        <label for="phoneNumber">Phone number:</label>
-        <br />
-        <input
-          type="phoneNumber"
-          placeholder="Phone number..."
-          v-model="phoneNumber"
-        />
-      </form>
-    </div>
-    <div id="photo">
-      <div>
+    <h1 style = "margin-left: auto; margin-right:auto; text-align:center">Update your profile, {{ this.username }}!</h1>
+    <div id="photo" style = "margin-left:auto; margin-right:auto; text-align:center; ">
+      <div >
         <div v-if="imageData != null">
           <img
             class="previewProfPic"
@@ -31,7 +15,7 @@
         </div>
         <br>
         <div>
-          <b-button style="margin-left: 100px;border-radius: 30px;" @click="click1">choose a photo</b-button>
+          <b-button style="border-radius: 30px;" @click="click1">choose a photo</b-button>
           <input
             type="file"
             accept="image/*"
@@ -43,39 +27,63 @@
         <br />
       </div>
     </div>
-    <b-button style="border-radius: 30px;"
-      id="updateInfo"
-      color="pink"
-      @click="
-        uploadPhoto();
-        updateContact();
-      "
-      >Update Information</b-button
-    >
-    <div class="border">
-      <div class="license">
-        <h2>Get Approved to Drive Now! <br /></h2>
-        <h3>Driver's License</h3>
-        <p>
-          Upload a photo of your driver's license so that we know that you are
-          able to drive
-        </p>
-        <b-form-file
-          v-model="license"
-          accept="image/*"
-          placeholder="Upload your license"
-          @change="displayLicense"
-        />
-        <br /><br />
-        <b-button style="border-radius: 30px;" v-on:click="clearSelection">Clear Selection </b-button><br />
-        <br />
-        <b-img v-if="licensePresent" id="licensePreview" :src="image" />
+    <b-card no-body>
+    <b-tabs card vertical> 
+    <b-tab title = "Personal Information">
+      <div id="information">
+        <h3>Contact Information</h3>
+        <form>
+          <label for="email">Email:</label><br />
+          <b-form-input type="email" placeholder="Email address..." v-model="email"></b-form-input>
+          <br />
+          <label for="phoneNumber">Phone number:</label>
+          <br />
+          <b-form-input
+            type="phoneNumber"
+            placeholder="Phone number..."
+            v-model="phoneNumber"
+          > </b-form-input>
+        </form>
       </div>
-      <hr />
-      <b-button style="background-color:rgb(97, 19, 150);border-radius: 30px;" v-on:click="updateInformation" :disabled="buttonStatus">
-        Update
-      </b-button>
-    </div>
+      <br><br>
+      
+      <b-button style="border-radius: 30px;"
+        id="updateInfo"
+        color="pink"
+        @click="
+          uploadPhoto();
+          updateContact();"
+        >Update Information</b-button>
+    </b-tab>    
+
+    <b-tab title = "Driver's License">
+      <div>
+        <div>
+          <h2>Get Approved to Drive Now! <br /></h2>
+          <h5>Driver's License</h5>
+          <p>
+            Upload a photo of your driver's license so that we know that you are
+            able to drive
+          </p>
+          <b-form-file
+            v-model="license"
+            accept="image/*"
+            placeholder="Upload your license"
+            @change="displayLicense"
+          />
+          <br /><br />
+          <b-button style="border-radius: 30px;" v-on:click="clearSelection">Clear Selection </b-button><br />
+          <br />
+          <b-img v-if="licensePresent" id="licensePreview" :src="image" style = "width:500px; height:500px;"/>
+        </div>
+        <hr />
+        <b-button style="background-color:rgb(97, 19, 150);border-radius: 30px;" v-on:click="updateInformation" :disabled="buttonStatus">
+          Update
+        </b-button>
+      </div>
+    </b-tab>    
+  </b-tabs> 
+  </b-card>
   </div>
 </template>
 
@@ -129,7 +137,15 @@ export default {
           this.phoneNumber = snapshot.data().phoneNumber;
           this.img1 = snapshot.data().profilePictureURL;  
         });
-    },
+      var storage = firebase.storage();
+      var storageRef = storage.ref();
+      const image_url = this.uid + "_license.jpg";
+      storageRef.child(image_url).getDownloadURL().then((url) =>
+        {this.image = url;
+        this.licensePresent = true;}
+      );
+    }, 
+
     uploadPhoto() {
       const post = {
         photo: this.img1,
@@ -186,6 +202,7 @@ export default {
       var doc = database.collection("userInfo").doc(this.uid);
       return doc.get("profilePictureURL");
     },
+
     displayLicense: function (event) {
       this.licensePresent = true;
       this.buttonStatus = false;
@@ -210,7 +227,8 @@ export default {
     updateInformation: function () {
       console.log(this.image);
       var storageRef = firebase.storage().ref();
-      var image_id = storageRef.child("test1.jpg");
+      const licenseName = this.uid + "_license.jpg"
+      var image_id = storageRef.child(licenseName);
       image_id.put(this.imageFile).then((snapshot) => {
         console.log("Uploaded");
         console.log(snapshot);
@@ -224,55 +242,11 @@ export default {
 </script>
 
 <style scoped>
-input {
-  border: 2px solid black;
-  border-radius: 12px;
-}
-h1 {
-  font-size: "60px";
-  text-align: center;
-  font-family: "Dela Gothic One";
-}
-form {
-  text-align: left;
-}
-label {
-  color: black;
-}
-#information {
-  float: left;
-  width: 50%;
-  padding: 20px;
-}
-#photo {
-  float: right;
-  width: 50%;
-}
-
-.border {
-  /*margin:20px;*/
-  margin-top: 50px;
-  margin-left: 20px;
-  border-style: none !important;
-}
-
-.license {
-  width: 70% !important;
-}
-
 #licensePreview {
   width: 60%;
   height: 60%;
 }
-h2 {
-  text-decoration: underline;
-  font-family: "Roboto";
-}
-#updateInfo {
-  margin-top: 180px;
-  margin-left: 20px;
-  background-color: rgb(97, 19, 150);
-}
+
 .previewProfPic {
   border-radius: 50%;
 }

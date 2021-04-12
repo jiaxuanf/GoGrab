@@ -12,9 +12,15 @@
           />
           <div id="statsView">
             <div class="name">{{ this.username }}</div>
-            <button class="numReviews" v-on:click="goReviewsPage()">Reviews: {{ this.numReviews }}</button>
-            <button class="numReviews" v-on:click="goDashboard()">Dashboard</button>
-
+            <b-button class="numReviews" v-on:click="goToReviewsPage()"
+              >Reviews: {{ this.numReviews }}</b-button
+            >
+            <b-button
+              style="background-color: rgb(97, 19, 150); border-radius: 30px"
+              v-on:click="goToReviewsPage"
+            >
+              Update
+            </b-button>
           </div>
         </div>
       </div>
@@ -117,7 +123,8 @@ export default {
         });
     },
 
-    goReviewsPage: function () {
+    goToReviewsPage: function () {
+      console.log("button pressed");
       this.$router.push({ path: "/reviewsPage" });
     },
     goDashboard: function () {
@@ -126,6 +133,7 @@ export default {
   },
   created() {
     this.fetchItems();
+    this.reviewCount();
     this.getListings();
   },
 };
@@ -166,7 +174,6 @@ export default {
   float: bottom;
   vertical-align: bottom;
 }
-
 
 .button {
   background-color: indigo;

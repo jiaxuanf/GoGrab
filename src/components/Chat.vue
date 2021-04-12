@@ -17,9 +17,6 @@
           />
         </div>
         <p style="font-size: 30px; margin-right: 60px">{{ currentUserName }}</p>
-        <button type="button" class="btn btn-primary" v-on:click="logout">
-          Logout
-        </button>
       </div>
       <div style="height: 1px; border-bottom: 1px solid; color: white"></div>
       <ul class="list-unstyled components">
@@ -27,8 +24,8 @@
         <li
           class="active mb-3"
           v-on:click="letsChat(item)"
-          v-for="item in this.userChats"
-          :key="item.id"
+          v-for="(item, i) in this.userChats"
+          :key="i"
           v-show="item.id != currentUserId"
         >
           <div
@@ -139,7 +136,7 @@ export default {
       currentUserPhoto: localStorage.getItem("photoURL"),
       searchUsers: [],
       photoURL: localStorage.getItem("photoURL"),
-      userChats: [],
+      userChats: null,
     };
   },
   methods: {
@@ -153,9 +150,9 @@ export default {
     },
     async letsChat(item) {
       this.currentPeerUser = item;
-      console.log("lets chat button is pressed: " + this.currentPeerUser);
+      console.log("lets chat button is pressed: " + this.currentPeerUser.id);
 
-      if (!this.userChats.includes(this.currentPeerUser)) {
+      /*if (!this.userChats.includes(this.currentPeerUser)) {
         this.userChats.push(this.currentPeerUser);
         var currentUserChat = [];
         var peerUserChat = [];
@@ -172,6 +169,9 @@ export default {
         console.log(currentUserChat);
         currentUserChat.push(this.currentPeerUser);
         console.log(currentUserChat);
+        for (var x in currentUserChat) {
+          console.log(x);
+        }
         await database.collection("userInfo").doc(this.currentUserId).update({
           chatList: currentUserChat,
         });
@@ -195,21 +195,24 @@ export default {
           URL: peerUserPhoto,
           name: peerUserName,
         });
-      }
+      }*/
     },
-    async getUserList() {
+    async getChats() {
       console.log("under get userlist, currentuid is:" + this.currentUserId);
-      await firebase
-        .firestore()
+      await database
         .collection("userInfo")
         .where("id", "==", this.currentUserId)
         .get()
-        .then((snapshot) => {
-          console.log("Chatlist is:" + snapshot.chatList)
-          this.userChat = snapshot.chatList;
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            console.log(doc.data().chatList);
+            this.userChats = doc.data().chatList;
+          });
         });
-      console.log("under get userlist, current userChat is:" + this.userChat);
+      console.log("under get userlist, current userChat is:" + this.userChats);
+    },
 
+    async getUserList() {
       const result = await firebase.firestore().collection("userInfo").get();
       if (result.docs.length > 0) {
         let listUsers = [];
@@ -232,6 +235,7 @@ export default {
     if (!Object.prototype.hasOwnProperty.call(localStorage, "id"))
       this.$router.push("/");
     this.getUserList();
+    this.getChats();
     console.log("name is" + localStorage.getItem("name"));
   },
 };

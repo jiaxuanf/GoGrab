@@ -108,7 +108,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 ul {
   margin: 0 10px;
   text-align: left;

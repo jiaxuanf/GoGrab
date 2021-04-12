@@ -1,83 +1,80 @@
 <template>
-  <div id=app>
-    <h1>List Your Car Now!</h1>
-    <br><br><br>
+  <div id=app style = "font-size: 20px">
+
+    <b-form v-on:submit.prevent = "list" style = "margin-left:20%; margin-right:10%; margin-top: 40px; margin-bottom: 40px;">  
+      <h1>Start Listing your car </h1> <br>
+      
+      <h3>1. Basic Information </h3>
+      <label for = "brand">Select your car Brand:</label> <br>
+      <b-form-select id = "brand" v-model = "listing.brand" :options = "brandOptions" required style = "width:60%;"> </b-form-select>
+      <br><br> 
+
+      <label for = "model">Car Model: </label><br>
+      <b-form-input v-model = "listing.model" placeholder = "Enter your car model..." required style = "width:60%;"> </b-form-input>
+      <br><br>
 
 
-    <form id='listing' v-on:submit.prevent="list">
-    <ul>
-      <li>
-        <label for="model">Car Model:  </label>
-        <input type="text" id="model" name="model"  v-model="listing.model" required /><br><br>
-      </li>
-      <li>
-        <label for="color">Color:   </label>
-        <input type="text" id="color" name="color" v-model="listing.color" required /><br><br> 
-      </li>
-      <li> 
-        <label for="age">Age:   </label>
-        <input type="number" id="age" name="age" v-model="listing.age" required /><br><br>
-      </li>
-        <!-- Rounded switch -->
-      <li>
-        <label> Any Defect:   No </label>
-        <label class="switch">
-        <input type="checkbox" v-model="listing.defect">
-        <span class="slider round"></span>
-        </label>
-        <label> Yes  ( If yes, please specify in the description box. )</label>
-        <br><br>
-      </li>
-      <li>
-        <label for="price">Price:  $ </label>
-        <input type="number" id="price" name="price" v-model="listing.price" required>
-        <label for="price"> /day </label><br><br>
-      </li>
-      <li> 
-        <label for="afrom">Available From:  </label> <input type="date" id="afrom" name="afrom" v-model="listing.afrom" required>
-        <label for="ato"> To:  </label> <input type="date" id="ato" name="ato" v-model="listing.ato" required><br><br>
-      </li>
-      <li>
-        <label for="loc">Pick-up Location:</label>
-        <input type="text" id="loc" name="loc" v-model="listing.location" required><br><br>
-      </li>
-      <li>
-        <label id = 'uploadPhotoe' for="files" >Upload Photos: </label> 
-          <button @click="click1" type = "button">Choose a photo</button>
-          <input
-            type="file"
-            ref="input1"
-            style="display: none"
-            @change="previewImage"
-            accept="image/*"
-            multiple
-          />
-          <br><br>
-        <div v-if="imageData != null">
-          <img
-            class="preview"
-            :src="this.img1"
-            size = 50%
-            multiple
-          />
-          <br>
-        </div>
-      </li>
-      <li>
-        <label for="description">Description:  </label><br><br>
-        <textarea id="description" name="description" rows="4" cols="50" v-model="listing.description" required>
-        </textarea><br><br>
-      </li>
-      <li>
-        <label for="rule">Set your rules for your guest:  </label><br><br>
-        <textarea id="rule" name="rule" rows="4" cols="50" v-model="listing.rules" required>
-        </textarea><br><br>
-      </li>
-      <li><button type = "submit">Submit </button> </li>
-    </ul>
+      <label for = "numSeater" >Number of Seats: </label><br>
+      <b-form-input v-model = "listing.numSeats" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
+      <br><br>
+
+      <label for = "type">Car Type: </label><br>
+      <b-form-radio-group v-model = "listing.carType" :options = "typeOptions" buttons required button-variant = "outline-primary"> </b-form-radio-group><br><br>
+
+      <label for = "age">Car Age:</label><br>
+      <b-form-input v-model = "listing.age" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
+      <br><br>
+
+      <label>Asking Price: (Per Day) </label> <br>
+      <b-form-input v-model = "listing.price" type = "number" required style = "width:20%" min = 1></b-form-input>
+      <br />
+
+      <label for = "afrom">Available From: </label> <br> 
+      <b-form-datepicker id = "afrom" name = "afrom" v-model = "listing.afrom" :min = "new Date()" required style = "width:30%"> </b-form-datepicker><br>
+      <label for = "ato">Available Until: </label> <br>
+      <b-form-datepicker id = "ato" name = "ato" v-model = "listing.ato" :min = "listing.afrom" required style = "width:30%"> </b-form-datepicker>
+      <br><br>
+
+      <label for = "pickup">Pick up Location: </label> <br>
+      <b-form-input v-model="listing.location" required style = "width:60%" placeholder = "Enter your pickup location...."> </b-form-input><br>
+      
+      <h3>2. Upload some images of your Car!</h3><br>
+      <b-form-file
+          accept="image/*"
+          @change="previewImage"
+          multiple
+          placeholder = "Upload Images of your car"></b-form-file><br /><br>
+      <b-button type = "button" v-on:click = "clearSelection">Clear Selection</b-button>
+      <br><br>
+      <b-carousel v-if="imageData != null"
+      :interval="0"
+      controls
+      no-animation
+      indicators style = "width:600px; height : 400px; margin: 0 auto">
+        <b-carousel-slide v-for = "(image, index) in this.listing.images" :key = "index">
+          <template #img> 
+            <img v-bind:src = "image" style = "width:600px; height:400px">    
+          </template>  
+        </b-carousel-slide>
+      </b-carousel>    
 
 
-    </form>
+      <h3>3. Any additional information you want your renter to know?</h3>
+      <label for = "Defects">Any prior defects for your car? </label><b-form-checkbox v-model = "listing.defect" switch> </b-form-checkbox>
+      <br>
+      <label for = "defects" v-if = "listing.defect">List your defects here:</label><br>
+      <b-form-tags input-id = "defects" v-show = "listing.defect" v-model = "listing.defectList" placeholder = "Press Enter for each new defect" required></b-form-tags>
+      <br><br>
+
+      <label for = "description">Give a description of your car or any information you would like your renters to know</label> <br> 
+      <b-form-textarea v-model = "listing.description"  placeholder = "Enter a description or information for your renters" rows = "4" max-rows="4" required ></b-form-textarea>
+      <br><br>
+
+      <label for = "rule">List down any rules you have regarding your car: </label> <br>
+      <b-form-tags input-id = "rule" v-model = "listing.rules"></b-form-tags><br><br> 
+      
+      <b-button type = "submit" style = "background-color: #DED3FF; color : black"> List your Car Now! </b-button>
+    </b-form>
   </div>
 </template>
 
@@ -92,22 +89,100 @@ import firebase from 'firebase'
     return {
       listing: {
         model:'',
-        color:'',
+        brand:'',
         age:'',
-        defect:'', 
+        numSeats:'',
+        defect:false, 
+        defectList : [],
         price: '',
         location:'',
         description:'',
-        rules:'',
+        rules:[],
         images:[],
         time: Date.now(), //number
         status:'',
+        carType : '',
         numberOfClicks: 0,
+        ownerID:"",
+        renterID:"",
+        reviewerID:"",
       },
       img1: "",
-      imageData: '',
+      imageData: null,
       uploadValue: 0,
       listingID:null,
+      typeOptions : [
+        "SUV",
+        "MPV",
+        "Sedan",
+        "Sports",
+        "Mini"
+      ],
+      brandOptions : ["Abarth",
+        "Alfa Romeo",
+        "Aston Martin",
+        "Audi",
+        "Bentley",
+        "BMW",
+        "Bugatti",
+        "Cadillac",
+        "Chevrolet",
+        "Chrysler",
+        "Citroën",
+        "Dacia",
+        "Daewoo",
+        "Daihatsu",
+        "Dodge",
+        "Donkervoort",
+        "DS",
+        "Ferrari",
+        "Fiat",
+        "Fisker",
+        "Ford",
+        "Honda",
+        "Hummer",
+        "Hyundai",
+        "Infiniti",
+        "Iveco",
+        "Jaguar",
+        "Jeep",
+        "Kia",
+        "KTM",
+        "Lada",
+        "Lamborghini",
+        "Lancia",
+        "Land Rover",
+        "Landwind",
+        "Lexus",
+        "Lotus",
+        "Maserati",
+        "Maybach",
+        "Mazda",
+        "McLaren",
+        "Mercedes-Benz",
+        "MG",
+        "Mini",
+        "Mitsubishi",
+        "Morgan",
+        "Nissan",
+        "Opel",
+        "Peugeot",
+        "Porsche",
+        "Renault",
+        "Rolls-Royce",
+        "Rover",
+        "Saab",
+        "Seat",
+        "Skoda",
+        "Smart",
+        "SsangYong",
+        "Subaru",
+        "Suzuki",
+        "Tesla",
+        "Toyota",
+        "Volkswagen",
+        "Volvo"
+      ],
       }
   },
   methods: {
@@ -174,16 +249,12 @@ import firebase from 'firebase'
       firebase.firestore().collection("listings")
       .add(this.listing)
       .then((doc) => {
-        // get listingID ready to pass to IndividualListed 
-        this.listingID = doc.id 
-        console.log("listingID before pushing to LISTED: " + this.listingID);
-        alert("Successfully listed!");
-        this.$router.push({
-        name: 'IndividualListed',
-        params: {
-          listingID: this.listingID,
-        }
-      });
+        // get listinID ready to pass to IndividualListed 
+
+        this.listingID = doc.id;
+        const listing_id = this.listingID;
+        this.$router.push({name: "IndividualListed", query: { listing_id: listing_id }});
+
       }) 
       .catch((error) => {
           alert(error.message);
@@ -191,90 +262,24 @@ import firebase from 'firebase'
         });
       console.log('listed')
     },
+
+    clearSelection : function() {
+      this.listing.images = [];
+      this.imageData = null
+    },
+
+    goListed: function () {
+      const listing_id = this.listingID;
+      this.$router.push({
+        name: "IndividualListed",
+        params: { listing_id: listing_id },
+      });
+    },
   },
 
 } 
 </script>
 
-<style>
-#uploadPhoto {
-  margin-right: 20px;
-  margin-block: 50px;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  margin: 0 10px;
-  text-align: left;
-  margin-left: 20%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-/* 'List It' button */
-input[type=submit] {
-  background-color: #c88ad8;
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-decoration: none;
-  margin: 4px 2px;
-  cursor: pointer;
-  font-size: 20px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
-/* ####### Style below: for the toggle switch ####### */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-input:checked + .slider {
-  background-color: #c88ad8;
-}
-input:focus + .slider {
-  box-shadow: 0 0 1px #c88ad8;
-}
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-/* Rounded sliders */
-.slider.round {
-  border-radius: 30px;
-  align-items: center;
-}
-.slider.round:before {
-  border-radius: 50%;
-}
+<style scoped>
+
 </style>

@@ -9,8 +9,8 @@ export default {
             datacollection: {
                 labels: [],
                 datasets: [{
-                    label: "a",
-                    backgroundColor: ["Green", "Blue", "Indigo"],
+                    label: "Activity Status",
+                    backgroundColor: [],
                     data: []
                 }],
                 uid: "",
@@ -45,16 +45,27 @@ export default {
                 .then((snapshot) => {
                     snapshot.forEach(doc => {
                         this.datacollection.datasets[0].data.push(doc.data().numberOfClicks);
-                        this.datacollection.labels.push(doc.data().model)
-                    });
-                });
-            console.log(this.datacollection.datasets[0].data)
-        this.renderChart(this.datacollection, this.options)
+                        this.datacollection.labels.push(doc.data().model);
+                        var col = this.getRandomColor();
+                        console.log(col);
+                        this.datacollection.datasets[0].backgroundColor.push(col);
+                        console.log(this.datacollection.datasets[0].backgroundColor);
 
+                    });
+                    this.renderChart(this.datacollection, this.options)
+                });
+        },
+        getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
     },
     mounted() {
         this.fetchItems();
-    }
+    },
 }
 
