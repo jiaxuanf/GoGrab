@@ -58,6 +58,7 @@ export default {
               password: this.password,
               phoneNumber: "",
               profilePictureURL: "",
+              numberOfClicks:0,
               chatList: [],
             })
             .then(() => {

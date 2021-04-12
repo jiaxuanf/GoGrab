@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="stats">
-      <p class="stat">Reviews: {{ this.numReviews }}</p>
       <div class="topStat">
         <div id="profilePicture">
           <img
@@ -13,8 +12,15 @@
           />
           <div id="statsView">
             <div class="name">{{ this.username }}</div>
-            <button class="numReviews">Reviews: {{ this.numReviews }}</button>
-            <div class="followers">Followers: {{ this.numFollowers }}</div>
+            <b-button class="numReviews" v-on:click="goToReviewsPage()"
+              >Reviews: {{ this.numReviews }}</b-button
+            >
+            <b-button
+              style="background-color: rgb(97, 19, 150); border-radius: 30px"
+              v-on:click="goToReviewsPage"
+            >
+              Update
+            </b-button>
           </div>
         </div>
       </div>
@@ -88,7 +94,7 @@ export default {
       await firebase
         .firestore()
         .collection("listings")
-        .where("uid", "==", this.uid)
+        .where("ownerID", "==", this.uid)
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
@@ -107,7 +113,7 @@ export default {
       console.log("userID: " + user.uid);
       firebase
         .firestore()
-        .collection("listings")
+        .collection("reviews")
         .where("ownerID", "==", user.uid)
         .get()
         .then((snapshot) => {
@@ -117,12 +123,14 @@ export default {
         });
     },
 
-    goReviewsPage: function () {
+    goToReviewsPage: function () {
+      console.log("button pressed");
       this.$router.push({ path: "/reviewsPage" });
     },
   },
   created() {
     this.fetchItems();
+    this.reviewCount();
     this.getListings();
   },
 };
@@ -163,7 +171,6 @@ export default {
   float: bottom;
   vertical-align: bottom;
 }
-
 
 .button {
   background-color: indigo;
