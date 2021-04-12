@@ -14,7 +14,7 @@
 <h3>Choose the rental d do you intend to rent the car?</h3>
     <label for="rfrom">Rent From:  </label> <input type="date" id="rfrom" name="rfrom" v-model="request.rfrom" @change="calculateDays"> 
     <label for="rto"> To:  </label> <input type="date" id="rto" name="rto" v-model="request.rto" @change="calculateDays"><br><br>
-<h3>Daily price</h3>
+<h3>Price/day</h3>
 <p id="dailyPrice"> </p>
 <h3>Total</h3>
 <p id="numdays"> </p>
@@ -136,11 +136,14 @@ export default {
         var rfrom = new Date(this.request.rfrom)
         var rto = new Date(this.request.rto)
         var days = parseInt( (rto - rfrom) / (24 * 3600 * 1000) )
-        console.log(days)
         if (document.getElementById("rto")) {
-            document.getElementById("numdays").innerText=days * this.request.price
+            var total = days * this.request.price
+            document.getElementById("numdays").innerText=total
+            this.request.total = total
+        } else {
+            document.getElementById("numdays").innerText=0
         }
-        return null
+        
     },
     // calculateDays: function() {
     //     return Math.floor((Date.UTC(this.returnDate.getFullYear(), this.returnDate.getMonth(), this.returnDate.getDate()) - Date.UTC(this.pickUpDate.getFullYear(), this.pickUpDate.getMonth(), this.pickUpDate.getDate()) ) /(1000 * 60 * 60 * 24));

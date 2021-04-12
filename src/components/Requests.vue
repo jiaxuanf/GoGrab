@@ -8,6 +8,7 @@
       <div class="listingInfo">
         <br>
         <p >From {{listing[1].rfrom}} to {{listing[1].rto}}</p>
+        <p >$ {{listing[1].total}}</p>
         <div class="status">
           <p id = "pending" v-if="listing[1].status === 'Pending'" >
             Status: {{listing[1].status}}</p>
@@ -33,6 +34,8 @@
             v-bind:doc_id = "listing[0]" 
             v-on:click = "complete($event)">Complete</button>
       </div>
+      <button @click="chat">Chat with Renter</button>
+    
     </li>
 
    <div>
@@ -131,13 +134,20 @@ export default {
 
         alert("Congradulations! This rental is completed!")
 
-
+    },
+    chat: function () {
+      this.$router.push('/chat')
     }
 
   },
   created:function() {
       this.fetchListings();
   },
+  computed:function() {
+      this.approve();
+      this.reject();
+      this.complete();
+  }
 
 }
 
