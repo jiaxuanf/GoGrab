@@ -248,7 +248,7 @@ import firebase from 'firebase'
         // get listinID ready to pass to IndividualListed 
         this.listingID = doc.id;
         const listing_id = this.listingID;
-        this.$router.push({name: "IndividualListed", params: { listing_id: listing_id }});
+        this.$router.push({name: "IndividualListed", query: { listing_id: listing_id }});
       }) 
       .catch((error) => {
           alert(error.message);
