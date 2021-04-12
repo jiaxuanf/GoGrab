@@ -19,7 +19,7 @@
         <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
           <p>Color : {{this.listing.color}} </p>
           <p>Age : {{this.listing.age}} </p>
-          <p>Defects : {{this.listing.defect}} </p> 
+          <p v-if="this.listing.defect != ''">Defects : {{this.listing.defect}} </p> 
           <p>Hosted by : {{this.username}} </p>
         </b-col>
         <b-col sm = 2><b-button @click = "rent" variant = "primary">Rent Now!</b-button> </b-col>

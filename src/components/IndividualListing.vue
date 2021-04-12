@@ -20,12 +20,9 @@
       </li>
         <!-- Rounded switch -->
       <li>
-        <label> Any Defect:   No </label>
-        <label class="switch">
-        <input type="checkbox" v-model="listing.defect">
-        <span class="slider round"></span>
-        </label>
-        <label> Yes  ( If yes, please specify in the description box. )</label>
+        <label> Any Defect: </label>
+        <input type="text" v-model="listing.defect" >
+
         <br><br>
       </li>
       <li>
@@ -177,7 +174,7 @@ import firebase from 'firebase'
         this.listingID = doc.id 
         alert("Successfully listed!");
         this.goListed();
-        this.$router.push("/listed");
+        this.$router.push("/MyListings");
       }) 
       .catch((error) => {
           alert(error.message);
@@ -188,10 +185,10 @@ import firebase from 'firebase'
 
     goListed: function () {
       this.$router.push({
-        name: 'IndividualListed',
-        params: {
-          listingID: this.listingID,
-        }
+        name: 'MyListings',
+        // params: {
+        //   listingID: this.listingID,
+        // }
       });
     },
   },
