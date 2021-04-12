@@ -6,7 +6,7 @@
       <h2 v-if="rentalsArray.length == 0">No rentals yet! Rent some cars today! 🚘</h2>
       <li id="listing" v-for="(rental, index) in rentalsArray" :key="index">
         {{ rental[1].model }} <br />
-        <img :src = "rental[1].imageULR"/>
+        <img :src = "rental[1].imageURL"/>
         <br />
         DATE: {{ rental[1].rfrom }} -- {{ rental[1].rto }}<br />${{ rental[1].total }}
         <br />
@@ -14,10 +14,10 @@
         <button
           id="reviewButton"
           v-on:click="
-            rental = rental[0];
-            owner_ID = rental[1].ownerID
-            goReview();
-          "
+            rentalRequestID = rental[0];
+            listing_ID = rental[1].listing_id
+            owner_ID = rental[1].ownerID 
+            goReview();"
           v-if="!rental[1].reviewerID"
         >
           Review Now!
@@ -37,7 +37,7 @@ export default {
       rentalsArray: [],
       listing_ID: "",
       owner_ID: "",
-
+      rentalRequestID: "",
       username:'',
       uid:'',
       
@@ -72,7 +72,6 @@ export default {
               this.rentalsArray.push([doc.id, doc.data()]);
               console.log(doc.id, " => ", doc.data());
             });
-            this.fetchListings();
         })
         .catch((error) => {
             console.log("Error getting documents: ", error);
@@ -84,11 +83,14 @@ export default {
     goReview: function () {
       console.log("listing_ID: " + this.listing_ID);
       console.log("owner_ID: " + this.owner_ID);
+      console.log("rentalRequestID: " + this.rentalRequestID);
+
       this.$router.push({
         name: "reviewForm",
         params: {
           listingID: this.listing_ID,
           ownerID: this.owner_ID,
+          rentalRequestID: this.rentalRequestID
         },
       });
     },

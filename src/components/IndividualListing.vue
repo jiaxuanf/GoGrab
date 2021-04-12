@@ -43,7 +43,7 @@
       </li>
       <li>
         <label id = 'uploadPhotoe' for="files" >Upload Photos: </label> 
-          <button @click="click1" type = "button">choose a photo</button>
+          <button @click="click1" type = "button">Choose a photo</button>
           <input
             type="file"
             ref="input1"
@@ -174,26 +174,22 @@ import firebase from 'firebase'
       firebase.firestore().collection("listings")
       .add(this.listing)
       .then((doc) => {
-        // get listinID ready to pass to IndividualListed 
+        // get listingID ready to pass to IndividualListed 
         this.listingID = doc.id 
+        console.log("listingID before pushing to LISTED: " + this.listingID);
         alert("Successfully listed!");
-        this.goListed();
-        this.$router.push("/listed");
+        this.$router.push({
+        name: 'IndividualListed',
+        params: {
+          listingID: this.listingID,
+        }
+      });
       }) 
       .catch((error) => {
           alert(error.message);
 
         });
       console.log('listed')
-    },
-
-    goListed: function () {
-      this.$router.push({
-        name: 'IndividualListed',
-        params: {
-          listingID: this.listingID,
-        }
-      });
     },
   },
 

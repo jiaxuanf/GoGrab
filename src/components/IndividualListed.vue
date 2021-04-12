@@ -15,7 +15,7 @@
     <br> <br>
     <b-container style = "{margin: 0}">
       <b-row no-gutters style = "{width: 60%}"> 
-        <b-col sm = 2><strong>The Car</strong> </b-col>
+        <b-col sm = 2><strong>The Car:</strong> </b-col>
         <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
           <p>Color : {{this.listing.color}} </p>
           <p>Age : {{this.listing.age}} </p>
@@ -54,7 +54,7 @@ import firebase from 'firebase'
 export default {
   name: 'IndividualListed',
   props: {
-    listing_id: String
+    listingID: String
   },
   data() {
     return {
@@ -87,7 +87,7 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
+          const car = firebase.firestore().collection("listings").doc(this.$route.params.listingID)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
@@ -139,21 +139,13 @@ export default {
         return this.listing.owner
       },
       rent: function () {
-        const listing_id = this.$route.params.listing_id
-        this.$router.push({name: 'rentalRequest',  params: { listing_id: listing_id }})
+        const listingID = this.$route.params.listingID
+        this.$router.push({name: 'rentalRequest',  params: { listing_id: listingID}})
       },
-      goListed: function () {
-        this.$router.push({
-          name: 'rentalRequest',
-          params: {
-            listing_id: this.listing_id,
-        }
-      });
-    },
     },
   created:function() {
-    console.log("check is listing_is is passed down here")
-    console.log(this.listing_id)
+    console.log("check is listing_id is passed down here")
+    console.log(this.listingID)
       this.fetchItems();
       this.fetchUser();
 

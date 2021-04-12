@@ -9,7 +9,6 @@
           :item-size= "60"
           :read-only="true"
           v-model="getAverage"
-          
         >
         </StarRating>
         <h3>{{this.getAverage.toFixed(2)}}/5</h3>
@@ -30,10 +29,10 @@
         {{ review.reviewValue }}/5
 
         <br />
-        userID: {{ review.reviewerID }}
+        Reviewer: {{ review.reviewerUserName}}
         <br />
         "{{ review.reviewText }}"
-        <br />
+        <br/>
       </li>
     </ol>
   </div>
@@ -72,10 +71,10 @@ export default {
         .then((snapshot) => {
           snapshot
             .forEach((doc) => {
-              console.log(doc.id + " ==>" + doc.data());
+              // console.log(doc.id + " ==>" + doc.data());
               this.total += doc.data().reviewValue
-              console.log("total = " + this.total);
-              console.log("added " + doc.data().reviewValue + " to total");
+              // console.log("total = " + this.total);
+              // console.log("added " + doc.data().reviewValue + " to total");
               this.reviewsArray.push(doc.data());
             })
             .catch((error) => {

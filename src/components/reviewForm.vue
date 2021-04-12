@@ -25,7 +25,7 @@
     </ul>
     <br><br><br>
     <button class="button"  v-on:click="addReview()">Submit</button>
-      <!-- <button v-on:click="checkUID()">CHECK</button> -->
+       <!-- <button v-on:click="checkID()">CHECK</button> -->
   </div>
 </template>
 
@@ -41,26 +41,34 @@ export default {
         reviewValue: 0,
         reviewText: "",
         listingID: this.listingID,
-        ownerID: this.ownerID
+        ownerID: this.ownerID,
+        rentalRequestID: this.rentalRequestID,
+        reviewerUserName: ""
       },
     };
   },
   props: {
     listingID: String,
-    ownerID: String
+    ownerID: String,
+    rentalRequestID: String
   },
   components: {
     StarRating,
   },
   methods: {
-    addReview: function () {
+    addReview: async function () {
       console.log("start addReview");
       const user = firebase.auth().currentUser;
       this.reviewData.reviewerID = user.uid;
-      console.log("listingID: " + this.listingID);
-      console.log("ownerID: " + this.ownerID);
+      this.reviewData.rentalRequestID = this.rentalRequestID;
+      // console.log("listingID: " + this.listingID);
+      // console.log("ownerID: " + this.ownerID);
 
-      firebase
+      await firebase.firestore().collection("userInfo").doc(user.uid).get().then( (doc) => {
+        this.reviewData.reviewerUserName = doc.data().username;
+      })
+
+      await firebase
         .firestore()
         .collection("reviews")
         .add(this.reviewData)
@@ -73,22 +81,25 @@ export default {
         });
       console.log("after addReview");
 
-      //update listing document with user's ID as reviewerID
-      const listingRef = firebase.firestore().collection("listings").doc(this.listingID);
-      listingRef.update({
+      
+
+      //update rentaRequest document with user's ID as the reviewerID
+      const requestRef = await firebase.firestore().collection("rentalRequests").doc(this.rentalRequestID);
+      requestRef.update({
         reviewerID: user.uid
       }).then(() => {
-        console.log("listing document successfully updated");
+        console.log("Listing document successfully updated");
       }).catch((error) => {
         console.log("Error: " + error);
       })
       this.$router.push("/myRentals");
 
     },
-    checkUID: function() {
+    checkID: function() {
       const user = firebase.auth().currentUser;
-      console.log(user.uid);
+      console.log("userid: " + user.uid);
       console.log("listingID: " + this.listingID);
+      console.log("rentalRequestID: " + this.rentalRequestID)
     },
     goBack: function() {
           this.$router.push("/myRentals");

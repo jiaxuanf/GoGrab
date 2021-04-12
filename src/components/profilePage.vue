@@ -88,7 +88,7 @@ export default {
       await firebase
         .firestore()
         .collection("listings")
-        .where("uid", "==", this.uid)
+        .where("ownerID", "==", this.uid)
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {

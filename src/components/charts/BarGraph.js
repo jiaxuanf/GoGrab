@@ -49,11 +49,12 @@ export default {
                     });
                 });
             console.log(this.datacollection.datasets[0].data)
+        this.renderChart(this.datacollection, this.options)
+
         }
     },
     mounted() {
         this.fetchItems();
-        this.renderChart(this.datacollection, this.options)
     }
 }
 
