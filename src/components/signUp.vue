@@ -7,7 +7,7 @@
             <h2>Sign Up for GoGrab</h2>
               <b-form @submit.prevent="register">
                 <label for = "password"> Username: </label>
-                <b-form-input type = "password" placeholder = "Password" v-model = "username"> </b-form-input> <br>
+                <b-form-input placeholder = "Username" v-model = "username"> </b-form-input> <br>
                 <label for = "email"> Email: </label> <br>
                 <b-form-input type = "email" placeholder="Email Address" v-model = "email" ></b-form-input> <br>
                 <label for = "password"> Password: </label>
@@ -68,9 +68,9 @@ export default {
               localStorage.setItem("photoURL", "");
               localStorage.setItem("description", "");
               localStorage.setItem("FirebaseDocumentId", res.user.uid);
+              alert("Successfully registered! Please login.")
+              this.$router.push("/")
             });
-          alert("Successfully registered! Please login.");
-          this.$router.push("/login");
         })
         .catch((error) => {
           alert(error.message);

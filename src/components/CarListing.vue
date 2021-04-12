@@ -17,7 +17,7 @@
         </b-form>
         <div id = "carDisplay"> 
             <b-container class="bv-example-row"  style = "max-width:90%;" >
-                <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index" class = "mb-4">
+                <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index" class = "mb-4 align-self-stretch">
                     <b-col sm = '4' v-for="(carData,index) in chunk" :key="index"><car-list-icon v-bind:rental="carData"></car-list-icon></b-col>
                 </b-row>
             </b-container>
@@ -184,7 +184,7 @@ export default {
                     this.fullCarArray.push([doc.id, doc.data()]);
                     const docStartTime = moment(doc.data()['afrom']).valueOf();
                     const docEndTime = moment(doc.data()['ato']).valueOf();
-                    if (docStartTime >= startTime && docEndTime <= endTime) {
+                    if ((docStartTime <= startTime && docEndTime >= startTime) && (docStartTime <= endTime && docEndTime >= endTime)) {
                         temp.push([doc.id, doc.data()]);
                     }
                     if (temp.length == 3) {
