@@ -17,31 +17,50 @@
       <b-row no-gutters style = "{width: 60%}"> 
         <b-col sm = 2><strong>The Car</strong> </b-col>
         <b-col sm = 8><h2>{{this.listing.model}}</h2><br>
-          <p>Color : {{this.listing.color}} </p>
-          <p>Age : {{this.listing.age}} </p>
-          <p v-if="this.listing.defect != ''">Defects : {{this.listing.defect}} </p> 
-          <p>Hosted by : {{this.username}} </p>
+          <b-row>
+            <b-col><img src = "../assets/business-and-trade.png" style = "width:30px; height:30px;">  Brand: {{this.listing.brand}}  </b-col>
+            <b-col><img src = "../assets/anti-age.png" style = "width:30px; height:30px;">  Age: {{this.listing.age}} </b-col>
+          </b-row>
+          <b-row>
+            <b-col><img src = "../assets/car-seat.png" style = "width:30px; height:30px;">  Seats: {{this.listing.numSeats}} </b-col>
+            <b-col><img src = "../assets/automobile-salesman.png" style = "width:30px; height:30px;">  Hosted by: {{this.username}}</b-col>
+          </b-row>
         </b-col>
         <b-col sm = 2><b-button @click = "rent" variant = "primary">Rent Now!</b-button> </b-col>
       </b-row>
-      <br>
-      <b-row no-gutters style = "{width: 60%}"> 
+      <b-row no-gutters style = "{width: 60%}" class = "mt-5">  
         <b-col sm = 2><strong>Price Per Day</strong></b-col>  
-        <b-col sm = 8><strong>${{this.listing.price}} SGD/Day </strong></b-col>
+        <b-col sm = 8><strong><img src = "../assets/car-price.png" style = "width:30px; height:30px;">  ${{this.listing.price}} SGD/Day </strong></b-col>
       </b-row>
-      <br><br>
-      <b-row no-gutters style = "{width: 60%}"> 
+      <b-row no-gutters style = "{width: 60%}" class = "mt-5"> 
         <b-col sm = 2><strong>Availability </strong> </b-col>
         <b-col sm = 8><b-calendar readonly :min = "this.listing.afrom" :max = "this.listing.ato"> </b-calendar> </b-col>
       </b-row>
-      <br><br>
-      <b-row no-gutters style = "{width: 60%}"> 
+      <b-row no-gutters style = "{width: 60%}" class = "mt-5"> 
         <b-col sm = 2><strong>Car Description</strong> </b-col>
         <b-col sm = 8>{{this.listing.description}} </b-col>
       </b-row>
-      <b-row> 
+
+      <b-row class = "mt-5"> 
         <b-col sm = 2><strong>Owner's Rules</strong></b-col>
-        <b-col sm = 8>{{this.listing.rules}}</b-col>
+        <b-col sm = 8>
+          <ul v-for = "(rules,index) in listing.rules" :key = "index"> 
+              <li>{{rules}} </li>
+          </ul>
+        </b-col>
+      </b-row>
+      <b-row class = "mt-5">
+        <b-col sm = 2><strong>Defects</strong></b-col>
+        <b-col sm = 8>Before taking over the car from the owner, please do a check yourself to ensure that there is no visible
+          damage or defects to the car. Otherwise, if a defect is found by the owner after your rental, you could be liable to 
+          pay for the cost of repairing the defects found. 
+          <br><br>
+          <p v-if = "!listing.defect">There are currently no defrects reported by the owner of the car. Please do a check before taking over the car from the owner </p>
+          <p v-else>These are the current defects reported by the owner of the car: </p>
+            <ul v-for = "(defects, index) in listing.defectList" :key = "index"> 
+              <li>{{defects}} </li>
+            </ul>
+        </b-col>
       </b-row>
     </b-container>
     <br> <br> <br>
@@ -73,6 +92,9 @@ export default {
         time: '',
         ownerID:'',
         owner:'',
+        carType : '',
+        defectList : [],
+        numSeats : '',
       },
       uid: "",
       username: "",
@@ -87,7 +109,7 @@ export default {
   },
   methods : {
         fetchItems : function() {
-          const car = firebase.firestore().collection("listings").doc(this.$route.params.listing_id)
+          const car = firebase.firestore().collection("listings").doc(this.$route.query.listing_id)
           console.log(car)
           car.get().then((doc) => {
               if (doc.exists) {
@@ -103,6 +125,10 @@ export default {
                   this.listing.ato = doc.get("ato")
                   this.listing.images = doc.get("images")
                   this.listing.ownerID = doc.get("ownerID")
+                  this.listing.carType = doc.get("carType")
+                  this.listing.defectList = doc.get("defectList")
+                  this.listing.numSeats = doc.get('numSeats')
+                  this.listing.brand = doc.get('brand')
                   this.fetchOwner();
               } else {
                   // doc.data() will be undefined in this case
@@ -154,9 +180,8 @@ export default {
   created:function() {
     console.log("check is listing_is is passed down here")
     console.log(this.listing_id)
-      this.fetchItems();
-      this.fetchUser();
-
+    this.fetchItems();
+    this.fetchUser();
   }
 }
 
@@ -166,6 +191,21 @@ export default {
   height:600px;
   width:75%;
   margin: 0 auto
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li:before {
+  content : '';
+  display: inline-block;
+  height:20px;
+  width:20px;
+  background-size: 20px;
+  background-image : url('../assets/rules.png');
+  background-repeat: no-repeat;
+  margin-right: 10px;
 }
 
 </style>

@@ -14,7 +14,7 @@
           <b-nav-item class = "routerLinks" to = "/Requests"  type = "dark">My Requests</b-nav-item>
           <b-nav-item class = "routerLinks" to = "/MyListings"  type = "dark">My Listings</b-nav-item>
           <b-nav-item class = "routerLinks" to = "/listing"  type = "dark">List your car</b-nav-item>
-          <b-navbar-brand class = "d-inline-block align-top" href = "/"><img src = "../assets/profile_icon.png" style = "width:50px; height:50px"> </b-navbar-brand>
+          <b-navbar-brand class = "d-inline-block align-top"  to = "/profilePage" href = "/"><img src = "../assets/profile_icon.png" style = "width:50px; height:50px"> </b-navbar-brand>
         </b-navbar-nav>
       </b-navbar>
     </div>
@@ -33,7 +33,7 @@ export default {
   methods : {
     logout : function() {
       firebase.auth().signOut();
-      this.$router.push("/");
+      this.$router.push("/login");
       localStorage.clear();
     },
   },
