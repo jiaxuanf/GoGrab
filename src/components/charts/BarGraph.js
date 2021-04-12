@@ -9,7 +9,7 @@ export default {
             datacollection: {
                 labels: [],
                 datasets: [{
-                    label: "Activity Status",
+                    label: "Number of Clicks",
                     backgroundColor: [],
                     data: []
                 }],
@@ -20,7 +20,7 @@ export default {
                 title: {
                     display: true,
                     fontSize: 25,
-                    text: 'Number of Clicks for each post'
+                    text: 'Number of Clicks per Car Listing'
                 },
                 responsive: true,
                 maintainAspectRatio: false,
@@ -29,7 +29,12 @@ export default {
                         ticks: {
                             beginAtZero: true
                         }
-                    }]
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontSize: 20
+                        }
+                    }],
                 }
             }
         }

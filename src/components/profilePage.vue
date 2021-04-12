@@ -12,15 +12,6 @@
           />
           <div id="statsView">
             <div class="name">{{ this.username }}</div>
-            <b-button class="numReviews" v-on:click="goToReviewsPage()"
-              >Reviews: {{ this.numReviews }}</b-button
-            >
-            <b-button
-              style="background-color: rgb(97, 19, 150); border-radius: 30px"
-              v-on:click="goToReviewsPage"
-            >
-              Update
-            </b-button>
           </div>
         </div>
       </div>
@@ -47,6 +38,10 @@
         </ul>
       </div>
     </div>
+     <b-button class="numReviews" v-on:click="goToReviewsPage()"
+              >Reviews: {{ this.numReviews }}</b-button>
+              <b-button class="numReviews" v-on:click="goDashboard()"
+              >Dashboard</b-button>
   </div>
 </template>
 

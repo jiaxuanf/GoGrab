@@ -28,25 +28,29 @@
         </div>
         <img v-if="listing[1].imageURL != ''" :src="listing[1].imageURL" />
         <br /><button
+          id="approveButton"
           v-if="listing[1].status == 'Pending'"
           v-bind:doc_id="listing[0]"
           v-on:click="approve($event)"
-        >
-          Approve
+        >Approve
         </button>
         <br /><button
+        id="rejectButton"
           v-if="listing[1].status == 'Pending'"
           v-bind:doc_id="listing[0]"
           v-on:click="reject($event)"
         >
           Reject
+          
         </button>
         <button
           v-if="listing[1].status == 'Ongoing'"
           v-bind:doc_id="listing[0]"
           v-on:click="complete($event)"
-        >
+          id = "completeButton"
+        ><strong>
           Complete
+          </strong>
         </button>
       </div>
       <button @click="chat">Chat with Renter</button>
@@ -124,6 +128,7 @@ export default {
     },
     reject: function (event) {
       const request_id = event.target.getAttribute("doc_id");
+      console.log("request_id: " + this.request_id);
       firebase
         .firestore()
         .collection("rentalRequests")
@@ -190,13 +195,31 @@ li {
 #pending {
   color: #dc4c46;
 }
+
+#approveButton {
+  background-color: greenyellow;
+}
+
+#rejectButton {
+  background-color:red;
+}
+
+#completeButton {
+  background-color:indigo
+}
+
 #completed {
-  color: #a0daa9;
+  color: green;
+  font-weight: bold;
 }
 #ongoing {
-  color: #f5df4d;
+  color: yellow;
+  font-weight: bold;
+
 }
 #denied {
-  color: #dfcfbe;
+  color: red;
+  font-weight: bold;
+
 }
 </style>
