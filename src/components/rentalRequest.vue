@@ -22,8 +22,8 @@
 
 <h3>Payment Method</h3>
    
-    <input type="radio" id="creditCard" name='paymentMethod' value=true v-model="request.paymentMethod.creditCard">
-    <label for="creditCard"> Credit Card </label><br>
+    <input type="radio" id="epay" name='paymentMethod' value=true v-model="request.paymentMethod.epay">
+    <label for="epay"> Electronic Payment (to be liased with owner separately) </label><br>
     <input type="radio" id="cash" name='paymentMethod' value=true v-model="request.paymentMethod.cash">
     <label for="cash"> Cash </label><br>
     
@@ -49,7 +49,7 @@ export default {
         rto:'', 
         total: '', //get from the collection parasm
         paymentMethod: {
-            creditCard:'', // value = true if Chosen; value = '' if not Chosen
+            epay:'', // value = true if Chosen; value = '' if not Chosen
             cash:'',
         },
         ownerID:'',
@@ -77,6 +77,7 @@ export default {
       }
     },
     getOwnerID: function() {
+        console.log("getOwnerID runs");
         console.log("this.listed_id is : "+ this.request.listing_id)
         const car = firebase.firestore().collection("listings").doc(this.request.listing_id)
         car.get().then((doc) => {

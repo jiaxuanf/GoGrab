@@ -142,7 +142,7 @@ export default {
         .update({ status: "Completed" })
         .then(console.log("Completed!"));
 
-      alert("Congradulations! This rental is completed!");
+      alert("Congratulations! This rental is completed!");
     },
     chat: function () {
       this.$router.push("/chat");

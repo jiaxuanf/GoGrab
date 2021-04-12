@@ -74,7 +74,7 @@ export default {
         .add(this.reviewData)
         .then(() => {
           alert("Review submitted!");
-          //this.$router.push("/listed");
+          this.$router.push("/MyRentals");
         })
         .catch((error) => {
           alert(error.message);

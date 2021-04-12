@@ -5,10 +5,11 @@
       <br>
       <h2 v-if="rentalsArray.length == 0">No rentals yet! Rent some cars today! 🚘</h2>
       <li id="listing" v-for="(rental, index) in rentalsArray" :key="index">
-        {{ rental[1].model }} <br />
+        <strong>{{ rental[1].model }}</strong> <br />
         <img :src = "rental[1].imageURL"/>
         <br />
-        DATE: {{ rental[1].rfrom }} -- {{ rental[1].rto }}<br />${{ rental[1].total }}
+        <strong>DATE:</strong> {{ rental[1].rfrom }} ➡️ {{ rental[1].rto }}<br /><strong>${{ rental[1].total }}</strong>
+        <strong>
         <div class="status">
           <p id = "pending" v-if="rental[1].status === 'Pending'" >
             Status: {{rental[1].status}}</p>
@@ -20,6 +21,7 @@
             Status: {{rental[1].status}}</p>
           <p v-else>Status not Available</p>
         </div>
+        </strong>
         <br />
         <div v-if="rental[1].status === 'Completed'">
         <button
