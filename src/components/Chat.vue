@@ -33,13 +33,7 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-              <img
-                :src="item.URL"
-                alt="user"
-                width="50px"
-                height="50px"
-                style="border-radius: 50%; background: white"
-              />
+              <b-avatar icon="people-fill" size="4em" src="item.URL" ></b-avatar>
             </div>
             <div
               style="
@@ -71,13 +65,7 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-              <img
-                :src="item.URL"
-                alt="user"
-                width="50px"
-                height="50px"
-                style="border-radius: 50%; background: white"
-              />
+               <b-avatar icon="people-fill" size="4em" :src="item.URL" ></b-avatar>
             </div>
             <div
               style="
@@ -151,51 +139,6 @@ export default {
     async letsChat(item) {
       this.currentPeerUser = item;
       console.log("lets chat button is pressed: " + this.currentPeerUser.id);
-
-      /*if (!this.userChats.includes(this.currentPeerUser)) {
-        this.userChats.push(this.currentPeerUser);
-        var currentUserChat = [];
-        var peerUserChat = [];
-        var peerUserPhoto = "";
-        var peerUserName = "";
-        await database
-          .collection("userInfo")
-          .doc(this.currentUserId)
-          .get()
-          .then((doc) => {
-            currentUserChat = doc.data().chatList;
-          });
-        console.log("finding whats current user chat");
-        console.log(currentUserChat);
-        currentUserChat.push(this.currentPeerUser);
-        console.log(currentUserChat);
-        for (var x in currentUserChat) {
-          console.log(x);
-        }
-        await database.collection("userInfo").doc(this.currentUserId).update({
-          chatList: currentUserChat,
-        });
-        await database
-          .collection("userInfo")
-          .doc(this.currentPeerUser)
-          .get()
-          .then((doc) => {
-            peerUserChat = doc.data().chatList;
-            peerUserPhoto = doc.data().profilePictureURL;
-            peerUserName = doc.data().username;
-          });
-        await database
-          .collection("userInfo")
-          .doc(this.currentPeerUser)
-          .update({
-            chatList: peerUserChat.push(this.currentUserId),
-          });
-        this.userChats.push({
-          id: this.currentPeerUser,
-          URL: peerUserPhoto,
-          name: peerUserName,
-        });
-      }*/
     },
     async getChats() {
       console.log("under get userlist, currentuid is:" + this.currentUserId);
