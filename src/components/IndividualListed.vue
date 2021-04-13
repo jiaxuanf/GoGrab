@@ -27,6 +27,9 @@
           </b-row>
         </b-col>
         <b-col sm = 2><b-button @click = "rent" variant = "primary">Rent Now!</b-button> </b-col>
+        <b-modal v-model="loginPrompt" @ok="moveToUpdateProfile" title = "Please Add a Driver's License">
+          <p>Please add a driver's license into your profile so the owner of the car can verify that you are allowed to drive </p>
+        </b-modal>
       </b-row>
       <b-row no-gutters style = "{width: 60%}" class = "mt-5">  
         <b-col sm = 2><strong>Price Per Day</strong></b-col>  
@@ -104,6 +107,8 @@ export default {
       imageData: "",
       uploadValue: 0,
       carInfo:[],
+      licenseURL : "",
+      loginPrompt: false,
       // listedID:'',
     }
   },
@@ -148,6 +153,11 @@ export default {
           .then((snapshot) => {
             this.username = snapshot.data().username;
             this.profilePhoto = snapshot.data().profilePictureURL;
+            this.licenseURL = snapshot.data().licenseURL;
+            if (this.licenseURL == "") {
+              console.log("empty");
+            }
+            console.log(this.licenseURL);
           });
       },
       fetchOwner: function () {
@@ -165,8 +175,13 @@ export default {
         return this.listing.owner
       },
       rent: function () {
-        const listing_id = this.$route.params.listing_id
-        this.$router.push({name: 'rentalRequest',  params: { listing_id: listing_id }})
+        //No license added
+        if (this.licenseURL == "") {
+          this.loginPrompt = !this.loginPrompt;
+          return;
+        }
+        const listing_id = this.$route.query.listing_id
+        this.$router.push({name: 'rentalRequest',  query: { listing_id: listing_id }})
       },
       goListed: function () {
         this.$router.push({
@@ -176,7 +191,11 @@ export default {
         }
       });
     },
-    },
+
+    moveToUpdateProfile : function() {
+      this.$router.push({name: 'updateProfile'});
+    }
+  },
   created:function() {
     console.log("check is listing_is is passed down here")
     console.log(this.listing_id)

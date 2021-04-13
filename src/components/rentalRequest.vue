@@ -54,7 +54,7 @@ export default {
         },
         ownerID:'',
         renterID:'',
-        listing_id: this.listing_id,
+        listing_id: '',
         model:'',
         imageULR:'',
         price:'',
@@ -151,6 +151,7 @@ export default {
 
   },
   created:function() {
+        this.listing_id = this.$route.query.listing_id;
         this.getOwnerID();
         this.getListingInfo();
         console.log(typeof this.request.read)

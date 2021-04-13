@@ -25,7 +25,7 @@ export default[
     { path: '/signup', component: SignUp},
     { path : '/CarListing', component:CarListing, name: 'CarListing' , props:true, meta: {requiresAuth: true}},
     { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true, meta: {requiresAuth: true} },
-    { path: '/updateProfile', component: UpdateProfile, meta: {requiresAuth: true}},
+    { path: '/updateProfile', component: UpdateProfile, name :'updateProfile', meta: {requiresAuth: true}},
     { path: '/profilePage', component: ProfilePage, meta: {requiresAuth: true}},
     { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true, meta: {requiresAuth: true}},

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style = "height:100vh; width:20%; float:left; text-align:center; ">
+    <div style = "height:100vh;width:20%; float:left; text-align:center; position: sticky; top:0; background-color:#DED3FF">
       <br><br>
       <img
             class="profilePic"
