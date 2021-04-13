@@ -59,7 +59,6 @@ export default {
         imageULR:'',
         price:'',
         status:'',
-
       },
       pickUpDate:Date(this.rfrom),
       returnDate:Date(this.rto),
@@ -143,7 +142,6 @@ export default {
         } else {
             document.getElementById("numdays").innerText=0
         }
-        
     },
     // calculateDays: function() {
     //     return Math.floor((Date.UTC(this.returnDate.getFullYear(), this.returnDate.getMonth(), this.returnDate.getDate()) - Date.UTC(this.pickUpDate.getFullYear(), this.pickUpDate.getMonth(), this.pickUpDate.getDate()) ) /(1000 * 60 * 60 * 24));
