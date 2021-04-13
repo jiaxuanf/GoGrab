@@ -59,7 +59,7 @@ export default {
               phoneNumber: "",
               profilePictureURL: "",
               chatList: [],
-              licenseURL:"",
+              licenseURL:null,
             })
             .then(() => {
               localStorage.setItem("id", res.user.uid);
@@ -71,7 +71,7 @@ export default {
               localStorage.setItem("FirebaseDocumentId", res.user.uid);
             });
           alert("Successfully registered! Please login.");
-          this.$router.push("/login");
+          this.$router.push("/");
         })
         .catch((error) => {
           alert(error.message);

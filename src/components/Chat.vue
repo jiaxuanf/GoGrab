@@ -33,7 +33,7 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-              <b-avatar icon="people-fill" size="4em" src="item.URL" ></b-avatar>
+              <b-avatar icon="people-fill" size="4em" src="item.URL"></b-avatar>
             </div>
             <div
               style="
@@ -65,7 +65,11 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-               <b-avatar icon="people-fill" size="4em" :src="item.URL" ></b-avatar>
+              <b-avatar
+                icon="people-fill"
+                size="4em"
+                :src="item.URL"
+              ></b-avatar>
             </div>
             <div
               style="
@@ -175,8 +179,14 @@ export default {
     },
   },
   created() {
-    if (!Object.prototype.hasOwnProperty.call(localStorage, "id"))
+    if (!Object.prototype.hasOwnProperty.call(localStorage, "id")) {
       this.$router.push("/");
+    }
+    if (this.$route.query.peerInfo != null) {
+      this.currentPeerUser = this.$route.query.peerInfo;
+      console.log("current user under created is: ")
+      console.log(this.currentPeerUser)
+    }
     this.getUserList();
     this.getChats();
     console.log("name is" + localStorage.getItem("name"));

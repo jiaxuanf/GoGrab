@@ -37,9 +37,6 @@
 import firebase from 'firebase'
 export default {
   name: 'RentalRequest',
-  /*props: {
-    listing_id: String
-  },*/
   data(){
     return {
       request: {
