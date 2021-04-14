@@ -53,7 +53,6 @@ export default {
       rentalRequestID: "",
       username:'',
       uid:'',
-      
     };
   },
   methods: {
@@ -89,8 +88,6 @@ export default {
         .catch((error) => {
             console.log("Error getting documents: ", error);
         });
-        
-
     },
     
     goReview: function () {
@@ -112,9 +109,7 @@ export default {
     }
   },
   created: function () {
-
     this.fetchRentals();
-
     console.log("after created functions");
   },
 };

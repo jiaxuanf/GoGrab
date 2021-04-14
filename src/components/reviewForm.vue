@@ -1,41 +1,45 @@
 <template>
-  <div id="app">
-    <h1>Build trust among the GoGrab community!</h1>
-    <h1>Leave a review today!</h1>
-
-    <br /><br /><br />
-    <button class="button" v-on:click="goBack()">Back</button>
-    <ul>
-      <form>
-        <h1>Review:</h1>
-        <StarRating v-model="reviewData.reviewValue"> </StarRating>
-        <h3>Rating selected: {{ reviewData.reviewValue }}/5</h3>
-        <label for="reviewText"></label>
-        <br />
-        <textarea
-          id="reviewText"
-          placeholder="Enter your review description here"
-          name="reviewText"
-          v-model="reviewData.reviewText"
-          rows="7"
-          cols="50"
-        >
-        </textarea>
-      </form>
-    </ul>
-    <br><br><br>
-    <button class="button"  v-on:click="addReview()">Submit</button>
-       <!-- <button v-on:click="checkID()">CHECK</button> -->
+  <div id="app" style = "font-size:20px;">
+    <b-card style = "width:50%; margin: 0 auto;" class = "mt-5">
+      <b-button v-on:click = "goBack()" variant = "primary" > Back </b-button>
+      <b-card-title style = "display:inline;" class = "ml-5">Leave a Review to help your host improve!</b-card-title>
+      <br />
+      <hr />
+      <b-card-text><h4>{{this.view.carModel}} </h4> </b-card-text>
+      <b-card-img v-bind:src = "this.view.imageURL" class = "mb-3"> </b-card-img>
+      <b-card-text>Rented From: {{this.view.startDate}}</b-card-text>
+      <b-card-text>Rented To: {{this.view.endDate}}</b-card-text> 
+      <b-card-text><img v-bind:src = "this.view.ownerPicture" style = "width:50px; height:50px;">  Hosted By: {{this.view.ownerName}}</b-card-text>
+      <hr />
+      <label class = "mt-2"><strong> Rate your ride experience!</strong> </label><br>
+      <b-form-rating v-model = "reviewData.reviewValue" variant = "warning" size = "lg">  
+      </b-form-rating>
+      <br>
+      <p>Rating: {{reviewData.reviewValue}}</p>
+      <hr />
+      <br>
+      <label><strong>Leave a private review for your host!</strong> </label><br>
+      <b-form-textarea rows = "8" v-model = "reviewData.reviewText" placeholder = "Review..."> </b-form-textarea><br>
+      <div style = "text-align:center"><b-button v-on:click = "addReview()" variant = primary style = "margin:0 auto;">Submit Review</b-button></div>
+    </b-card>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
-import { StarRating } from "vue-rate-it";
+import moment from "moment";
 
 export default {
   data() {
     return {
+      view: {
+        imageURL: null,
+        startDate: null,
+        endDate: null,
+        carModel :null,
+        ownerName : null,
+        ownerPicture: null,
+      }, 
       reviewData: {
         reviewerID:"",
         reviewValue: 0,
@@ -51,9 +55,6 @@ export default {
     listingID: String,
     ownerID: String,
     rentalRequestID: String
-  },
-  components: {
-    StarRating,
   },
   methods: {
     addReview: async function () {
@@ -105,6 +106,24 @@ export default {
           this.$router.push("/myRentals");
     }
   },
+
+  created: function() {
+    const rentalID = this.$route.params.rentalRequestID;
+    firebase.firestore().collection("userInfo").doc(this.reviewData.ownerID).get().then((doc) => {
+        const data2 = doc.data();
+        this.view.ownerPicture = data2['profilePictureURL'];
+        this.view.ownerName = data2['username'];
+    }); 
+    firebase.firestore().collection("rentalRequests").doc(rentalID).get().then((doc) => {
+        const data = doc.data();
+        console.log(data);
+        this.view.imageURL = data['imageURL'];
+        this.view.startDate = moment(data['rfrom']).format('Do MMMM YYYY');
+        this.view.endDate = moment(data['rto']).format('Do MMMM YYYY');
+        this.view.carModel = data['model'];
+    });
+    
+  }
 };
 </script>
 
