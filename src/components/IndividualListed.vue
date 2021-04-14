@@ -30,6 +30,9 @@
         <b-modal v-model="loginPrompt" @ok="moveToUpdateProfile" title = "Please Add a Driver's License">
           <p>Please add a driver's license into your profile so the owner of the car can verify that you are allowed to drive </p>
         </b-modal>
+        <b-modal v-model="formPrompt" title = "Invalid Rental Request">
+          <p>You have entered an invalid value for the rental form. Please check the start and end date, and check the terms and conditions before renting. </p>
+        </b-modal>
       </b-row>
       <b-row no-gutters style = "{width: 60%}" class = "mt-5">  
         <b-col sm = 3><strong>Price Per Day</strong></b-col>  
@@ -75,9 +78,9 @@
         <label>I have read through all the rules and conditions stated by the owner:</label><br>
         <b-form-checkbox v-model = "request.read" value = "true" required>I agree to the terms and conditions </b-form-checkbox><br><br>
         <label>Trip Start Date: </label><br> 
-        <b-form-datepicker v-model = "request.rfrom"  required></b-form-datepicker><br>
+        <b-form-datepicker v-model = "request.rfrom" :min = "this.listing.afrom" :max = "this.listing.ato" required></b-form-datepicker><br>
         <label>Trip End Date: </label><br>
-        <b-form-datepicker v-model = "request.rto" required></b-form-datepicker><br>  
+        <b-form-datepicker v-model = "request.rto" :min = "this.listing.afrom" :max = "this.listing.ato" required></b-form-datepicker><br>  
         <label>Any Notes for the owner? </label>
         <b-form-textarea v-model = "request.note"> </b-form-textarea><br>  
         <h5>Total Price:</h5>
@@ -95,6 +98,7 @@
 
 <script>
 import firebase from 'firebase'
+import moment from "moment"
 
 export default {
   name: 'IndividualListed',
@@ -132,6 +136,7 @@ export default {
       carInfo:[],
       licenseURL : "",
       loginPrompt: false,
+      formPrompt : false,
 
       request: {
         read:'',
@@ -193,7 +198,7 @@ export default {
             this.username = snapshot.data().username;
             this.profilePhoto = snapshot.data().profilePictureURL;
             this.licenseURL = snapshot.data().licenseURL;
-            if (this.licenseURL == "") {
+            if (this.licenseURL == null) {
               console.log("empty");
             }
             console.log(this.licenseURL);
@@ -215,10 +220,29 @@ export default {
       },
       rent: function () {
         //No license added
-        if (this.licenseURL == "") {
+        if (this.licenseURL == null) {
           this.loginPrompt = !this.loginPrompt;
           return;
         }
+        var flag = false
+        //Form Validation
+        /*
+        1. Start Date and end date should be within rental period, and end date >= Start Date 
+        2. Checkbox must be required 
+        */
+        if (this.request.rfrom == null || this.request.rto == null) {
+          flag = true;
+        }
+        if (moment(this.request.rfrom).valueOf() > moment(this.request.rto).valueOf()) {
+            flag = true;
+        } if (this.request.read != "true") {
+            flag = true;
+        }
+        console.log(this.request);
+        if (flag) {
+          this.formPrompt = !this.formPrompt
+          return;
+        } 
         this.request.renterID = this.uid; 
         this.request.ownerID = this.listing.ownerID;
         this.request.listing_id = this.$route.query.listing_id;

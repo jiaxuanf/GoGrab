@@ -26,9 +26,10 @@
 </template>
 
 <script>
-import CarListIcon from './CarListIcon.vue'
-import database from '../main.js'
+import CarListIcon from './CarListIcon.vue';
+import database from '../main.js';
 import moment from "moment";
+import firebase from "firebase";
 import _ from "lodash";
 
 export default {
@@ -37,6 +38,7 @@ export default {
     },
     data()  {
         return {
+            uid : null,
             fullCarArray : [],
             chunkedCarArray : [],
             filters : {
@@ -124,7 +126,9 @@ export default {
     },
     methods : {
         fetchItems : function() {
-            database.collection('listings').get().then(snapshot => {
+            var user = firebase.auth().currentUser;
+            this.uid = user.uid
+            database.collection('listings').where("ownerID", "!=", this.uid).get().then(snapshot => {
                 var temp = [];
                 snapshot.docs.forEach(doc => {
                     this.fullCarArray.push([doc.id, doc.data()]);
@@ -147,7 +151,6 @@ export default {
                 alert("Please Enter a start and end date");
                 return;
             }
-
             if (this.filters.brand != null) {
                 tempArray = tempArray.filter((car) => car[1]['brand'] == this.filters.brand);
             } if (this.filters.type != null) {
@@ -178,7 +181,7 @@ export default {
         },
 
         fetchItemsFromSearch : function(startTime, endTime) {
-            database.collection('listings').get().then(snapshot => {
+            database.collection('listings').where("ownerID", "!=", this.uid).get().then(snapshot => {
                 var temp = [];
                 snapshot.docs.forEach(doc => {
                     this.fullCarArray.push([doc.id, doc.data()]);
