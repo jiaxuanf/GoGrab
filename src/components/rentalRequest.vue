@@ -40,6 +40,7 @@ export default {
   props: {
     listing_id: String
   },
+
   data(){
     return {
       request: {

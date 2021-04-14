@@ -49,7 +49,9 @@
           Complete
         </button>
       </div>
-      <button @click="chat">Chat with Renter</button>
+      <button v-bind:renter_id="listing[1].renterID" @click="chat($event)">
+        Chat with Renter
+      </button>
     </li>
 
     <div></div>
@@ -59,6 +61,7 @@
 
 <script>
 import firebase from "firebase";
+import database from "../main.js";
 
 export default {
   name: "Requests",
@@ -144,8 +147,30 @@ export default {
 
       alert("Congradulations! This rental is completed!");
     },
-    chat: function () {
-      this.$router.push("/chat");
+    async chat(event) {
+      const renterID = event.target.getAttribute("renter_id");
+      var username = "";
+      var profileURL = "";
+      console.log("before await, ownerid: " + renterID);
+      await database
+        .collection("userInfo")
+        .where("id", "==", renterID)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            username = doc.data().username;
+            profileURL = doc.data().profilePictureURL;
+          });
+        });
+      console.log("after await");
+      var peerInfo = {
+        id: renterID,
+        name: username,
+        URL: profileURL,
+      };
+      console.log("peerInfo created =>");
+      console.log(peerInfo);
+      this.$router.push({ name: "chats", query: { peerInfo: peerInfo } });
     },
   },
   created: function () {

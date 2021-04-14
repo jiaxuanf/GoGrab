@@ -6,8 +6,8 @@
           <b-card-body>
             <h2>Sign Up for GoGrab</h2>
               <b-form @submit.prevent="register">
-                <label for = "password"> Username: </label>
-                <b-form-input placeholder = "Username" v-model = "username"> </b-form-input> <br>
+                <label for = "Username"> Username: </label>
+                <b-form-input type = "username" placeholder = "Username" v-model = "username"> </b-form-input> <br>
                 <label for = "email"> Email: </label> <br>
                 <b-form-input type = "email" placeholder="Email Address" v-model = "email" ></b-form-input> <br>
                 <label for = "password"> Password: </label>
@@ -59,6 +59,7 @@ export default {
               phoneNumber: "",
               profilePictureURL: "",
               chatList: [],
+              licenseURL:null,
             })
             .then(() => {
               localStorage.setItem("id", res.user.uid);

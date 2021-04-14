@@ -1,8 +1,8 @@
 
 import CarListing from './components/CarListing.vue'
-import Home from './components/home.vue' 
-import IndividualListing from './components/IndividualListing.vue' 
-import IndividualListed from './components/IndividualListed.vue' 
+import Home from './components/home.vue'
+import IndividualListing from './components/IndividualListing.vue'
+import IndividualListed from './components/IndividualListed.vue'
 import Login from './components/login.vue'
 import SignUp from './components/signUp.vue'
 import reviewForm from './components/reviewForm.vue'
@@ -12,9 +12,10 @@ import ChatPage from './components/Chat.vue'
 import MyRentals from './components/MyRentals.vue'
 import reviewsPage from './components/reviewsPage.vue'
 import Dashboard from './components/Dashboard.vue'
-import RentalRequest from './components/rentalRequest.vue' 
-import MyListings from './components/MyListings.vue' 
-import Requests from './components/Requests.vue' 
+import RentalRequest from './components/rentalRequest.vue'
+import MyListings from './components/MyListings.vue'
+import Requests from './components/Requests.vue'
+
 
 
 export default[
