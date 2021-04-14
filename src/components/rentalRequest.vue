@@ -81,10 +81,6 @@ export default {
         console.log("getOwnerID runs");
         console.log("this.listed_id is : "+ this.request.listing_id)
         const car = firebase.firestore().collection("listings").doc(this.request.listing_id)
-
-        console.log("this.listed_id is : "+ this.listing_id)
-        const car = firebase.firestore().collection("listings").doc(this.listing_id)
-
         car.get().then((doc) => {
               if (doc.exists) {
                   this.request.ownerID = doc.get("ownerID")
