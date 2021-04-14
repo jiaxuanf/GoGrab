@@ -9,6 +9,7 @@
       <b-card-img v-bind:src = "this.view.imageURL" class = "mb-3"> </b-card-img>
       <b-card-text>Rented From: {{this.view.startDate}}</b-card-text>
       <b-card-text>Rented To: {{this.view.endDate}}</b-card-text> 
+      <b-card-text><img v-bind:src = "this.view.ownerPicture" style = "width:50px; height:50px;">  Hosted By: {{this.view.ownerName}}</b-card-text>
       <hr />
       <label class = "mt-2"><strong> Rate your ride experience!</strong> </label><br>
       <b-form-rating v-model = "reviewData.reviewValue" variant = "warning" size = "lg">  
@@ -36,6 +37,8 @@ export default {
         startDate: null,
         endDate: null,
         carModel :null,
+        ownerName : null,
+        ownerPicture: null,
       }, 
       reviewData: {
         reviewerID:"",
@@ -105,16 +108,21 @@ export default {
   },
 
   created: function() {
-    const listing_id = this.$route.params.listingID;
-    console.log(listing_id);
-    firebase.firestore().collection("listings").doc(listing_id).get().then((doc) => {
+    const rentalID = this.$route.params.rentalRequestID;
+    firebase.firestore().collection("userInfo").doc(this.reviewData.ownerID).get().then((doc) => {
+        const data2 = doc.data();
+        this.view.ownerPicture = data2['profilePictureURL'];
+        this.view.ownerName = data2['username'];
+    }); 
+    firebase.firestore().collection("rentalRequests").doc(rentalID).get().then((doc) => {
         const data = doc.data();
         console.log(data);
-        this.view.imageURL = data['images'][0];
-        this.view.startDate = moment(data['afrom']).format('Do MMMM YYYY');
-        this.view.endDate = moment(data['ato']).format('Do MMMM YYYY');
+        this.view.imageURL = data['imageURL'];
+        this.view.startDate = moment(data['rfrom']).format('Do MMMM YYYY');
+        this.view.endDate = moment(data['rto']).format('Do MMMM YYYY');
         this.view.carModel = data['model'];
-      })
+    });
+    
   }
 };
 </script>
