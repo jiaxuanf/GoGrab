@@ -1,6 +1,6 @@
 <template>
     <div> 
-        <b-card>
+        <b-card v-bind:id = "listing[0]" v-on:click = "moveIndividual">
             <b-card-img v-bind:src = "listing[1]['images'][0]" style = "max-width:500px; height:300px;"> </b-card-img>
             <b-card-title class = "mb-1">{{listing[1]['model']}}</b-card-title>
             <b-card-text class = "mb-0">{{listing[1]['brand']}}</b-card-text>
@@ -26,6 +26,14 @@ export default {
     props: {
         listing: Array,
     },
+    methods : {
+        moveIndividual : function() {
+            this.$router.push({
+                name: "IndividualListed",
+                query: { listing_id: this.listing[0]},
+            })
+        }
+    }
 }
 </script>
 

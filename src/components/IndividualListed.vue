@@ -71,7 +71,7 @@
     </b-container>
     </div>
 
-    <div style = "width:20%; float:right; margin-right: 15%;">
+    <div style = "width:20%; float:right; margin-right: 15%;" v-if = "listing.ownerID != uid">
       <h3>Book your ride now! </h3>
         <hr />
         <b-form v-on:submit.prevent = "rent"> 
