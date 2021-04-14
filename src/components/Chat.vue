@@ -53,41 +53,6 @@
           <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
         </li>
         <h3 class="chatHeading" style="text-align: center">Find Other Users</h3>
-        <li
-          class="active mb-3"
-          v-on:click="letsChat(item)"
-          v-for="item in this.searchUsers"
-          :key="item.id"
-          v-show="item.id != currentUserId"
-        >
-          <div
-            class="d-flex"
-            style="cursor: pointer; padding-bottom: 15px; width: 100%"
-          >
-            <div style="width: 30%">
-              <b-avatar
-                icon="people-fill"
-                size="4em"
-                :src="item.URL"
-              ></b-avatar>
-            </div>
-            <div
-              style="
-                padding: 10px 0px 0px;
-                width: 50%;
-                display: flex;
-                justify-content: space-between;
-              "
-            >
-              <h6
-                style="line-height: 2; font-weight: 600; color: white; font-size:25px;s"
-              >
-                {{ item.name }}
-              </h6>
-            </div>
-          </div>
-          <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
-        </li>
       </ul>
     </nav>
 
