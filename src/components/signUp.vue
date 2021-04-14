@@ -69,9 +69,9 @@ export default {
               localStorage.setItem("photoURL", "");
               localStorage.setItem("description", "");
               localStorage.setItem("FirebaseDocumentId", res.user.uid);
+              alert("Successfully registered! Please login.")
+              this.$router.push("/")
             });
-          alert("Successfully registered! Please login.");
-          this.$router.push("/");
         })
         .catch((error) => {
           alert(error.message);

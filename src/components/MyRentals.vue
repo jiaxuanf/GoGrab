@@ -143,7 +143,6 @@ export default {
   },
   created: function () {
     this.fetchRentals();
-
     console.log("after created functions");
   },
 };

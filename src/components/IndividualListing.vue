@@ -13,7 +13,6 @@
       <b-form-input v-model = "listing.model" placeholder = "Enter your car model..." required style = "width:60%;"> </b-form-input>
       <br><br>
 
-
       <label for = "numSeater" >Number of Seats: </label><br>
       <b-form-input v-model = "listing.numSeats" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
       <br><br>
@@ -22,7 +21,7 @@
       <b-form-radio-group v-model = "listing.carType" :options = "typeOptions" buttons required button-variant = "outline-primary"> </b-form-radio-group><br><br>
 
       <label for = "age">Car Age:</label><br>
-      <b-form-input v-model = "listing.age" type = "number" placeholder = "Number of car seats..." min = "1" required style = "width:20%"></b-form-input>
+      <b-form-input v-model = "listing.age" type = "number" placeholder = "Age..." min = "1" required style = "width:20%"></b-form-input>
       <br><br>
 
       <label>Asking Price: (Per Day) </label> <br>
@@ -59,7 +58,7 @@
       </b-carousel>    
 
 
-      <h3>3. Any additional information you want your renter to know?</h3>
+      <h3 class = "mt-5">3. Any additional information you want your renter to know?</h3>
       <label for = "Defects">Any prior defects for your car? </label><b-form-checkbox v-model = "listing.defect" switch> </b-form-checkbox>
       <br>
       <label for = "defects" v-if = "listing.defect">List your defects here:</label><br>
@@ -67,7 +66,8 @@
       <br><br>
 
       <label for = "description">Give a description of your car or any information you would like your renters to know</label> <br> 
-      <b-form-textarea v-model = "listing.description"  placeholder = "Enter a description or information for your renters" rows = "4" max-rows="4" required ></b-form-textarea>
+      <b-form-textarea v-model = "listing.description"  :state="wordLength" placeholder = "Enter a description or information for your renters" rows = "4" max-rows="4" required ></b-form-textarea>
+      <b-form-invalid-feedback id="input-live-feedback">Enter at least 200 characters</b-form-invalid-feedback>
       <br><br>
 
       <label for = "rule">List down any rules you have regarding your car: </label> <br>
@@ -267,15 +267,13 @@ import firebase from 'firebase'
       this.listing.images = [];
       this.imageData = null
     },
-
-    goListed: function () {
-      const listing_id = this.listingID;
-      this.$router.push({
-        name: "IndividualListed",
-        params: { listing_id: listing_id },
-      });
-    },
   },
+
+   computed : {
+        wordLength() {
+            return this.listing.description.length > 200 ? true : false;
+        }
+    },
 
 } 
 </script>
