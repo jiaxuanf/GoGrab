@@ -129,18 +129,10 @@ export default {
             var user = firebase.auth().currentUser;
             this.uid = user.uid
             database.collection('listings').where("ownerID", "!=", this.uid).get().then(snapshot => {
-                var temp = [];
                 snapshot.docs.forEach(doc => {
                     this.fullCarArray.push([doc.id, doc.data()]);
-                    temp.push([doc.id, doc.data()]);
-                    if (temp.length == 3) {
-                        this.chunkedCarArray.push(temp);
-                        temp = [];
-                    }
                 });
-                if (temp.length != 0) {
-                    this.chunkedCarArray.push(temp);
-                }
+                this.applyFilter();
             })
         },
 
@@ -179,39 +171,22 @@ export default {
                 this.chunkedCarArray.push(temp);
             }
         },
-
-        fetchItemsFromSearch : function(startTime, endTime) {
-            database.collection('listings').where("ownerID", "!=", this.uid).get().then(snapshot => {
-                var temp = [];
-                snapshot.docs.forEach(doc => {
-                    this.fullCarArray.push([doc.id, doc.data()]);
-                    const docStartTime = moment(doc.data()['afrom']).valueOf();
-                    const docEndTime = moment(doc.data()['ato']).valueOf();
-                    if ((docStartTime <= startTime && docEndTime >= startTime) && (docStartTime <= endTime && docEndTime >= endTime)) {
-                        temp.push([doc.id, doc.data()]);
-                    }
-                    if (temp.length == 3) {
-                        this.chunkedCarArray.push(temp);
-                        temp = [];
-                    }
-                });
-                if (temp.length != 0) {
-                    this.chunkedCarArray.push(temp);
-                }
-            })
-        }
     },
 
     created:function() {
         if (this.$route.params.search) {
-            const startTime = this.$route.params.startTimeStamp;
-            const endTime = this.$route.params.endTimeStamp;
-            this.fetchItemsFromSearch(startTime, endTime)
+            this.filters.startDate = this.$route.params.startTime;
+            this.filters.endDate = this.$route.params.endTime;
+            this.fetchItems()
         } else {
+            const today = new Date();
+            this.filters.startDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate(); 
+            this.filters.endDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + (today.getDate()+3); 
             this.fetchItems()
         }
     }
 }
+
 </script>
 
 <style scoped>

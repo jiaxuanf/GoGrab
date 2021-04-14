@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import moment from "moment";
+//import moment from "moment";
 
 
 export default {
@@ -51,15 +51,13 @@ export default {
   methods : {
     submitSearch : function() {
         const startDate = this.startDate;
-        const startTime =this.startTime;
         const endDate = this.endDate;
-        const endTime = this.endTime;
-        const a = startDate.concat(" ", startTime);
+        /*const a = startDate.concat(" ", startTime);
         const b = endDate.concat(" ", endTime);
         const startTimeStamp = moment(a).valueOf();
         const endTimeStamp = moment(b).valueOf();
-        console.log(startTimeStamp);
-        this.$router.push({name: 'CarListing',  params: { search:true, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
+        console.log(startTimeStamp);*/
+        this.$router.push({name: 'CarListing',  params: { search:true, startTime : startDate, endTime : endDate}})
     }
   },
 
