@@ -34,7 +34,6 @@
 
 <script>
 import firebase from "firebase";
-import database from "../main.js"
 import RentalsIcon from "./MyRentalsListicon.vue"
 
 export default {
@@ -126,48 +125,7 @@ export default {
             } if (temp.length != 0) {
                 this.chunkedOngoingArray.push(temp);
             }
-    },
-
-    goReview: function () {
-      console.log("listing_ID: " + this.listing_ID);
-      console.log("owner_ID: " + this.owner_ID);
-      console.log("rentalRequestID: " + this.rentalRequestID);
-
-      this.$router.push({
-        name: "reviewForm",
-        params: {
-          listingID: this.listing_ID,
-          ownerID: this.owner_ID,
-          rentalRequestID: this.rentalRequestID,
-        },
-      });
-    },
-
-
-    async chat(event) {
-      const ownerID = event.target.getAttribute("owner_id");
-      var username = "";
-      var profileURL = "";
-      console.log("before await, ownerid: " + ownerID);
-      await database
-        .collection("userInfo")
-        .where("id", "==", ownerID)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            username = doc.data().username;
-            profileURL = doc.data().profilePictureURL;
-          });
-        });
-      var peerInfo = {
-        id: ownerID,
-        name: username,
-        URL: profileURL,
-      };
-      console.log("peerInfo created =>");
-      console.log(peerInfo);
-      this.$router.push({ name: "chats", query: { peerInfo: peerInfo } });
-    },
+    },  
   },
   created: function () {
     this.fetchRentals();
