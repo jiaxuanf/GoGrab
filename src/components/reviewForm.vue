@@ -75,7 +75,7 @@ export default {
         .add(this.reviewData)
         .then(() => {
           alert("Review submitted!");
-          //this.$router.push("/listed");
+          this.$router.push("/")
         })
         .catch((error) => {
           alert(error.message);

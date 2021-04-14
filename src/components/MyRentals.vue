@@ -28,6 +28,7 @@
           </p>
           <p v-else>Status not Available</p>
         </div>
+        </strong>
         <br />
         <div v-if="rental[1].status === 'Completed'">
           <button

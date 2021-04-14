@@ -1,17 +1,17 @@
 <template>
   <div>
     <ol id="main">
-      <h1>{{this.name}}'s' Reviews</h1>
+      <h1>{{ this.name }}'s Reviews</h1>
       <StarRating
-          :increment="0.1"
-          :border-width= 1
-          :show-rating="false"
-          :item-size= "60"
-          :read-only="true"
-          v-model="getAverage"
-        >
-        </StarRating>
-        <h3>{{this.getAverage.toFixed(2)}}/5</h3>
+        :increment="0.1"
+        :border-width="1"
+        :show-rating="false"
+        :item-size="60"
+        :read-only="true"
+        v-model="getAverage"
+      >
+      </StarRating>
+      <h3>{{ this.getAverage.toFixed(2) }}/5</h3>
       <br />
       <h2 v-if="reviewsArray.length == 0">
         No reviews yet! Rent out some cars today! 🚘
@@ -19,8 +19,8 @@
       <li id="review" v-for="(review, index) in reviewsArray" :key="index">
         <StarRating
           :increment="1"
-          :border-width= 1.5
-          :item-size= "60"
+          :border-width="1.5"
+          :item-size="60"
           :read-only="true"
           :show-rating="false"
           v-model="review.reviewValue"
@@ -29,10 +29,10 @@
         {{ review.reviewValue }}/5
 
         <br />
-        Reviewer: {{ review.reviewerUserName}}
+        Reviewer: {{ review.reviewerUserName }}
         <br />
         "{{ review.reviewText }}"
-        <br/>
+        <br />
       </li>
     </ol>
   </div>
@@ -47,21 +47,27 @@ export default {
     return {
       reviewsArray: [],
       total: 0,
-      name: ""
+      name: "",
     };
   },
   methods: {
-    fetchReviewsAndName:   function () {
+    fetchReviewsAndName: function () {
       const user = firebase.auth().currentUser;
       //get username
-      firebase.firestore().collection("userInfo").where("id", "==", user.uid).get().then((snapshot) => {
-        snapshot.forEach((doc) => {
-          console.log("username: " + doc.data().username)
-          this.name = doc.data().username
+      firebase
+        .firestore()
+        .collection("userInfo")
+        .where("id", "==", user.uid)
+        .get()
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            console.log("username: " + doc.data().username);
+            this.name = doc.data().username;
+          });
+        })
+        .catch((error) => {
+          console.log("error: " + error);
         });
-      }).catch((error) => {
-        console.log("error: " + error)
-      })
       // get reviews
       firebase
         .firestore()
@@ -72,7 +78,7 @@ export default {
           snapshot
             .forEach((doc) => {
               // console.log(doc.id + " ==>" + doc.data());
-              this.total += doc.data().reviewValue
+              this.total += doc.data().reviewValue;
               // console.log("total = " + this.total);
               // console.log("added " + doc.data().reviewValue + " to total");
               this.reviewsArray.push(doc.data());
@@ -80,10 +86,7 @@ export default {
             .catch((error) => {
               console.log("Error getting documents: ", error);
             });
-            
         });
-
-        
     },
   },
   props: {},
@@ -94,21 +97,17 @@ export default {
     this.fetchReviewsAndName();
   },
   computed: {
-    getAverage: function() {
-      return this.total / (this.reviewsArray.length);
+    getAverage: function () {
+      return this.total / this.reviewsArray.length;
     },
-  }
-  
+  },
 };
 </script>
 
 <style scoped>
-
 #review {
   font-size: 25px;
   border: 3px solid indigo;
   padding: 10px 10px;
 }
-
-
 </style>

@@ -24,7 +24,7 @@
           </b-row>
           <b-row>
             <b-col><img src = "../assets/car-seat.png" style = "width:30px; height:30px;">  Seats: {{this.listing.numSeats}} </b-col>
-            <b-col><img src = "../assets/automobile-salesman.png" style = "width:30px; height:30px;">  Hosted by: {{this.username}}</b-col>
+            <b-col><img src = "../assets/automobile-salesman.png" style = "width:30px; height:30px;">  Hosted by: {{this.listing.owner}}</b-col>
           </b-row>
         </b-col>
         <b-modal v-model="loginPrompt" @ok="moveToUpdateProfile" title = "Please Add a Driver's License">
@@ -61,7 +61,7 @@
           damage or defects to the car. Otherwise, if a defect is found by the owner after your rental, you could be liable to 
           pay for the cost of repairing the defects found. 
           <br><br>
-          <p v-if = "!listing.defect">There are currently no defrects reported by the owner of the car. Please do a check before taking over the car from the owner </p>
+          <p v-if = "!listing.defect">There are currently no defects reported by the owner of the car. Please do a check before taking over the car from the owner </p>
           <p v-else>These are the current defects reported by the owner of the car: </p>
             <ul v-for = "(defects, index) in listing.defectList" :key = "index"> 
               <li>{{defects}} </li>

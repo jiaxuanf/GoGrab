@@ -15,7 +15,7 @@
         </div>
         <br>
         <div>
-          <b-button style="border-radius: 30px;" @click="click1">choose a photo</b-button>
+          <b-button style="border-radius: 30px;" @click="click1">Choose a photo</b-button>
           <input
             type="file"
             accept="image/*"
@@ -63,7 +63,7 @@
           <h5>Driver's License</h5>
           <p>
             Upload a photo of your driver's license so that we know that you are
-            able to drive
+            able to drive!
           </p>
           <b-form-file
             v-model="license"

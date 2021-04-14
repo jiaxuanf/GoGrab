@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Rental Requests received</h1>
+    <h1>Rental Requests</h1>
     <h2 v-if="listingsArray.length == 0">
       You have not receive any requests yet!
     </h2>
@@ -10,7 +10,7 @@
       <div class="listingInfo">
         <br />
         <p>From {{ listing[1].rfrom }} to {{ listing[1].rto }}</p>
-        <p>$ {{ listing[1].total }}</p>
+        <p>Total: ${{ listing[1].total }}</p>
         <div class="status">
           <p id="pending" v-if="listing[1].status === 'Pending'">
             Status: {{ listing[1].status }}
@@ -28,33 +28,35 @@
         </div>
         <img v-if="listing[1].imageURL != ''" :src="listing[1].imageURL" />
         <br /><button
+          id="approveButton"
           v-if="listing[1].status == 'Pending'"
           v-bind:doc_id="listing[0]"
           v-on:click="approve($event)"
-        >
-          Approve
+        >Approve
         </button>
         <br /><button
+        id="rejectButton"
           v-if="listing[1].status == 'Pending'"
           v-bind:doc_id="listing[0]"
           v-on:click="reject($event)"
         >
           Reject
+          
         </button>
         <button
           v-if="listing[1].status == 'Ongoing'"
           v-bind:doc_id="listing[0]"
           v-on:click="complete($event)"
-        >
+          id = "completeButton"
+        ><strong>
           Complete
+          </strong>
         </button>
       </div>
       <button v-bind:renter_id="listing[1].renterID" @click="chat($event)">
         Chat with Renter
       </button>
     </li>
-
-    <div></div>
   </div>
 </template>
 
@@ -127,6 +129,7 @@ export default {
     },
     reject: function (event) {
       const request_id = event.target.getAttribute("doc_id");
+      console.log("request_id: " + this.request_id);
       firebase
         .firestore()
         .collection("rentalRequests")
@@ -145,7 +148,7 @@ export default {
         .update({ status: "Completed" })
         .then(console.log("Completed!"));
 
-      alert("Congradulations! This rental is completed!");
+      alert("Congratulations! This rental is completed!");
     },
     async chat(event) {
       const renterID = event.target.getAttribute("renter_id");
@@ -215,13 +218,31 @@ li {
 #pending {
   color: #dc4c46;
 }
+
+#approveButton {
+  background-color: greenyellow;
+}
+
+#rejectButton {
+  background-color:red;
+}
+
+#completeButton {
+  background-color:indigo
+}
+
 #completed {
-  color: #a0daa9;
+  color: green;
+  font-weight: bold;
 }
 #ongoing {
-  color: #f5df4d;
+  color: yellow;
+  font-weight: bold;
+
 }
 #denied {
-  color: #dfcfbe;
+  color: red;
+  font-weight: bold;
+
 }
 </style>
