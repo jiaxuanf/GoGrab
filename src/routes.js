@@ -32,7 +32,6 @@ export default[
     { path : '/reviewsPage', name: 'reviewsPage', component:reviewsPage, props: true, meta: {requiresAuth: true} },
     { path : '/dashboard', name: 'dashboard', component:Dashboard, props: true, meta: {requiresAuth: true} },
     { path: '/rentalRequest', name: 'rentalRequest', component : RentalRequest, props: true, meta:{requiresAuth: true}},
-    { path: '/reviewsPage', name : 'reviewsPage', component : reviewsPage, meta : {requiresAuth : true}},
     { path: '/MyListings', name : 'MyListings', component : MyListings, meta : {requiresAuth : true}},
     { path: '/Requests', name : 'Requests', component : Requests, meta : {requiresAuth : true}},
     { path: '/Dashboard', component: Dashboard},

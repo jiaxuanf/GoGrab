@@ -128,7 +128,7 @@ export default {
         fetchItems : function() {
             var user = firebase.auth().currentUser;
             this.uid = user.uid
-            database.collection('listings').where("ownerID", "!=", this.uid).get().then(snapshot => {
+            database.collection('listings').where("ownerID", "!=", this.uid).where("status", "==", "pending").get().then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     this.fullCarArray.push([doc.id, doc.data()]);
                 });
@@ -263,8 +263,4 @@ export default {
     border:1px solid #000000 !important;
     margin:10px !important;
 }
-
-
-
-
 </style>
