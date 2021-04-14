@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Rental Requests received</h1>
+    <h1>Rental Requests</h1>
     <h2 v-if="listingsArray.length == 0">
       You have not receive any requests yet!
     </h2>
@@ -10,7 +10,7 @@
       <div class="listingInfo">
         <br />
         <p>From {{ listing[1].rfrom }} to {{ listing[1].rto }}</p>
-        <p>$ {{ listing[1].total }}</p>
+        <p>Total: ${{ listing[1].total }}</p>
         <div class="status">
           <p id="pending" v-if="listing[1].status === 'Pending'">
             Status: {{ listing[1].status }}
@@ -55,8 +55,6 @@
       </div>
       <button @click="chat">Chat with Renter</button>
     </li>
-
-    <div></div>
   </div>
 </template>
 

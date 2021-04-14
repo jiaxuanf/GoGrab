@@ -10,7 +10,7 @@
     <br />
     <br />
     <table id="stats">
-      <tr>
+      <tr id="tableHeader">
         <th>Statistic</th>
         <th>Quantity</th>
       </tr>
@@ -153,10 +153,12 @@ h3 {
 }
 
 #stats th {
-  font-size: 20px;
+  font-size: 25px;
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
   color: black;
 }
+
+
 </style>
