@@ -7,21 +7,13 @@
           <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
           <h2 style="text-shadow: 1px 1px #000000">Book cars from trusted hosts around the world. </h2>
         </div>
-        <div class = "inputForms" > 
-          <b-form @submit = "submitSearch">
-            <b-container>
-              <b-row no-gutters :style = "rowStyle">
-                  <b-col sm = '1' :style = "centerText" v-model = "location"> <strong> Location </strong></b-col>
-                  <b-col sm = '2'> <b-form-input class = "searchBar" placeholder = "Location" required> </b-form-input></b-col> 
-                  <b-col sm = '1' :style = "centerText"><strong> From </strong> </b-col>
-                  <b-col><b-form-datepicker class = "searchBar" v-model = "startDate" required> </b-form-datepicker></b-col> 
-                  <b-col sm = '1' :style = "centerText"><strong> To </strong> </b-col>
-                  <b-col><b-form-datepicker class = "searchBar" v-model = "endDate" required> </b-form-datepicker></b-col>
-                  <b-col :style = "centerText"><b-button type = "submit"  variant = primary> Search </b-button> </b-col>
-              </b-row>  
-            </b-container>
-          </b-form>
-        </div>
+        <b-form @submit.prevent = "submitSearch"  style = "background-color:white; width:60%; margin:0 auto; height:50px;" class = "mt-5" inline>
+          <label class = "ml-5">Start Date: </label> 
+          <b-form-datepicker class = "searchBar ml-3" v-model = "startDate" required> </b-form-datepicker>
+          <label class = "ml-5">End Date: </label>
+          <b-form-datepicker class = "searchBar ml-3 mr-5" v-model = "endDate" required> </b-form-datepicker>
+          <b-button type = "submit" variant = primary class = "ml-5">Search </b-button>
+        </b-form>
       </b-card-body>
     </b-card>
 
@@ -40,7 +32,7 @@
 </template>
 
 <script>
-import moment from "moment";
+//import moment from "moment";
 
 
 export default {
@@ -49,7 +41,6 @@ export default {
     return {
       rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; height:70px;",
       centerText: "margin:auto;",
-      location : "",
       startDate : "",
       startTime : "",
       endDate : "",
@@ -59,17 +50,14 @@ export default {
 
   methods : {
     submitSearch : function() {
-        const location =this.location;
         const startDate = this.startDate;
-        const startTime =this.startTime;
         const endDate = this.endDate;
-        const endTime = this.endTime;
-        const a = startDate.concat(" ", startTime);
+        /*const a = startDate.concat(" ", startTime);
         const b = endDate.concat(" ", endTime);
         const startTimeStamp = moment(a).valueOf();
         const endTimeStamp = moment(b).valueOf();
-        console.log(startTimeStamp);
-        this.$router.push({name: 'CarListing',  params: { search:true, location: location, startTimeStamp : startTimeStamp, endTimeStamp : endTimeStamp}})
+        console.log(startTimeStamp);*/
+        this.$router.push({name: 'CarListing',  params: { search:true, startTime : startDate, endTime : endDate}})
     }
   },
 

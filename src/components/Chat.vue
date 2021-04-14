@@ -33,13 +33,7 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-              <img
-                :src="item.URL"
-                alt="user"
-                width="50px"
-                height="50px"
-                style="border-radius: 50%; background: white"
-              />
+              <b-avatar icon="people-fill" size="4em" src="item.URL"></b-avatar>
             </div>
             <div
               style="
@@ -59,43 +53,6 @@
           <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
         </li>
         <h3 class="chatHeading" style="text-align: center">Find Other Users</h3>
-        <li
-          class="active mb-3"
-          v-on:click="letsChat(item)"
-          v-for="item in this.searchUsers"
-          :key="item.id"
-          v-show="item.id != currentUserId"
-        >
-          <div
-            class="d-flex"
-            style="cursor: pointer; padding-bottom: 15px; width: 100%"
-          >
-            <div style="width: 30%">
-              <img
-                :src="item.URL"
-                alt="user"
-                width="50px"
-                height="50px"
-                style="border-radius: 50%; background: white"
-              />
-            </div>
-            <div
-              style="
-                padding: 10px 0px 0px;
-                width: 50%;
-                display: flex;
-                justify-content: space-between;
-              "
-            >
-              <h6
-                style="line-height: 2; font-weight: 600; color: white; font-size:25px;s"
-              >
-                {{ item.name }}
-              </h6>
-            </div>
-          </div>
-          <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
-        </li>
       </ul>
     </nav>
 
@@ -151,51 +108,6 @@ export default {
     async letsChat(item) {
       this.currentPeerUser = item;
       console.log("lets chat button is pressed: " + this.currentPeerUser.id);
-
-      /*if (!this.userChats.includes(this.currentPeerUser)) {
-        this.userChats.push(this.currentPeerUser);
-        var currentUserChat = [];
-        var peerUserChat = [];
-        var peerUserPhoto = "";
-        var peerUserName = "";
-        await database
-          .collection("userInfo")
-          .doc(this.currentUserId)
-          .get()
-          .then((doc) => {
-            currentUserChat = doc.data().chatList;
-          });
-        console.log("finding whats current user chat");
-        console.log(currentUserChat);
-        currentUserChat.push(this.currentPeerUser);
-        console.log(currentUserChat);
-        for (var x in currentUserChat) {
-          console.log(x);
-        }
-        await database.collection("userInfo").doc(this.currentUserId).update({
-          chatList: currentUserChat,
-        });
-        await database
-          .collection("userInfo")
-          .doc(this.currentPeerUser)
-          .get()
-          .then((doc) => {
-            peerUserChat = doc.data().chatList;
-            peerUserPhoto = doc.data().profilePictureURL;
-            peerUserName = doc.data().username;
-          });
-        await database
-          .collection("userInfo")
-          .doc(this.currentPeerUser)
-          .update({
-            chatList: peerUserChat.push(this.currentUserId),
-          });
-        this.userChats.push({
-          id: this.currentPeerUser,
-          URL: peerUserPhoto,
-          name: peerUserName,
-        });
-      }*/
     },
     async getChats() {
       console.log("under get userlist, currentuid is:" + this.currentUserId);
@@ -232,8 +144,14 @@ export default {
     },
   },
   created() {
-    if (!Object.prototype.hasOwnProperty.call(localStorage, "id"))
+    if (!Object.prototype.hasOwnProperty.call(localStorage, "id")) {
       this.$router.push("/");
+    }
+    if (this.$route.query.peerInfo != null) {
+      this.currentPeerUser = this.$route.query.peerInfo;
+      console.log("current user under created is: ")
+      console.log(this.currentPeerUser)
+    }
     this.getUserList();
     this.getChats();
     console.log("name is" + localStorage.getItem("name"));

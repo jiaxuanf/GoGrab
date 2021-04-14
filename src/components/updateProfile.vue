@@ -119,9 +119,7 @@ export default {
         })
         .then(() => {
           localStorage.setItem("email", this.email);
-          this.$router.push({
-            path: "/",
-          });
+          alert("Your information has been updated")
         });
     },
     fetchItems: function () {
@@ -229,6 +227,9 @@ export default {
       var storageRef = firebase.storage().ref();
       const licenseName = this.uid + "_license.jpg"
       var image_id = storageRef.child(licenseName);
+      database.collection("userInfo").doc(this.uid).update({
+              licenseURL: this.img1,
+            });
       image_id.put(this.imageFile).then((snapshot) => {
         console.log("Uploaded");
         console.log(snapshot);
