@@ -8,19 +8,12 @@
           style="margin-right: 25px; width: 160px"
           v-on:click="onProfileClick"
         >
-          <img
-            :src="photoURL"
-            alt="user"
-            width="50px"
-            height="50px"
-            style="border-radius: 50%; background: white"
-          />
+         <b-avatar icon="people-fill" size="5em" src="photoURL"></b-avatar>
         </div>
         <p style="font-size: 30px; margin-right: 60px">{{ currentUserName }}</p>
       </div>
       <div style="height: 1px; border-bottom: 1px solid; color: white"></div>
       <ul class="list-unstyled components">
-        <h3 class="chatHeading" style="text-align: center">Your Chats</h3>
         <li
           class="active mb-3"
           v-on:click="letsChat(item)"
@@ -52,7 +45,6 @@
           </div>
           <div style="height: 1px; border-bottom: 1px solid #00388b"></div>
         </li>
-        <h3 class="chatHeading" style="text-align: center">Find Other Users</h3>
       </ul>
     </nav>
 
