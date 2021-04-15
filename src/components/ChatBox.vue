@@ -1,14 +1,8 @@
 <template>
   <div style="display: flex; flex-direction: column; height: 200vh">
     <header>
-      <div style="height: 60px; background: lightgrey">
-        <img
-          :src="currentPeerUser.URL"
-          width="50px"
-          height="45px"
-          style="margin-left: 20px"
-          class="br-50 header-image"
-        />
+      <div style="height: 120px; background: lightgrey">
+        <b-avatar class="avatar" icon="people-fill" size="5em" src="currentPeerUser.URL"></b-avatar>
         <div class="header-image">
           <h6 class="mt-2" style="font-weight: 600">
             {{ currentPeerUser.name }}
@@ -16,7 +10,7 @@
         </div>
       </div>
     </header>
-    <div style="background: #efe9e2; flex: 1; overflow-y: auto">
+    <div style="background: white; flex: 1; overflow-y: auto">
       <h2 class="welcome" style="margin-left: 20px">
         Chat with {{ currentPeerUser.name }}
       </h2>
@@ -126,36 +120,20 @@ export default {
             console.log("entered doc part");
             currentUserChat = doc.data().chatList;
           });
-        console.log("finding whats current user chat");
-        console.log(currentUserChat);
         currentUserChat.push(this.currentPeerUser);
         console.log(currentUserChat);
         for (var x in currentUserChat) {
           console.log(x);
         }
-        console.log("before updating");
         await database.collection("userInfo").doc(this.currentUserId).update({
           chatList: currentUserChat,
         });
-        console.log("after updating");
-        /*await database
-          .collection("userInfo")
-          .doc(this.currentPeerUser.id)
-          .get()
-          .then((doc) => {
-            peerUserChat = doc.data().chatList;
-            peerUserPhoto = doc.data().profilePictureURL;
-            peerUserName = doc.data().username;
-          });*/
-        console.log("after line 149");
         console.log(peerUserChat)
         peerUserChat.push({
           id: this.currentUserId,
           name: this.currentUserName,
           URL: this.currentUserPhoto,
         });
-        console.log("after pushign into peeruserchat")
-        console.log(peerUserChat)
         await database
           .collection("userInfo")
           .doc(this.currentPeerUser.id)
@@ -260,5 +238,9 @@ export default {
 }
 .pointer {
   cursor: pointer;
+}
+.avatar {
+  float:left;
+  margin: 7px;
 }
 </style>
