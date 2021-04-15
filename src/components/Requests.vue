@@ -30,7 +30,7 @@
         <br /><button
           id="approveButton"
           v-if="listing[1].status == 'Pending'"
-          v-bind:doc_id="listing[0]"
+          v-bind:value = "[listing[0], listing[1]['listing_id']]"
           v-on:click="approve($event)"
         >Approve
         </button>
@@ -38,10 +38,10 @@
         id="rejectButton"
           v-if="listing[1].status == 'Pending'"
           v-bind:doc_id="listing[0]"
+          
           v-on:click="reject($event)"
         >
           Reject
-          
         </button>
         <button
           v-if="listing[1].status == 'Ongoing'"
@@ -63,6 +63,7 @@
 
 <script>
 import firebase from "firebase";
+import _ from "lodash";
 import database from "../main.js";
 
 export default {
@@ -112,21 +113,39 @@ export default {
         });
     },
     approve: function (event) {
-      console.log("🐻");
-      const request_id = event.target.getAttribute("doc_id");
+      const arrValue = event.target.getAttribute('value').split(",")
+      const request_id = arrValue[0];
+      const listing_id = arrValue[1];
       console.log(request_id);
+      console.log(listing_id);
       firebase
         .firestore()
         .collection("rentalRequests")
         .doc(request_id)
-        .update({ status: "Ongoing" })
+        .update({ status: "Ongoing"})
         .then(() => {
-          alert(
-            "You have approved the request. Your renter will contact you shortly!"
-          );
+          //this.disableListing(listing_id);
+          this.updateAllListings(listing_id, request_id);
           location.reload();
         });
     },
+
+    updateAllListings : function(listing_id,request_id) {
+        var tempArray = _.cloneDeep(this.listingsArray);
+        console.log(request_id);
+        tempArray = tempArray.filter((rentalRequest) => rentalRequest[1]['listing_id'] == listing_id);
+        tempArray = tempArray.filter((rentalRequest) => rentalRequest[0] != request_id)
+        console.log(tempArray)
+        for (let i = 0; i < tempArray.length; i++) {
+          var doc_id = tempArray[i][0]
+          firebase.firestore().collection("rentalRequests").doc(doc_id).update({status: "Denied"});
+        }
+    },
+
+    disableListing : function(listing_id) {
+        firebase.firestore().collection("listings").doc(listing_id).update({status:"Completed"})
+    },
+
     reject: function (event) {
       const request_id = event.target.getAttribute("doc_id");
       console.log("request_id: " + this.request_id);
@@ -136,19 +155,20 @@ export default {
         .doc(request_id)
         .update({ status: "Denied" })
         .then(console.log("Rejected"));
-
       alert("You have rejected this request.");
     },
+
     complete: function (event) {
-      const request_id = event.target.getAttribute("doc_id");
+      const request_id = event.target.getAttribute('doc_id');
+      console.log(request_id);
       firebase
         .firestore()
         .collection("rentalRequests")
         .doc(request_id)
         .update({ status: "Completed" })
-        .then(console.log("Completed!"));
-
-      alert("Congratulations! This rental is completed!");
+        .then(() => {
+          location.reload();
+        });
     },
     async chat(event) {
       const renterID = event.target.getAttribute("renter_id");

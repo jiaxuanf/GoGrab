@@ -17,7 +17,7 @@
                   <b-row v-for = "(chunk,index) in chunkedOngoingArray" :key = "index" class = "mb-4 align-self-stretch">
                       <b-col sm = '4' v-for="(bookingData,index) in chunk" :key="index"><RentalsIcon v-bind:booking = "bookingData"></RentalsIcon></b-col>
                   </b-row>
-              </b-container>  96
+              </b-container> 
           </b-tab>
           <b-tab title = "Completed" style = "margin: 0 auto;">
               <h4 style = "text-align:center" v-if = "this.chunkedCompletedArray.length === 0">You currently have no completed bookings. Book your next trip today!</h4>
@@ -82,8 +82,8 @@ export default {
             this.rentalsArray.push([doc.id, doc.data()]);
           });
           this.rentalsCompletedArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Completed")
-          this.rentalsOngoingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Pending")
-          this.rentalsPendingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Ongoing")
+          this.rentalsOngoingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Ongoing")
+          this.rentalsPendingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Pending")
           this.chunkArrays();
           console.log(this.chunkedCompletedArray);
           console.log(this.chunkedPendingArray);

@@ -7,12 +7,12 @@
           <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
           <h2 style="text-shadow: 1px 1px #000000">Book cars from trusted hosts around the world. </h2>
         </div>
-        <b-form @submit.prevent = "submitSearch"  style = "background-color:white; width:60%; margin:0 auto; height:50px;" class = "mt-5" inline>
+        <b-form @submit.prevent = "submitSearch"  style = "background-color:white; width:70%; margin:0 auto; height:50px;" class = "mt-5" inline>
           <label class = "ml-5">Start Date: </label> 
           <b-form-datepicker class = "searchBar ml-3" v-model = "startDate" required> </b-form-datepicker>
           <label class = "ml-5">End Date: </label>
-          <b-form-datepicker class = "searchBar ml-3 mr-5" v-model = "endDate" required> </b-form-datepicker>
-          <b-button type = "submit" variant = primary class = "ml-5">Search </b-button>
+          <b-form-datepicker class = "searchBar ml-3 mr-3" v-model = "endDate" required> </b-form-datepicker>
+          <b-button type = "submit" variant = primary>Search </b-button>
         </b-form>
       </b-card-body>
     </b-card>
@@ -32,9 +32,6 @@
 </template>
 
 <script>
-//import moment from "moment";
-
-
 export default {
     props: {},
   data() {
@@ -52,11 +49,6 @@ export default {
     submitSearch : function() {
         const startDate = this.startDate;
         const endDate = this.endDate;
-        /*const a = startDate.concat(" ", startTime);
-        const b = endDate.concat(" ", endTime);
-        const startTimeStamp = moment(a).valueOf();
-        const endTimeStamp = moment(b).valueOf();
-        console.log(startTimeStamp);*/
         this.$router.push({name: 'CarListing',  params: { search:true, startTime : startDate, endTime : endDate}})
     }
   },
