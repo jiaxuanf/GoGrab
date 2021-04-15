@@ -28,7 +28,7 @@ export default[
     { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true, meta: {requiresAuth: true} },
     { path: '/updateProfile', component: UpdateProfile, name :'updateProfile', meta: {requiresAuth: true}},
     { path: '/profilePage', component: ProfilePage, meta: {requiresAuth: true}},
-    { path: '/chat', component: ChatPage, meta: {requiresAuth: true}},
+    { path: '/chat', name : 'chats', component: ChatPage, meta: {requiresAuth: true}},
     { path : '/MyRentals', name: 'MyRentals', component : MyRentals, props: true, meta: {requiresAuth: true}},
     { path : '/reviewsPage', name: 'reviewsPage', component:reviewsPage, props: true, meta: {requiresAuth: true} },
     { path : '/dashboard', name: 'dashboard', component:Dashboard, props: true, meta: {requiresAuth: true} },
