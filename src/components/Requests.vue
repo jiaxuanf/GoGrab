@@ -1,72 +1,54 @@
 <template>
   <div>
-    <h1>Rental Requests</h1>
-    <h2 v-if="listingsArray.length == 0">
-      You have not receive any requests yet!
-    </h2>
-    <br />
-    <li id="listing" v-for="(listing, index) in listingsArray" :key="index">
-      {{ listing[1].model }}
-      <div class="listingInfo">
-        <br />
-        <p>From {{ listing[1].rfrom }} to {{ listing[1].rto }}</p>
-        <p>Total: ${{ listing[1].total }}</p>
-        <div class="status">
-          <p id="pending" v-if="listing[1].status === 'Pending'">
-            Status: {{ listing[1].status }}
-          </p>
-          <p id="ongoing" v-else-if="listing[1].status === 'Ongoing'">
-            Status: {{ listing[1].status }}
-          </p>
-          <p id="completed" v-else-if="listing[1].status === 'Completed'">
-            Status: {{ listing[1].status }}
-          </p>
-          <p id="denied" v-else-if="listing[1].status === 'Denied'">
-            Status: {{ listing[1].status }}
-          </p>
-          <p v-else>Status not Available</p>
-        </div>
-        <img v-if="listing[1].imageURL != ''" :src="listing[1].imageURL" />
-        <br /><button
-          id="approveButton"
-          v-if="listing[1].status == 'Pending'"
-          v-bind:value = "[listing[0], listing[1]['listing_id']]"
-          v-on:click="approve($event)"
-        >Approve
-        </button>
-        <br /><button
-        id="rejectButton"
-          v-if="listing[1].status == 'Pending'"
-          v-bind:doc_id="listing[0]"
-          
-          v-on:click="reject($event)"
-        >
-          Reject
-        </button>
-        <button
-          v-if="listing[1].status == 'Ongoing'"
-          v-bind:doc_id="listing[0]"
-          v-on:click="complete($event)"
-          id = "completeButton"
-        ><strong>
-          Complete
-          </strong>
-        </button>
-      </div>
-      <button v-bind:renter_id="listing[1].renterID" @click="chat($event)">
-        Chat with Renter
-      </button>
-    </li>
+    <div>
+      <h3 style = "text-align:center" class = "mt-5">Manage all your rental requests! </h3>
+      <b-tabs  content-class="mt-3" justified style = "margin: 0 auto;">
+        <b-tab title = "Pending" style = "margin: 0 auto;">
+          <h4 style = "text-align:center" v-if = "this.chunkedPendingArray.length === 0">You currently have no pending bookings. List your car now! </h4>
+              <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
+                  <b-row v-for = "(chunk,index) in chunkedPendingArray" :key = "index" class = "mb-4 align-self-stretch">
+                      <b-col lg = '4' v-for="(requestData,index) in chunk" :key="index"><RequestsIcon v-bind:props = "{requests: requestData, listings : listingsArray}"></RequestsIcon></b-col>
+                  </b-row>
+              </b-container>     
+        </b-tab>
+        <b-tab title = "Ongoing"> 
+          <h4 style = "text-align:center" v-if = "this.chunkedOngoingArray.length === 0">You currently have no ongoing bookings. List your car now! </h4>
+              <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
+                  <b-row v-for = "(chunk,index) in chunkedOngoingArray" :key = "index" class = "mb-4 align-self-stretch">
+                      <b-col lg = '4' v-for="(requestData,index) in chunk" :key="index"><RequestsIcon v-bind:props = "{requests: requestData, listings : listingsArray}"></RequestsIcon></b-col>
+                  </b-row>
+              </b-container>  
+        </b-tab>
+        <b-tab title = "Completed"> 
+          <h4 style = "text-align:center" v-if = "this.chunkedCompletedArray.length === 0">You currently have no completed bookings. List your car now! </h4>
+              <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
+                  <b-row v-for = "(chunk,index) in chunkedCompletedArray" :key = "index" class = "mb-4 align-self-stretch">
+                      <b-col lg = '4' v-for="(requestData,index) in chunk" :key="index"><RequestsIcon v-bind:props = "{requests: requestData, listings : listingsArray}"></RequestsIcon></b-col>
+                  </b-row>
+              </b-container>    
+        </b-tab>
+        <b-tab title = "Denied">
+          <h4 style = "text-align:center" v-if = "this.chunkedDeniedArray.length === 0">You currently have no denied bookings.</h4>
+              <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
+                  <b-row v-for = "(chunk,index) in chunkedDeniedArray" :key = "index" class = "mb-4 align-self-stretch">
+                      <b-col lg = '4' v-for="(requestData,index) in chunk" :key="index"><RequestsIcon v-bind:props = "{requests: requestData, listings : listingsArray}"></RequestsIcon></b-col>
+                  </b-row>
+              </b-container> 
+        </b-tab>
+      </b-tabs>
+    </div>
+    
   </div>
 </template>
 
-
 <script>
 import firebase from "firebase";
-import _ from "lodash";
-import database from "../main.js";
+import RequestsIcon from "./RequestsIcon.vue"
 
 export default {
+  components : {
+    RequestsIcon,
+  },
   name: "Requests",
   data() {
     return {
@@ -74,6 +56,14 @@ export default {
       uid: "",
       username: "",
       listingStatus: "",
+      listingsPendingArray : [],
+      chunkedPendingArray : [],
+      listingsOngoingArray : [],
+      chunkedOngoingArray : [],
+      listingsCompletedArray : [],
+      chunkedCompletedArray : [],
+      listingsDeniedArray : [],
+      chunkedDeniedArray : [],
     };
   },
   methods: {
@@ -88,181 +78,79 @@ export default {
         .then((snapshot) => {
           this.username = snapshot.data().username;
         });
-      console.log("uid is " + this.uid);
     },
+
     fetchListings: function () {
       this.fetchUser();
-      console.log("start fetching listings");
       firebase
         .firestore()
         .collection("rentalRequests")
         .where("ownerID", "==", this.uid)
         .get()
         .then((querySnapshot) => {
-          console.log("start querySnapshot");
           querySnapshot.forEach((doc) => {
-            console.log("start individual fetching ");
-            // doc.data() is never undefined for query doc snapshots
             this.listingsArray.push([doc.id, doc.data()]);
-            console.log(doc.id, " => ", doc.data());
           });
-          console.log(this.listingsArray);
+          this.listingsCompletedArray = this.listingsArray.filter((rental) => rental[1]['status'] == "Completed")
+          this.listingsOngoingArray = this.listingsArray.filter((rental) => rental[1]['status'] == "Ongoing")
+          this.listingsPendingArray = this.listingsArray.filter((rental) => rental[1]['status'] == "Pending")
+          this.listingsDeniedArray = this.listingsArray.filter((rental) => rental[1]['status'] == "Denied")
+          this.chunkArrays();
         })
-        .catch((error) => {
-          console.log("Error getting documents: ", error);
-        });
-    },
-    approve: function (event) {
-      const arrValue = event.target.getAttribute('value').split(",")
-      const request_id = arrValue[0];
-      const listing_id = arrValue[1];
-      console.log(request_id);
-      console.log(listing_id);
-      firebase
-        .firestore()
-        .collection("rentalRequests")
-        .doc(request_id)
-        .update({ status: "Ongoing"})
-        .then(() => {
-          //this.disableListing(listing_id);
-          this.updateAllListings(listing_id, request_id);
-          location.reload();
-        });
     },
 
-    updateAllListings : function(listing_id,request_id) {
-        var tempArray = _.cloneDeep(this.listingsArray);
-        console.log(request_id);
-        tempArray = tempArray.filter((rentalRequest) => rentalRequest[1]['listing_id'] == listing_id);
-        tempArray = tempArray.filter((rentalRequest) => rentalRequest[0] != request_id)
-        console.log(tempArray)
-        for (let i = 0; i < tempArray.length; i++) {
-          var doc_id = tempArray[i][0]
-          firebase.firestore().collection("rentalRequests").doc(doc_id).update({status: "Denied"});
-        }
-    },
+    chunkArrays: function() {
+      var temp = [];
+            for (let i = 0; i < this.listingsCompletedArray.length; i++) {
+                temp.push(this.listingsCompletedArray[i]);
+                if (temp.length == 3) {
+                    this.chunkedCompletedArray.push(temp);
+                    temp = [];
+                }
+            } if (temp.length != 0) {
+                this.chunkedCompletedArray.push(temp);
+            }
 
-    disableListing : function(listing_id) {
-        firebase.firestore().collection("listings").doc(listing_id).update({status:"Completed"})
-    },
+        temp = [];
+            for (let i = 0; i < this.listingsPendingArray.length; i++) {
+                temp.push(this.listingsPendingArray[i]);
+                if (temp.length == 3) {
+                    this.chunkedPendingArray.push(temp);
+                    temp = [];
+                }
+            } if (temp.length != 0) {
+                this.chunkedPendingArray.push(temp);
+            }
 
-    reject: function (event) {
-      const request_id = event.target.getAttribute("doc_id");
-      console.log("request_id: " + this.request_id);
-      firebase
-        .firestore()
-        .collection("rentalRequests")
-        .doc(request_id)
-        .update({ status: "Denied" })
-        .then(console.log("Rejected"));
-      alert("You have rejected this request.");
-    },
+        temp = [];
+            for (let i = 0; i < this.listingsOngoingArray.length; i++) {
+                temp.push(this.listingsOngoingArray[i]);
+                if (temp.length == 3) {
+                    this.chunkedOngoingArray.push(temp);
+                    temp = [];
+                }
+            } if (temp.length != 0) {
+                this.chunkedOngoingArray.push(temp);
+            }
 
-    complete: function (event) {
-      const request_id = event.target.getAttribute('doc_id');
-      console.log(request_id);
-      firebase
-        .firestore()
-        .collection("rentalRequests")
-        .doc(request_id)
-        .update({ status: "Completed" })
-        .then(() => {
-          location.reload();
-        });
-    },
-    async chat(event) {
-      const renterID = event.target.getAttribute("renter_id");
-      var username = "";
-      var profileURL = "";
-      console.log("before await, ownerid: " + renterID);
-      await database
-        .collection("userInfo")
-        .where("id", "==", renterID)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            username = doc.data().username;
-            profileURL = doc.data().profilePictureURL;
-          });
-        });
-      console.log("after await");
-      var peerInfo = {
-        id: renterID,
-        name: username,
-        URL: profileURL,
-      };
-      console.log("peerInfo created =>");
-      console.log(peerInfo);
-      this.$router.push({ name: "chats", query: { peerInfo: peerInfo } });
-    },
+        temp = [];
+            for (let i = 0; i < this.listingsDeniedArray.length; i++) {
+                temp.push(this.listingsDeniedArray[i]);
+                if (temp.length == 3) {
+                    this.chunkedDeniedArray.push(temp);
+                    temp = [];
+                }
+            } if (temp.length != 0) {
+                this.chunkedDeniedArray.push(temp);
+            }
+    }
   },
   created: function () {
     this.fetchListings();
-  },
-  computed: function () {
-    this.approve();
-    this.reject();
-    this.complete();
   },
 };
 </script>
 
 <style scoped>
-h1 {
-  margin-top: 20px;
-  margin-left: 50px;
-}
-h2 {
-  margin-top: 20px;
-  margin-left: 50px;
-}
 
-img {
-  width: 200px;
-  height: 120px;
-  margin-top: 0px;
-  margin-bottom: 20px;
-}
-
-li {
-  margin-left: 50px;
-  width: 80%;
-  margin-top: 50px;
-}
-.listingInfo {
-  margin-left: 50px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 15px;
-}
-#pending {
-  color: #dc4c46;
-}
-
-#approveButton {
-  background-color: greenyellow;
-}
-
-#rejectButton {
-  background-color:red;
-}
-
-#completeButton {
-  background-color:indigo
-}
-
-#completed {
-  color: green;
-  font-weight: bold;
-}
-#ongoing {
-  color: yellow;
-  font-weight: bold;
-
-}
-#denied {
-  color: red;
-  font-weight: bold;
-
-}
 </style>

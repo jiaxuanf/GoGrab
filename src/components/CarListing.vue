@@ -18,7 +18,7 @@
         <div id = "carDisplay"> 
             <b-container class="bv-example-row"  style = "max-width:90%;" >
                 <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index" class = "mb-4 align-self-stretch">
-                    <b-col sm = '4' v-for="(carData,index) in chunk" :key="index"><car-list-icon v-bind:rental="carData"></car-list-icon></b-col>
+                    <b-col lg = '4' v-for="(carData,index) in chunk" :key="index"><car-list-icon v-bind:rental="carData"></car-list-icon></b-col>
                 </b-row>
             </b-container>
         </div>

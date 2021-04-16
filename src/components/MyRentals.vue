@@ -11,6 +11,14 @@
                   </b-row>
               </b-container>
           </b-tab>
+          <b-tab title = "Denied" style = "margin: 0 auto;">
+              <h4 style = "text-align:center" v-if = "this.chunkedDeniedArray.length === 0">You currently have no bookings. Book your next trip today!</h4>
+              <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
+                  <b-row v-for = "(chunk,index) in chunkedDeniedArray" :key = "index" class = "mb-4 align-self-stretch">
+                      <b-col sm = '4' v-for="(bookingData,index) in chunk" :key="index"><RentalsIcon v-bind:booking = "bookingData"></RentalsIcon></b-col>
+                  </b-row>
+              </b-container>
+          </b-tab>
           <b-tab title = "Ongoing" style = "margin: 0 auto;">
               <h4 style = "text-align:center" v-if = "this.chunkedOngoingArray.length === 0">You currently have no ongoing bookings. Book your next trip today! </h4>
               <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
@@ -27,6 +35,7 @@
                   </b-row>
               </b-container>
           </b-tab>
+          
         </b-tabs>
     </div>
   </div>
@@ -49,6 +58,8 @@ export default {
       chunkedOngoingArray : [],
       rentalsCompletedArray : [],
       chunkedCompletedArray : [],
+      rentalsDeniedArray : [],
+      chunkedDeniedArray : [],
       listing_ID: "",
       owner_ID: "",
       rentalRequestID: "",
@@ -84,6 +95,7 @@ export default {
           this.rentalsCompletedArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Completed")
           this.rentalsOngoingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Ongoing")
           this.rentalsPendingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Pending")
+          this.rentalsDeniedArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Denied")
           this.chunkArrays();
           console.log(this.chunkedCompletedArray);
           console.log(this.chunkedPendingArray);
@@ -125,6 +137,16 @@ export default {
             } if (temp.length != 0) {
                 this.chunkedOngoingArray.push(temp);
             }
+        temp = [];
+            for (let i = 0; i < this.rentalsDeniedArray.length; i++) {
+                temp.push(this.rentalsDeniedArray[i]);
+                if (temp.length == 3) {
+                    this.chunkedDeniedArray.push(temp);
+                    temp = [];
+                }
+            } if (temp.length != 0) {
+                this.chunkedDeniedArray.push(temp);
+            }
     },  
   },
   created: function () {
@@ -135,6 +157,5 @@ export default {
 </script>
 
 <style scoped>
-/*button */
 
 </style>

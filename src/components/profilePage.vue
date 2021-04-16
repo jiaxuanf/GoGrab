@@ -15,7 +15,7 @@
     </div>
     <b-container style = "width:80%; margin: 0 auto; overflow:auto;" class = "pt-5 pl-5"> 
         <b-row v-for = "(chunk,index) in chunkedListingsArr" :key = "index" class = "mb-4 align-self-stretch">
-          <b-col sm = '6' v-for="(listingData,index) in chunk" :key="index"><profileListIcon v-bind:listing = "listingData"></profileListIcon></b-col>
+          <b-col lg = '6' v-for="(listingData,index) in chunk" :key="index"><profileListIcon v-bind:listing = "listingData"></profileListIcon></b-col>
         </b-row>
     </b-container>
   </div>
