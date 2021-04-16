@@ -39,7 +39,7 @@
           <label for="phoneNumber">Phone number:</label>
           <br />
           <b-form-input
-            type="phoneNumber"
+            type = "number"
             placeholder="Phone number..."
             v-model="phoneNumber"
           > </b-form-input>
@@ -223,12 +223,12 @@ export default {
     },
 
     updateInformation: function () {
-      console.log(this.image);
       var storageRef = firebase.storage().ref();
       const licenseName = this.uid + "_license.jpg"
       var image_id = storageRef.child(licenseName);
+      
       database.collection("userInfo").doc(this.uid).update({
-              licenseURL: this.img1,
+              licenseURL: this.image,
             });
       image_id.put(this.imageFile).then((snapshot) => {
         console.log("Uploaded");

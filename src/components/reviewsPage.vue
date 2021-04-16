@@ -1,51 +1,25 @@
 <template>
   <div>
-    <ol id="main">
-      <h1>{{ this.name }}'s Reviews</h1>
-      <StarRating
-        :increment="0.1"
-        :border-width="1"
-        :show-rating="false"
-        :item-size="60"
-        :read-only="true"
-        v-model="getAverage"
-      >
-      </StarRating>
-      <h3>{{ this.getAverage.toFixed(2) }}/5</h3>
-      <br />
-      <h2 v-if="reviewsArray.length == 0">
-        No reviews yet! Rent out some cars today! 🚘
-      </h2>
-      <li id="review" v-for="(review, index) in reviewsArray" :key="index">
-        <StarRating
-          :increment="1"
-          :border-width="1.5"
-          :item-size="60"
-          :read-only="true"
-          :show-rating="false"
-          v-model="review.reviewValue"
-        >
-        </StarRating>
-        {{ review.reviewValue }}/5
+  <div>
 
-        <br />
-        Reviewer: {{ review.reviewerUserName }}
-        <br />
-        "{{ review.reviewText }}"
-        <br />
-      </li>
-    </ol>
+    
+  </div>
+    <b-container style = "width:80%; margin: 0 auto; overflow:auto;" class = "pt-5 pl-5"> 
+        <b-row v-for = "(chunk,index) in chunkedReviewsArray" :key = "index" class = "mb-4 align-self-stretch">
+          <b-col lg = '6' v-for="(listingData,index) in chunk" :key="index"></b-col>
+        </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
-import { StarRating } from "vue-rate-it";
 
 export default {
   data() {
     return {
       reviewsArray: [],
+      chunkedReviewsArray : [],
       total: 0,
       name: "",
     };
@@ -53,7 +27,6 @@ export default {
   methods: {
     fetchReviewsAndName: function () {
       const user = firebase.auth().currentUser;
-      //get username
       firebase
         .firestore()
         .collection("userInfo")
@@ -68,19 +41,16 @@ export default {
         .catch((error) => {
           console.log("error: " + error);
         });
-      // get reviews
       firebase
         .firestore()
         .collection("reviews")
         .where("ownerID", "==", user.uid)
+        .orderBy("reviewValue", "desc")
         .get()
         .then((snapshot) => {
           snapshot
             .forEach((doc) => {
-              // console.log(doc.id + " ==>" + doc.data());
               this.total += doc.data().reviewValue;
-              // console.log("total = " + this.total);
-              // console.log("added " + doc.data().reviewValue + " to total");
               this.reviewsArray.push(doc.data());
             })
             .catch((error) => {
@@ -88,10 +58,6 @@ export default {
             });
         });
     },
-  },
-  props: {},
-  components: {
-    StarRating,
   },
   created() {
     this.fetchReviewsAndName();
@@ -102,12 +68,9 @@ export default {
     },
   },
 };
+
+
 </script>
 
 <style scoped>
-#review {
-  font-size: 25px;
-  border: 3px solid indigo;
-  padding: 10px 10px;
-}
 </style>

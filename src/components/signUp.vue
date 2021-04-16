@@ -59,7 +59,7 @@ export default {
               phoneNumber: "",
               profilePictureURL: "",
               chatList: [],
-              licenseURL:null,
+              licenseURL:"https://firebasestorage.googleapis.com/v0/b/gograb-4c451.appspot.com/o/placeholder_profile.png?alt=media&token=23ff609d-21f9-4b25-8342-f2deb1d07700",
             })
             .then(() => {
               localStorage.setItem("id", res.user.uid);

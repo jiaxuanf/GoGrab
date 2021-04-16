@@ -83,7 +83,7 @@
                   src="../assets/automobile-salesman.png"
                   style="width: 30px; height: 30px"
                 />
-                Hosted by: {{ this.listing.owner }}</b-col
+                Listed by: {{ this.listing.owner }}</b-col
               >
             </b-row>
           </b-col>
