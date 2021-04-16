@@ -1,9 +1,17 @@
 <template>
   <div>
-    <b-card style = "width:60%; height:100%; margin-left:auto; margin-right:auto; margin-top:20px;" class = "text-center"> 
-      <b-row no-gutters>
-        <b-col md = "6">
-          <b-card-body>
+    <div style = "width : 47%; float:left; text-align:center;">
+      <b-img :src = "require('../assets/login_2.jpg')" fluid grow></b-img>
+    </div>
+
+  <b-modal
+    v-model = "wrongPassword"
+    title="Incorrect Password Confirmation">
+    <p> Please ensure that you entered your password in both fields correctly</p>
+  </b-modal>
+  <div style = "width:53%; float:right;">
+      <div style = "width: 80%;text-align:center; margin: 0 auto; ">
+        <b-img :src = "require('../assets/GoGrab_Logo_transparent.png')" style = "width:150px; height:150px; margin-top:10%"></b-img>
             <h2>Sign Up for GoGrab</h2>
               <b-form @submit.prevent="register">
                 <label for = "Username"> Username: </label>
@@ -12,17 +20,14 @@
                 <b-form-input type = "email" placeholder="Email Address" v-model = "email" ></b-form-input> <br>
                 <label for = "password"> Password: </label>
                 <b-form-input type = "password" placeholder = "Password" v-model = "password"> </b-form-input> <br>
+                <label for = "password"> Confirm Password: </label>
+                <b-form-input type = "password" placeholder = "Password" v-model = "passwordConfirm"> </b-form-input> <br>
                 <div style = "text-align:center"> <b-button type = "submit" variant = "primary"> Sign Up </b-button> <br><br>
                 </div>
               </b-form>
               <div><b-button v-on:click = "goToLogin()">Return to login </b-button> </div>
-          </b-card-body>
-        </b-col>
-        <b-col md = "6"><b-card-img :src = "require('../assets/Loginpage.jpg')" right></b-card-img></b-col>
-        
-      </b-row>
-    </b-card>
-    
+        </div>
+    </div>
   </div>
 </template>
 
@@ -37,11 +42,17 @@ export default {
       username: "",
       email: "",
       password: "",
+      passwordConfirm: "",
       uid: "",
+      wrongPassword: false,
     };
   },
   methods: {
     register() {
+      if (this.passwordConfirm != this.password) {
+        this.wrongPassword = !this.wrongPassword;
+        return;
+      }
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
