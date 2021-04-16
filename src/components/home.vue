@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card text-variant="dark" class = "bg">
-      <b-card-img :src = "require('../assets/gograb_cover1.png')" style = "border-radius:0px; height:600px;"></b-card-img>   
+      <b-card-img :src = "require('../assets/gograb_cover1.png')" style = "border-radius:0px;" fluid></b-card-img>   
       <b-card-body overlay style="padding:0px"> 
         <div class = "titleText">
           <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
@@ -89,7 +89,7 @@ export default {
 }
 
 .titleText {
-  margin-top:50px;
+  margin-top:10%;
   margin-left:auto;
   margin-right:auto;
   width:50%;

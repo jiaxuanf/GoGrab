@@ -1,12 +1,13 @@
 <template>
   <div>
-  <div>
-
-    
+  <div style = "text-align:center;">
+      <h2 class = "mt-4">View your reviews from your past renters!</h2>
+      <b-form-rating readonly v-model = "getAverage" style = "width:60%; margin : 0 auto;" variant = "warning" size = "lg" class = "mt-4"></b-form-rating> 
+      <p><strong>Average Rating: {{getAverage}}/5</strong></p>
   </div>
     <b-container style = "width:80%; margin: 0 auto; overflow:auto;" class = "pt-5 pl-5"> 
-        <b-row v-for = "(chunk,index) in chunkedReviewsArray" :key = "index" class = "mb-4 align-self-stretch">
-          <b-col lg = '6' v-for="(listingData,index) in chunk" :key="index"></b-col>
+        <b-row v-for = "(reviewData,index) in reviewsArray" :key = "index" class = "mb-4 align-self-stretch">
+          <b-col ><ReviewsIcon v-bind:review = "reviewData"></ReviewsIcon></b-col>
         </b-row>
     </b-container>
   </div>
@@ -14,16 +15,22 @@
 
 <script>
 import firebase from "firebase";
+import ReviewsIcon from "./reviewsIcon.vue"
 
 export default {
   data() {
-    return {
+    return {  
       reviewsArray: [],
       chunkedReviewsArray : [],
       total: 0,
       name: "",
     };
   },
+
+  components : {
+    ReviewsIcon,
+  },
+
   methods: {
     fetchReviewsAndName: function () {
       const user = firebase.auth().currentUser;
@@ -53,12 +60,11 @@ export default {
               this.total += doc.data().reviewValue;
               this.reviewsArray.push(doc.data());
             })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
-            });
         });
     },
   },
+
+
   created() {
     this.fetchReviewsAndName();
   },
