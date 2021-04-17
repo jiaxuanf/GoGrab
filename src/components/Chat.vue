@@ -8,7 +8,13 @@
           style="margin-right: 25px; width: 160px"
           v-on:click="onProfileClick"
         >
-         <b-avatar icon="people-fill" size="5em" src="photoURL"></b-avatar>
+        <img
+                :src="photoURL"
+                alt="user"
+                width="50px"
+                height="50px"
+                style="border-radius: 50%; background: white;"
+              />
         </div>
         <p style="font-size: 30px; margin-right: 60px">{{ currentUserName }}</p>
       </div>
@@ -26,7 +32,13 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-              <b-avatar icon="people-fill" size="4em" src="item.URL"></b-avatar>
+              <img
+                :src="item.URL"
+                alt="user"
+                width="50px"
+                height="50px"
+                style="border-radius: 50%; background: white;"
+              />
             </div>
             <div
               style="
