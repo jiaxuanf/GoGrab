@@ -1,7 +1,8 @@
 <template>
-  <div style="display: flex; flex-direction: column; height: 200vh">
+  <div style="display: flex; flex-direction: column; height: 100vh">
     <header>
       <div style="height: 120px; background: lightgrey">
+        <img :src="currentPeerUser.URL"/>
         <b-avatar class="avatar" icon="people-fill" size="5em" src="currentPeerUser.URL"></b-avatar>
         <div class="header-image">
           <h6 class="mt-2" style="font-weight: 600">
@@ -26,7 +27,7 @@
       </div>
     </div>
     <footer>
-      <div style="min-height: 60px; background: lightgrey">
+      <div style="min-height: 60px; background: lightgrey; position:static">
         <div style="display: flex; padding: 15px">
           <img
             class="mr-3 pointer"
@@ -199,6 +200,8 @@ export default {
     if (this.currentPeerUser) {
       this.getMessages();
     }
+    console.log("under mounted, user's profile picture url is: ")
+    console.log(this.currentPeerUser.photoURL)
   },
 };
 </script>

@@ -57,7 +57,7 @@ export default {
               email: this.email,
               password: this.password,
               phoneNumber: "",
-              profilePictureURL: "",
+              profilePictureURL: "https://firebasestorage.googleapis.com/v0/b/gograb-4c451.appspot.com/o/placeholder_profile.png?alt=media&token=23ff609d-21f9-4b25-8342-f2deb1d07700",
               chatList: [],
               licenseURL:null,
             })
@@ -66,7 +66,7 @@ export default {
               localStorage.setItem("name", this.username);
               localStorage.setItem("email", this.email);
               localStorage.setItem("password", this.password);
-              localStorage.setItem("photoURL", "");
+              localStorage.setItem("photoURL", "https://firebasestorage.googleapis.com/v0/b/gograb-4c451.appspot.com/o/placeholder_profile.png?alt=media&token=23ff609d-21f9-4b25-8342-f2deb1d07700");
               localStorage.setItem("description", "");
               localStorage.setItem("FirebaseDocumentId", res.user.uid);
             });

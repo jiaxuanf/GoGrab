@@ -1,21 +1,28 @@
 
 <template>
   <div>
-    <h1 style = "margin-left: auto; margin-right:auto; text-align:center">Update your profile, {{ this.username }}!</h1>
-    <div id="photo" style = "margin-left:auto; margin-right:auto; text-align:center; ">
-      <div >
+    <h1 style="margin-left: auto; margin-right: auto; text-align: center">
+      Update your profile, {{ this.username }}!
+    </h1>
+    <div
+      id="photo"
+      style="margin-left: auto; margin-right: auto; text-align: center"
+    >
+      <div>
         <div v-if="imageData != null">
           <img
             class="previewProfPic"
             height="330"
             width="356"
             :src="this.img1"
-            alt= "Please choose a Photo"
+            alt="Please choose a Photo"
           />
         </div>
-        <br>
+        <br />
         <div>
-          <b-button style="border-radius: 30px;" @click="click1">choose a photo</b-button>
+          <b-button style="border-radius: 30px" @click="click1"
+            >Choose a photo</b-button
+          >
           <input
             type="file"
             accept="image/*"
@@ -28,62 +35,81 @@
       </div>
     </div>
     <b-card no-body>
-    <b-tabs card vertical> 
-    <b-tab title = "Personal Information">
-      <div id="information">
-        <h3>Contact Information</h3>
-        <form>
-          <label for="email">Email:</label><br />
-          <b-form-input type="email" placeholder="Email address..." v-model="email"></b-form-input>
-          <br />
-          <label for="phoneNumber">Phone number:</label>
-          <br />
-          <b-form-input
-            type="phoneNumber"
-            placeholder="Phone number..."
-            v-model="phoneNumber"
-          > </b-form-input>
-        </form>
-      </div>
-      <br><br>
-      
-      <b-button style="border-radius: 30px;"
-        id="updateInfo"
-        color="pink"
-        @click="
-          uploadPhoto();
-          updateContact();"
-        >Update Information</b-button>
-    </b-tab>    
-
-    <b-tab title = "Driver's License">
-      <div>
-        <div>
-          <h2>Get Approved to Drive Now! <br /></h2>
-          <h5>Driver's License</h5>
-          <p>
-            Upload a photo of your driver's license so that we know that you are
-            able to drive
-          </p>
-          <b-form-file
-            v-model="license"
-            accept="image/*"
-            placeholder="Upload your license"
-            @change="displayLicense"
-          />
+      <b-tabs card vertical>
+        <b-tab title="Personal Information">
+          <div id="information">
+            <h3>Contact Information</h3>
+            <form>
+              <label for="email">Email:</label><br />
+              <b-form-input
+                type="email"
+                placeholder="Email address..."
+                v-model="email"
+              ></b-form-input>
+              <br />
+              <label for="phoneNumber">Phone number:</label>
+              <br />
+              <b-form-input
+                type="number"
+                placeholder="Phone number..."
+                v-model="phoneNumber"
+              >
+              </b-form-input>
+            </form>
+          </div>
           <br /><br />
-          <b-button style="border-radius: 30px;" v-on:click="clearSelection">Clear Selection </b-button><br />
-          <br />
-          <b-img v-if="licensePresent" id="licensePreview" :src="image" style = "width:500px; height:500px;"/>
-        </div>
-        <hr />
-        <b-button style="background-color:rgb(97, 19, 150);border-radius: 30px;" v-on:click="updateInformation" :disabled="buttonStatus">
-          Update
-        </b-button>
-      </div>
-    </b-tab>    
-  </b-tabs> 
-  </b-card>
+
+          <b-button
+            style="border-radius: 30px"
+            id="updateInfo"
+            color="pink"
+            @click="
+              uploadPhoto();
+              updateContact();
+            "
+            >Update Information</b-button
+          >
+        </b-tab>
+
+        <b-tab title="Driver's License">
+          <div>
+            <div>
+              <h2>Get Approved to Drive Now! <br /></h2>
+              <h5>Driver's License</h5>
+              <p>
+                Upload a photo of your driver's license so that we know that you
+                are able to drive!
+              </p>
+              <b-form-file
+                v-model="license"
+                accept="image/*"
+                placeholder="Upload your license"
+                @change="displayLicense"
+              />
+              <br /><br />
+              <b-button style="border-radius: 30px" v-on:click="clearSelection"
+                >Clear Selection </b-button
+              ><br />
+              <br />
+              <b-img
+                v-if="licensePresent"
+                id="licensePreview"
+                :src="image"
+                style="width: 500px; height: 500px"
+              />
+            </div>
+            <hr />
+            <b-button
+              style="background-color: rgb(97, 19, 150); border-radius: 30px"
+              v-on:click="updateInformation"
+              :disabled="buttonStatus"
+            >
+              Update
+            </b-button>
+          </div>
+        </b-tab>
+      </b-tabs>
+    </b-card>
   </div>
 </template>
 
@@ -110,7 +136,7 @@ export default {
   },
   methods: {
     updateContact() {
-      database
+      databXase
         .collection("userInfo")
         .doc(this.uid)
         .update({
@@ -119,7 +145,7 @@ export default {
         })
         .then(() => {
           localStorage.setItem("email", this.email);
-          alert("Your information has been updated")
+          alert("Your information has been updated");
         });
     },
     fetchItems: function () {
@@ -133,16 +159,19 @@ export default {
           this.username = snapshot.data().username;
           this.email = snapshot.data().email;
           this.phoneNumber = snapshot.data().phoneNumber;
-          this.img1 = snapshot.data().profilePictureURL;  
+          this.img1 = snapshot.data().profilePictureURL;
         });
       var storage = firebase.storage();
       var storageRef = storage.ref();
       const image_url = this.uid + "_license.jpg";
-      storageRef.child(image_url).getDownloadURL().then((url) =>
-        {this.image = url;
-        this.licensePresent = true;}
-      );
-    }, 
+      storageRef
+        .child(image_url)
+        .getDownloadURL()
+        .then((url) => {
+          this.image = url;
+          this.licensePresent = true;
+        });
+    },
 
     uploadPhoto() {
       const post = {
@@ -158,7 +187,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-        localStorage.setItem("photoURL", this.img1);
+      localStorage.setItem("photoURL", this.img1);
     },
     click1() {
       this.$refs.input1.click();
@@ -225,11 +254,12 @@ export default {
     updateInformation: function () {
       console.log(this.image);
       var storageRef = firebase.storage().ref();
-      const licenseName = this.uid + "_license.jpg"
+      const licenseName = this.uid + "_license.jpg";
       var image_id = storageRef.child(licenseName);
+
       database.collection("userInfo").doc(this.uid).update({
-              licenseURL: this.img1,
-            });
+        licenseURL: this.image,
+      });
       image_id.put(this.imageFile).then((snapshot) => {
         console.log("Uploaded");
         console.log(snapshot);
