@@ -26,16 +26,19 @@
       <h1 style = "color:#5F2EEA" class = "mb-4">How car sharing works, in a few steps. </h1>
       <b-container style = "margin-left:0px; font-size: 20px;">
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Register as a host and list your car for FREE.</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Update your Driver's License and contact details</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Set the price for sharing and your rules.</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Click on "Cars" and choose from one of the available cars</strong></b-col>
+        </b-row>
+        <b-row class = "mb-4">
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>List out your own cars for rent under "List Your Cars"</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
          <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Manage your listings under the "My Bookings" tab</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Welcome your guest.</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Welcome your rider.</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
          <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Sit back and earn.</strong></b-col>
