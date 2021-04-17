@@ -4,8 +4,8 @@
             <b-card-img v-bind:src = "booking[1]['imageURL']" style = "max-width:500px; height:300px;"> </b-card-img>
             <b-card-title class = "mb-1">{{booking[1]['model']}} </b-card-title>
             <b-card-text class = "mb-2">{{booking[1]['brand']}}</b-card-text>
-            <b-card-text class = "mb-0">Booked From: {{booking[1]['rfrom']}} </b-card-text>
-            <b-card-text>Booked To: {{booking[1]['rto']}} </b-card-text>
+            <b-card-text class = "mb-0">Booked From: {{startDate}} </b-card-text>
+            <b-card-text>Booked To: {{endDate}} </b-card-text>
             <hr>
             <b-card-text style ="text-align:right"><strong>Total Cost: ${{booking[1]['total']}} SGD</strong></b-card-text>
             <b-button variant = "primary" class = "mr-4" v-on:click = "chat">Chat With Owner</b-button>
@@ -16,9 +16,17 @@
 
 <script>
 import database from "../main.js"
+import moment from "moment"
 //import firebase from "firebase"
 
 export default {
+    data() {
+        return {
+            startDate :moment(this.booking[1]['rfrom']).format('Do MMMM YYYY'),
+            endDate : moment(this.booking[1]['rto']).format('Do MMMM YYYY')
+        }
+    },
+
     props : {
         booking: Array,
     },

@@ -226,10 +226,9 @@ export default {
       var storageRef = firebase.storage().ref();
       const licenseName = this.uid + "_license.jpg"
       var image_id = storageRef.child(licenseName);
-      
-      database.collection("userInfo").doc(this.uid).update({
-              licenseURL: this.image,
-            });
+      storageRef.child(licenseName).getDownloadURL().then(
+        (doc) => {database.collection("userInfo").doc(this.uid).update({licenseURL : doc})
+        })
       image_id.put(this.imageFile).then((snapshot) => {
         console.log("Uploaded");
         console.log(snapshot);

@@ -9,12 +9,12 @@
         </div>
         <b-form @submit.prevent = "submitSearch"> 
         <b-container class = "mt-4">
-          <b-row style = "background-color: white;  height:50px; border-radius: 2rem"> 
-            <b-col sm = "2" class = "my-auto">Start Date:</b-col>
-            <b-col sm = "3" class = "my-auto"><b-form-datepicker class = "searchBar" v-model = "startDate" :min = "new Date()" required> </b-form-datepicker> </b-col>
-            <b-col sm = "2" class = "my-auto">End Date:</b-col>
-            <b-col sm = "3" class = "my-auto"><b-form-datepicker class = "searchBar" v-model = "endDate" :min = "new Date()" required> </b-form-datepicker> </b-col>
-            <b-col sm = "2" class = "my-auto"><b-button type = "submit" variant = primary>Search </b-button> </b-col>
+          <b-row style = "background-color: white;  height:50px; border-radius: 2rem; width:90%"> 
+            <b-col sm = "1" class = "my-auto" style = 'text-align:center; padding: 0px;'>Start Date:</b-col>
+            <b-col sm = "4" class = "my-auto" style = 'padding: 0px;'><b-form-datepicker class = "searchBar" v-model = "startDate" :min = "new Date()" required> </b-form-datepicker> </b-col>
+            <b-col sm = "1" class = "my-auto" style = 'text-align:center;padding: 0px;'>End Date:</b-col>
+            <b-col sm = "4" class = "my-auto" style = 'padding: 0px;'><b-form-datepicker class = "searchBar" v-model = "endDate" :min = "new Date()" required> </b-form-datepicker> </b-col>
+            <b-col sm = "2" class = "my-auto" style = 'text-align:center;padding: 0px;'><b-button type = "submit" style = "background-color:indigo">Search </b-button> </b-col>
           </b-row>
         </b-container>
         </b-form>
@@ -30,6 +30,9 @@
         </b-row>
         <b-row class = "mb-4">
          <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Set the price for sharing and your rules.</strong></b-col>
+        </b-row>
+        <b-row class = "mb-4">
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Manage your listings under the "My Bookings" tab</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
          <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Welcome your guest.</strong></b-col>
