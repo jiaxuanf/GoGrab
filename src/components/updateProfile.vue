@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     updateContact() {
-      databXase
+      database
         .collection("userInfo")
         .doc(this.uid)
         .update({
