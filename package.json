@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
   },
   "dependencies": {
     "@vue/cli": "^4.5.12",
@@ -14,12 +15,14 @@
     "chart.js": "^2.9.4",
     "chartjs-plugin-labels": "^1.1.0",
     "core-js": "^3.6.5",
+    "express": "^4.17.1",
     "firebase": "^8.3.1",
     "has-value": "^2.0.2",
     "jquery": "^1.9.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "sass-loader": "^10.1.1",
+    "serve-static": "^1.14.1",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
     "vue-cli": "^2.9.6",
@@ -61,3 +64,4 @@
     "not dead"
   ]
 }
+
