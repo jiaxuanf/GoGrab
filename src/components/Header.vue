@@ -6,7 +6,7 @@
         <b-navbar-nav class = "ml-auto"> 
           <b-nav-item-dropdown text = "User" style = "margin:0;"> 
             <b-dropdown-item class  = "routerLinks" to = "/updateProfile" id = "update">Update Profile</b-dropdown-item>
-            <b-tooltip target = "update" triggers = "hover">Update your E-mail, Driver's License and Phone Number here</b-tooltip>
+            <b-tooltip target = "update" triggers = "hover"  placement = "right">Update your E-mail, Driver's License and Phone Number here</b-tooltip>
             <b-dropdown-item @click = "logout" style = "margin:0px">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item class = "routerLinks" to = "/chat" id = "messages">Messages</b-nav-item>

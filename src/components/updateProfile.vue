@@ -230,10 +230,10 @@ export default {
       image_id.put(this.imageFile).then((snapshot) => {
         console.log("Uploaded");
         console.log(snapshot);
-      });
-      storageRef.child(licenseName).getDownloadURL().then(
+        storageRef.child(licenseName).getDownloadURL().then(
         (doc) => {database.collection("userInfo").doc(this.uid).update({licenseURL : doc}).then(location.reload())
         })
+      });
     },
   },
   created() {

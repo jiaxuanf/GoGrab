@@ -103,8 +103,8 @@ export default {
         return;
       }
       console.log("current peer user is: " + this.currentPeerUser.id);
-
-      if (!this.userChats.includes(this.currentPeerUser)) {
+      console.log(this.userChats);
+      if (!this.userChats.some(users => users['id'] === this.currentPeerUser['id'])) {
         console.log("ran");
         this.userChats.push(this.currentPeerUser);
         console.log("pushing happened");
