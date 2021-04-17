@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div style = "text-align:center" class = "mt-5"><h3>View your Bookings</h3> </div>
-    <div> 
+    <div style = "text-align:center" class = "mt-5">
+      <h3>View your Bookings</h3>
+    </div>
+    <div class = "mt-4"> 
         <b-tabs  content-class="mt-3" justified style = "margin: 0 auto;">
           <b-tab title = "Pending" style = "margin: 0 auto;">
               <h4 style = "text-align:center" v-if = "this.chunkedPendingArray.length === 0">You currently have no pending bookings. Book your next trip today! </h4>

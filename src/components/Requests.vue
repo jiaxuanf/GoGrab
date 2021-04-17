@@ -2,7 +2,7 @@
   <div>
     <div>
       <h3 style = "text-align:center" class = "mt-5">Manage all your rental requests! </h3>
-      <b-tabs  content-class="mt-3" justified style = "margin: 0 auto;">
+      <b-tabs class = "mt-3" content-class="mt-3" justified style = "margin: 0 auto;">
         <b-tab title = "Pending" style = "margin: 0 auto;">
           <h4 style = "text-align:center" v-if = "this.chunkedPendingArray.length === 0">You currently have no pending bookings. List your car now! </h4>
               <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 

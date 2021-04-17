@@ -4,13 +4,18 @@
             <b-card-img v-bind:src = "requests[1]['imageURL']" style = "max-width:500px; height:300px;"> </b-card-img>
             <b-card-title class = "mb-1">{{requests[1]['model']}} </b-card-title>
             <b-card-text class = "mb-2">{{requests[1]['brand']}}</b-card-text>
-            <b-card-text class = "mb-0">Booked From: {{requests[1]['rfrom']}} </b-card-text>
-            <b-card-text>Booked To: {{requests[1]['rto']}} </b-card-text>
+            <b-card-text class = "mb-0">Booked From: {{startDate}} </b-card-text>
+            <b-card-text>Booked To: {{endDate}} </b-card-text>
             <b-card-text>Requested By: <img :src = "profilePictureURL" style = "height: 30px; width:30px"/>{{renterName}} </b-card-text>
             <hr />
             <b-card-text style ="text-align:right"><strong>Total Cost: ${{requests[1]['total']}} SGD</strong></b-card-text>
-            <b-button variant = "primary" class = "mr-4" v-on:click = "chat">Chat With Owner</b-button>
-            <b-button variant = "success" v-if = "requests[1]['status'] == 'Pending'" v-on:click = "confirm" class = "mr-4">Confirm</b-button>
+            <b-button variant = "primary" class = "mr-4" v-on:click = "chat">Chat With Rider</b-button>
+            <b-button v-on:click = "displayLicense = !displayLicense" v-if = "requests[1]['status'] == 'Pending'">View Driver's License </b-button>
+            <b-modal v-model="displayLicense" title = "Check your rider's driver's license" style = "width:50%; height50%;">
+                <b-img :src = "licenseURL" fluid-grow></b-img>
+            </b-modal>
+            <hr />
+            <b-button variant = "success" v-if = "requests[1]['status'] == 'Pending'" v-on:click = "confirm" class = "mr-2">Confirm</b-button>
             <b-button variant = "danger" v-if = "requests[1]['status'] == 'Pending'" v-on:click = "reject" >Reject</b-button>
             <b-button variant = "primary" v-else-if= "requests[1]['status'] == 'Ongoing'" v-on:click = "complete">Complete </b-button>
         </b-card>
@@ -20,6 +25,7 @@
 <script>
 import database from "../main.js"
 import firebase from "firebase"
+import moment from "moment"
 import _ from "lodash"
 
 
@@ -31,6 +37,10 @@ export default {
             listingsArray : this.props['listings'],
             renterName : null,
             profilePictureURL : null,
+            licenseURL : null,
+            startDate :  moment(this.props['requests'][1]['rfrom']).format('Do MMMM YYYY'),
+            endDate :  moment(this.props['requests'][1]['rfrom']).format('Do MMMM YYYY'),
+            displayLicense: false,
         }
     },
     props: {
@@ -122,6 +132,7 @@ export default {
                 const data = doc.data();
                 this.renterName = data['username'];
                 this.profilePictureURL = data['profilePictureURL']
+                this.licenseURL = data['licenseURL']
             })
     }
 }

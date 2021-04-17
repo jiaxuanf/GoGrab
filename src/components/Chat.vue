@@ -8,7 +8,7 @@
           style="margin-right: 25px; width: 160px"
           v-on:click="onProfileClick"
         >
-         <b-avatar icon="people-fill" size="5em" src="photoURL"></b-avatar>
+         <b-avatar icon="people-fill" size="5em" :src="photoURL"></b-avatar>
         </div>
         <p style="font-size: 30px; margin-right: 60px">{{ currentUserName }}</p>
       </div>
@@ -26,7 +26,7 @@
             style="cursor: pointer; padding-bottom: 15px; width: 100%"
           >
             <div style="width: 30%">
-              <b-avatar icon="people-fill" size="4em" src="item.URL"></b-avatar>
+              <b-avatar icon="people-fill" size="4em" :src="item.URL"></b-avatar>
             </div>
             <div
               style="
