@@ -1,52 +1,23 @@
 <template>
   <div>
-    <div id="stats">
-      <div class="topStat">
-        <div id="profilePicture">
-          <img
+    <div style = "height:100vh;width:20%; float:left; text-align:center; position: sticky; top:0; background-color:#DED3FF">
+      <br><br>
+      <img
             class="profilePic"
             height="170"
             width="170"
             :src="this.img"
             alt="no profile picture"
           />
-          <div id="statsView">
-            <div class="name">{{ this.username }}</div>
-            <b-button class="numReviews" v-on:click="goToReviewsPage()"
-              >Reviews: {{ this.numReviews }}</b-button
-            >
-            <b-button
-              style="background-color: rgb(97, 19, 150); border-radius: 30px"
-              v-on:click="goToReviewsPage"
-            >
-              Update
-            </b-button>
-          </div>
-        </div>
-      </div>
-      <div class="listings">
-        <ul>
-          <li v-for="(listing, index) in listingsArr" :key="index">
-            <div class="indivListing">
-              <div class="details">
-                <h4>{{ index + 1 }}) {{ listing[0] }}</h4>
-                <br />
-                <p style="font-size: 20px">From:{{ listing[1] }}</p>
-                <p style="font-size: 20px">To:{{ listing[2] }}</p>
-              </div>
-              <div class="carPic">
-                <img
-                  height="100"
-                  width="100"
-                  :src="listing[3]"
-                  alt="no car picture"
-                />
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
+      <h5>{{this.username}} </h5>
+      <br>
+      <b-button v-on:click = "goToReviewsPage" variant = primary>View your reviews: {{this.numReviews}}</b-button>
     </div>
+    <b-container style = "width:80%; margin: 0 auto; overflow:auto;" class = "pt-5 pl-5"> 
+        <b-row v-for = "(chunk,index) in chunkedListingsArr" :key = "index" class = "mb-4 align-self-stretch">
+          <b-col sm = '6' v-for="(listingData,index) in chunk" :key="index"><profileListIcon v-bind:listing = "listingData"></profileListIcon></b-col>
+        </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -54,8 +25,12 @@
 <script>
 import firebase from "firebase";
 import database from "../main.js";
+import profileListIcon from "./profileListIcon.vue"
 
 export default {
+  components: {
+    profileListIcon,
+  },
   mounted() {
     this.reviewCount();
   },
@@ -68,7 +43,7 @@ export default {
       numFollowers: 0,
       img: "",
       uid: "",
-      listingsArr: [],
+      chunkedListingsArr: [],
     };
   },
 
@@ -88,26 +63,25 @@ export default {
           this.img = snapshot.data().profilePictureURL;
         });
     },
-     getListings() {
-      console.log("went through getlistings()");
-      console.log("id is: " + this.uid);
-       firebase
-        .firestore()
-        .collection("listings")
-        .where("ownerID", "==", this.uid)
+
+    get_listings : function() {
+        firebase.firestore().collection("listings").where("ownerID", "==", this.uid)
         .get()
         .then((snapshot) => {
-          snapshot.forEach((doc) => {
-            this.listingsArr.push([
-              doc.data().model,
-              doc.data().afrom,
-              doc.data().ato,
-              doc.data().images[0],
-            ]);
-            console.log("img link is:" + doc.data().images[0]);
+          var temp = [];
+          snapshot.docs.forEach(doc => {
+            temp.push([doc.id, doc.data()]);
+            if (temp.length == 2) {
+              this.chunkedListingsArr.push(temp);
+              temp = [];
+            }
           });
-        });
+          if (temp.length != 0) {
+            this.chunkedListingsArr.push(temp);
+          }  
+        })
     },
+
     reviewCount: function () {
       const user = firebase.auth().currentUser;
       console.log("userID: " + user.uid);
@@ -130,76 +104,21 @@ export default {
     goDashboard: function () {
       this.$router.push({ path: "/Dashboard" });
     },
+    test : function() {
+      console.log(this.chunkedListingsArr);
+    }
   },
   created() {
     this.fetchItems();
     this.reviewCount();
-    this.getListings();
+    this.get_listings();
   },
 };
 </script>
 
 <style scoped>
 .profilePic {
-  float: left;
-  padding: 20px;
   border-radius: 50%;
 }
-.followers {
-  float: left;
-  border: 2px solid black;
-  border-radius: 4px;
-  padding: 5px;
-}
-.numReviews {
-  float: right;
-  border: 2px solid black;
-  border-radius: 4px;
-  padding: 5px;
-}
-#statsView {
-  float: left;
-}
-.name {
-  font-size: 30px;
-}
-.topStat {
-  float: top;
-  vertical-align: top;
-  position: fixed;
-}
-.listings {
-  position: relative;
-  margin-top: 10px;
-  float: bottom;
-  vertical-align: bottom;
-}
 
-.button {
-  background-color: indigo;
-  border: none;
-  color: white;
-  padding: 10px 18px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 20px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  border-radius: 20px;
-}
-.indivListing {
-  height: 200px;
-  border: 1px solid #222;
-  margin: 30px;
-}
-.details {
-  float: left;
-  width: 50%;
-}
-.carPic {
-  float: right;
-  width: 50%;
-  padding: 20px;
-}
 </style>

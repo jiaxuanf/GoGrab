@@ -37,6 +37,10 @@
 import firebase from 'firebase'
 export default {
   name: 'RentalRequest',
+  props: {
+    listing_id: String
+  },
+
   data(){
     return {
       request: {
@@ -51,12 +55,11 @@ export default {
         },
         ownerID:'',
         renterID:'',
-        listing_id: this.$route.query.listing_id,
+        listing_id: '',
         model:'',
-        imageURL:'',
+        imageULR:'',
         price:'',
         status:'',
-
       },
       pickUpDate:Date(this.rfrom),
       returnDate:Date(this.rto),
@@ -74,8 +77,8 @@ export default {
       }
     },
     getOwnerID: function() {
-        console.log("this.listed_id is : "+ this.request.listing_id)
-        const car = firebase.firestore().collection("listings").doc(this.request.listing_id)
+        console.log("this.listed_id is : "+ this.listing_id)
+        const car = firebase.firestore().collection("listings").doc(this.listing_id)
         car.get().then((doc) => {
               if (doc.exists) {
                   this.request.ownerID = doc.get("ownerID")
@@ -109,7 +112,7 @@ export default {
     },
     getListingInfo: function() {
         console.log("start getListingInfo ✅")
-        const car = firebase.firestore().collection("listings").doc(this.request.listing_id)
+        const car = firebase.firestore().collection("listings").doc(this.listing_id)
         car.get().then((doc) => {
               if (doc.exists) {                  
                   this.request.model = doc.get("model")
@@ -119,7 +122,7 @@ export default {
                   var images = doc.get("images")
                   console.log("images is ")
                   console.log(images)
-                  this.request.imageURL = images[0]
+                  this.request.imageULR = images[0]
               } else {
                   console.log("No such document!");
               }
@@ -134,13 +137,12 @@ export default {
         var rto = new Date(this.request.rto)
         var days = parseInt( (rto - rfrom) / (24 * 3600 * 1000) )
         if (document.getElementById("rto")) {
-            var total = (days+1) * this.request.price
+            var total = days * this.request.price
             document.getElementById("numdays").innerText=total
             this.request.total = total
         } else {
             document.getElementById("numdays").innerText=0
         }
-        
     },
     // calculateDays: function() {
     //     return Math.floor((Date.UTC(this.returnDate.getFullYear(), this.returnDate.getMonth(), this.returnDate.getDate()) - Date.UTC(this.pickUpDate.getFullYear(), this.pickUpDate.getMonth(), this.pickUpDate.getDate()) ) /(1000 * 60 * 60 * 24));
@@ -148,6 +150,7 @@ export default {
 
   },
   created:function() {
+        this.listing_id = this.$route.query.listing_id;
         this.getOwnerID();
         this.getListingInfo();
         console.log(typeof this.request.read)

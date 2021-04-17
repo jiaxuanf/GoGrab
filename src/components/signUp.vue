@@ -69,9 +69,9 @@ export default {
               localStorage.setItem("photoURL", "https://firebasestorage.googleapis.com/v0/b/gograb-4c451.appspot.com/o/placeholder_profile.png?alt=media&token=23ff609d-21f9-4b25-8342-f2deb1d07700");
               localStorage.setItem("description", "");
               localStorage.setItem("FirebaseDocumentId", res.user.uid);
+              alert("Successfully registered! Please login.")
+              this.$router.push("/")
             });
-          alert("Successfully registered! Please login.");
-          this.$router.push("/");
         })
         .catch((error) => {
           alert(error.message);

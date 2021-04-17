@@ -17,7 +17,7 @@
         </b-form>
         <div id = "carDisplay"> 
             <b-container class="bv-example-row"  style = "max-width:90%;" >
-                <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index" class = "mb-4">
+                <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index" class = "mb-4 align-self-stretch">
                     <b-col sm = '4' v-for="(carData,index) in chunk" :key="index"><car-list-icon v-bind:rental="carData"></car-list-icon></b-col>
                 </b-row>
             </b-container>
@@ -26,9 +26,10 @@
 </template>
 
 <script>
-import CarListIcon from './CarListIcon.vue'
-import database from '../main.js'
+import CarListIcon from './CarListIcon.vue';
+import database from '../main.js';
 import moment from "moment";
+import firebase from "firebase";
 import _ from "lodash";
 
 export default {
@@ -37,6 +38,7 @@ export default {
     },
     data()  {
         return {
+            uid : null,
             fullCarArray : [],
             chunkedCarArray : [],
             filters : {
@@ -124,19 +126,13 @@ export default {
     },
     methods : {
         fetchItems : function() {
-            database.collection('listings').get().then(snapshot => {
-                var temp = [];
+            var user = firebase.auth().currentUser;
+            this.uid = user.uid
+            database.collection('listings').where("ownerID", "!=", this.uid).where("status", "==", "pending").get().then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     this.fullCarArray.push([doc.id, doc.data()]);
-                    temp.push([doc.id, doc.data()]);
-                    if (temp.length == 3) {
-                        this.chunkedCarArray.push(temp);
-                        temp = [];
-                    }
                 });
-                if (temp.length != 0) {
-                    this.chunkedCarArray.push(temp);
-                }
+                this.applyFilter();
             })
         },
 
@@ -147,7 +143,6 @@ export default {
                 alert("Please Enter a start and end date");
                 return;
             }
-
             if (this.filters.brand != null) {
                 tempArray = tempArray.filter((car) => car[1]['brand'] == this.filters.brand);
             } if (this.filters.type != null) {
@@ -176,39 +171,22 @@ export default {
                 this.chunkedCarArray.push(temp);
             }
         },
-
-        fetchItemsFromSearch : function(startTime, endTime) {
-            database.collection('listings').get().then(snapshot => {
-                var temp = [];
-                snapshot.docs.forEach(doc => {
-                    this.fullCarArray.push([doc.id, doc.data()]);
-                    const docStartTime = moment(doc.data()['afrom']).valueOf();
-                    const docEndTime = moment(doc.data()['ato']).valueOf();
-                    if (docStartTime >= startTime && docEndTime <= endTime) {
-                        temp.push([doc.id, doc.data()]);
-                    }
-                    if (temp.length == 3) {
-                        this.chunkedCarArray.push(temp);
-                        temp = [];
-                    }
-                });
-                if (temp.length != 0) {
-                    this.chunkedCarArray.push(temp);
-                }
-            })
-        }
     },
 
     created:function() {
         if (this.$route.params.search) {
-            const startTime = this.$route.params.startTimeStamp;
-            const endTime = this.$route.params.endTimeStamp;
-            this.fetchItemsFromSearch(startTime, endTime)
+            this.filters.startDate = this.$route.params.startTime;
+            this.filters.endDate = this.$route.params.endTime;
+            this.fetchItems()
         } else {
+            const today = new Date();
+            this.filters.startDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate(); 
+            this.filters.endDate = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + (today.getDate()+3); 
             this.fetchItems()
         }
     }
 }
+
 </script>
 
 <style scoped>
@@ -285,8 +263,4 @@ export default {
     border:1px solid #000000 !important;
     margin:10px !important;
 }
-
-
-
-
 </style>
