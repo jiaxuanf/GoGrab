@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style = "width : 50%; float:left; text-align:center;">
-      <b-img :src = "require('../assets/login_2.jpg')" fluid grow></b-img>
+      <b-img :src = "require('../assets/login_3.jpg')" fluid grow></b-img>
     </div>
     <div style = "width:50%; float:right;">
       <div style = "width: 80%;text-align:center; margin: 0 auto; ">
@@ -20,10 +20,10 @@
           </b-form-input>
           <br />
           <div style="text-align: center">
-            <b-button type="submit" variant="primary"> Login </b-button>
+            <b-button type="submit" style = "background-color: indigo"> Login </b-button>
             <br /><br />
             <h5>Don't have an account yet?</h5>
-            <b-button type="button" v-on:click="signUp()" variant="primary"
+            <b-button type="button" v-on:click="signUp()" style = "background-color: indigo"
               >Sign Up Here
             </b-button>
           </div>

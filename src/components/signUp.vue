@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style = "width : 50%; float:left; text-align:center;">
-      <b-img :src = "require('../assets/login_2.jpg')" fluid grow></b-img>
+      <b-img :src = "require('../assets/login_3.jpg')" fluid grow></b-img>
     </div>
 
   <b-modal
@@ -22,11 +22,11 @@
                 <b-form-input type = "password" placeholder = "Password" v-model = "password"> </b-form-input> <br>
                 <label for = "password"> Confirm Password: </label>
                 <b-form-input type = "password" placeholder = "Password" v-model = "passwordConfirm"> </b-form-input> <br>
-                <div style = "text-align:center"> <b-button type = "submit" variant = "primary"> Sign Up </b-button> <br><br>
+                <div style = "text-align:center"> <b-button type = "submit" variant = "primary" style = "background-color: indigo"> Sign Up </b-button> <br><br>
                 </div>
               </b-form>
-              <div><b-button v-on:click = "goToLogin()">Return to login </b-button> </div>
-        </div>
+              <div><b-button v-on:click = "goToLogin()" style = "background-color: indigo">Return to login </b-button> </div>
+        </div> 
     </div>
   </div>
 </template>
@@ -49,10 +49,13 @@ export default {
   },
   methods: {
     register() {
+      var flag = true;
       if (this.passwordConfirm != this.password) {
+        flag = false;
         this.wrongPassword = !this.wrongPassword;
         return;
       }
+      if (flag) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
@@ -86,7 +89,7 @@ export default {
         })
         .catch((error) => {
           alert(error.message);
-        });
+        });}
     },
     goToLogin() {
       this.$router.push("/login");

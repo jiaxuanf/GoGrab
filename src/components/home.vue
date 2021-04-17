@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card text-variant="dark" class = "bg">
-      <b-card-img :src = "require('../assets/gograb_cover1.png')" style = "border-radius:0px;" fluid></b-card-img>   
+      <b-card-img :src = "require('../assets/gograb_cover2.jpg')" style = "border-radius:0px;" fluid></b-card-img>   
       <b-card-body overlay style="padding:0px"> 
         <div class = "titleText">
           <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
@@ -49,6 +49,10 @@ export default {
     submitSearch : function() {
         const startDate = this.startDate;
         const endDate = this.endDate;
+        if (this.startDate == "" || this.endDate == "") {
+          alert("Please Enter a Start and End Date")
+          return;
+        }
         this.$router.push({name: 'CarListing',  params: { search:true, startTime : startDate, endTime : endDate}})
     }
   },
@@ -89,7 +93,7 @@ export default {
 }
 
 .titleText {
-  margin-top:10%;
+  margin-top:2.5%;
   margin-left:auto;
   margin-right:auto;
   width:50%;
