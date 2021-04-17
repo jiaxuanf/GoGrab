@@ -7,25 +7,37 @@
           <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
           <h2 style="text-shadow: 1px 1px #000000">Book cars from trusted hosts around the world. </h2>
         </div>
-        <b-form @submit.prevent = "submitSearch"  style = "background-color:white; width:70%; margin:0 auto; height:50px;" class = "mt-5" inline>
-          <label class = "ml-5">Start Date: </label> 
-          <b-form-datepicker class = "searchBar ml-3" v-model = "startDate" required> </b-form-datepicker>
-          <label class = "ml-5">End Date: </label>
-          <b-form-datepicker class = "searchBar ml-3 mr-3" v-model = "endDate" required> </b-form-datepicker>
-          <b-button type = "submit" variant = primary>Search </b-button>
+        <b-form @submit.prevent = "submitSearch"> 
+        <b-container class = "mt-4">
+          <b-row style = "background-color: white;  height:50px; border-radius: 2rem"> 
+            <b-col sm = "2" class = "my-auto">Start Date:</b-col>
+            <b-col sm = "3" class = "my-auto"><b-form-datepicker class = "searchBar" v-model = "startDate" :min = "new Date()" required> </b-form-datepicker> </b-col>
+            <b-col sm = "2" class = "my-auto">End Date:</b-col>
+            <b-col sm = "3" class = "my-auto"><b-form-datepicker class = "searchBar" v-model = "endDate" :min = "new Date()" required> </b-form-datepicker> </b-col>
+            <b-col sm = "2" class = "my-auto"><b-button type = "submit" variant = primary>Search </b-button> </b-col>
+          </b-row>
+        </b-container>
         </b-form>
       </b-card-body>
     </b-card>
 
     <div class = "instructions">
       <br> <br>
-      <h1 style = "color:#5F2EEA">How car sharing works, in a few steps. </h1>
-      <ul>
-        <li><strong> Register as a host and list your car for FREE. </strong> </li>
-        <li><strong> Set the price for sharing and your rules. </strong> </li>
-        <li><strong> Welcome your guest.</strong></li>
-        <li><strong> Sit back and earn.</strong></li>
-      </ul>
+      <h1 style = "color:#5F2EEA" class = "mb-4">How car sharing works, in a few steps. </h1>
+      <b-container style = "margin-left:0px; font-size: 20px;">
+        <b-row class = "mb-4">
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Register as a host and list your car for FREE.</strong></b-col>
+        </b-row>
+        <b-row class = "mb-4">
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Set the price for sharing and your rules.</strong></b-col>
+        </b-row>
+        <b-row class = "mb-4">
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Welcome your guest.</strong></b-col>
+        </b-row>
+        <b-row class = "mb-4">
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Sit back and earn.</strong></b-col>
+        </b-row>
+      </b-container>
     </div>
     <hr />
   </div>
