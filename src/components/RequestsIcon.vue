@@ -49,13 +49,13 @@ export default {
 
     methods: {
         async chat() {
-            const ownerID = this.requests[1]["ownerID"];
+            const renterID = this.requests[1]["renterID"];
             var username = "";
             var profileURL = "";
-            console.log("before await, ownerid: " + ownerID);
+            console.log("before await, ownerid: " + renterID);
             await database
                 .collection("userInfo")
-                .where("id", "==", ownerID)
+                .where("id", "==", renterID)
                 .get()
                 .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -64,7 +64,7 @@ export default {
                 });
                 });
             var peerInfo = {
-                id: ownerID,
+                id: renterID,
                 name: username,
                 URL: profileURL,
             };

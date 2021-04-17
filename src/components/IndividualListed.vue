@@ -368,7 +368,7 @@ export default {
     },
     rent: function () {
       //No license added
-      if (this.licenseURL == null) {
+      if (this.licenseURL == "") {
         this.loginPrompt = !this.loginPrompt;
         return;
       }

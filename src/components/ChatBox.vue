@@ -2,7 +2,7 @@
   <div style="display: flex; flex-direction: column; height: 200vh">
     <header>
       <div style="height: 120px; background: lightgrey">
-        <b-avatar class="avatar" icon="people-fill" size="5em" src="currentPeerUser.URL"></b-avatar>
+        <b-avatar class="avatar" icon="people-fill" size="5em" :src="currentPeerUser.URL"></b-avatar>
         <div class="header-image">
           <h6 class="mt-2" style="font-weight: 600">
             {{ currentPeerUser.name }}

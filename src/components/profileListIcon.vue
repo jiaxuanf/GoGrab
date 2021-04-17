@@ -4,7 +4,7 @@
             <b-card-img v-bind:src = "listing[1]['images'][0]" style = "max-width:500px; height:300px;"> </b-card-img>
             <b-card-title class = "mb-1">{{listing[1]['model']}}</b-card-title>
             <b-card-text class = "mb-0">{{listing[1]['brand']}}</b-card-text>
-            <b-card-text class = "mb-0">Availale from: {{this.startDate}}</b-card-text>
+            <b-card-text class = "mb-0">Available from: {{this.startDate}}</b-card-text>
             <b-card-text class = "mb-0">Available until: {{this.endDate}}</b-card-text>
             <hr>
             <b-card-text style ="text-align:right"><strong>${{listing[1]['price']}} SGD/Day</strong></b-card-text>
