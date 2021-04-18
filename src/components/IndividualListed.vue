@@ -161,7 +161,7 @@
         <b-row class="mt-5">
           <b-col sm="3"><strong>Owner's Rules</strong></b-col>
           <b-col sm="9">
-            <p v-if = "listing.rules.length > 0">The owner has not listed any specific rules for this car.</p>
+            <p v-if = "listing.rules.length == 0">The owner has not listed any specific rules for this car.</p>
             <ul v-else v-for="(rules, index) in listing.rules" :key="index">
               <li>{{ rules }}</li>
             </ul>
