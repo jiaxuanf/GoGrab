@@ -91,13 +91,14 @@
             v-model="loginPrompt"
             @ok="moveToUpdateProfile"
             title="Please Add a Driver's License"
+            ok-only
           >
             <p>
               Please add a driver's license into your profile so the owner of
               the car can verify that you are allowed to drive
             </p>
           </b-modal>
-          <b-modal v-model="formPrompt" title="Invalid Rental Request">
+          <b-modal v-model="formPrompt" title="Invalid Rental Request" ok-only>
             <p>
               You have entered an invalid value for the rental form. Please
               check the start and end date, and check the terms and conditions
@@ -160,7 +161,8 @@
         <b-row class="mt-5">
           <b-col sm="3"><strong>Owner's Rules</strong></b-col>
           <b-col sm="9">
-            <ul v-for="(rules, index) in listing.rules" :key="index">
+            <p v-if = "listing.rules.length > 0">The owner has not listed any specific rules for this car.</p>
+            <ul v-else v-for="(rules, index) in listing.rules" :key="index">
               <li>{{ rules }}</li>
             </ul>
           </b-col>
@@ -437,9 +439,12 @@ export default {
       var rto = new Date(this.request.rto);
       var days = parseInt((rto - rfrom) / (24 * 3600 * 1000));
       if (isNaN(days)) {
-        return 0;
+        return "Please Select a start and end date";
       } else {
-        return (days + 1) * this.listing.price;
+        const price =  (days + 1) * this.listing.price;
+        if (price <= 0) {
+          return "You have selected an invalid date range"; 
+        } return price;
       }
     },
   },
