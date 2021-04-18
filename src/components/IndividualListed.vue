@@ -106,6 +106,11 @@
             </p>
           </b-modal>
         </b-row>
+        <br />
+        <b-row no-gutters> 
+          <b-col sm = "3"><strong>Pick-up Location</strong> </b-col>
+          <b-col sm = "9">{{this.listing.location}} </b-col>
+        </b-row>
         <b-row
           no-gutters
           style="
@@ -186,6 +191,18 @@
               <li>{{ defects }}</li>
             </ul>
           </b-col>
+        </b-row>
+        <b-row class = "mt-5"> 
+            <b-col sm = "3"><strong>Owner's Reviews</strong> </b-col>
+            <b-col sm = "9"> 
+                <div v-for="(review, index) in reviews5" :key="index">
+                  <b-card class = "mt-1">
+                    <b-avatar :src = "review[2]['reviewerIcon']"> </b-avatar> <span>{{review[2]['reviewerName']}} </span> <br>
+                    Ratings: <b-form-rating inline v-model = "review[1]['rating']" variant = "warning" class = "mb-2"></b-form-rating>
+                    <b-card-text>{{review[1]['review']}}</b-card-text>
+                  </b-card>
+                </div>
+            </b-col>
         </b-row>
       </b-container>
     </div>
@@ -280,7 +297,8 @@ export default {
       licenseURL: "",
       loginPrompt: false,
       formPrompt: false,
-
+      reviews5 : [],
+      reviewsAfter : [],
       request: {
         read: "",
         note: "",
@@ -305,7 +323,6 @@ export default {
         .firestore()
         .collection("listings")
         .doc(this.$route.query.listing_id);
-      console.log(car);
       car
         .get()
         .then((doc) => {
@@ -326,7 +343,9 @@ export default {
             this.listing.defectList = doc.get("defectList");
             this.listing.numSeats = doc.get("numSeats");
             this.listing.brand = doc.get("brand");
+            this.listing.location = doc.get("location")
             this.fetchOwner();
+            this.fetchReviews(this.listing.ownerID);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -336,7 +355,31 @@ export default {
           console.log("Error getting document:", error);
         });
     },
-    fetchUser: function () {
+
+    fetchReviews : function(ownerID) {
+        firebase.firestore().collection("reviews")
+          .where("ownerID", "==", ownerID)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              const data = doc.data();   
+              firebase.firestore().collection("userInfo")
+                .doc(data['reviewerID'])
+                .get()
+                .then((userDoc) => {
+                  const reviewerData = userDoc.data()
+                  const review = [doc.id, {"rating": data['reviewValue'], "review" : data['reviewText']}, {"reviewerIcon" :  reviewerData['profilePictureURL'], "reviewerName" : reviewerData['username']}]
+                  if (this.reviews5.length < 5) {
+                    this.reviews5.push(review)
+                  } else {
+                    this.reviewsAfter.push(review)
+                  }
+                })
+          }) 
+        })
+    },
+    
+    fetchUser : function () {
       var user = firebase.auth().currentUser;
       this.uid = user.uid;
       firebase
@@ -354,6 +397,7 @@ export default {
           console.log(this.licenseURL);
         });
     },
+
     fetchOwner: function () {
       console.log("start fetchOwner" + this.listing.ownerID);
       firebase
