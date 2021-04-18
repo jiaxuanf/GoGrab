@@ -70,7 +70,7 @@ export default {
         if (this.startDate == "" || this.endDate == "") {
           this.validDate = !this.validDate;
           return;
-        } else if ((moment(this.startDate).valueOf() - moment(this.endDate).valueOf()) < 0) {
+        } else if ((moment(this.startDate).valueOf() - moment(this.endDate).valueOf()) > 0) {
           this.validDate = !this.validDate;
           return;
         }
