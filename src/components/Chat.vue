@@ -174,7 +174,7 @@ export default {
   width: 350px;
   top: 0;
   left: 0;
-  height: 200vh;
+  height: 100vh;
   z-index: 999;
   background: rgb(117, 112, 117);
   color: black;
