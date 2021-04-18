@@ -234,7 +234,8 @@ export default {
         console.log("Uploaded");
         console.log(snapshot);
         storageRef.child(licenseName).getDownloadURL().then(
-        (doc) => {database.collection("userInfo").doc(this.uid).update({licenseURL : doc}).then(location.reload())
+        (doc) => {
+          database.collection("userInfo").doc(this.uid).update({licenseURL : doc})
         })
       });
     },
