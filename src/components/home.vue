@@ -4,8 +4,8 @@
       <b-card-img :src = "require('../assets/gograb_cover2.jpg')" style = "border-radius:0px;" fluid></b-card-img>   
       <b-card-body overlay style="padding:0px"> 
         <div class = "titleText">
-          <h1 style="text-shadow: 1px 1px #000000">Drive anywhere you want. </h1> <br>
-          <h2 style="text-shadow: 1px 1px #000000">Book cars from trusted hosts around the world. </h2>
+          <h1 style="text-shadow: 1px 1px #000000; margin-left:400px">Drive anywhere you want. </h1> <br>
+          <h2 style="text-shadow: 1px 1px #000000; margin-left:330px">Book cars from trusted hosts around the world. </h2>
         </div>
         <b-form @submit.prevent = "submitSearch"> 
         <b-container class = "mt-4">
@@ -23,25 +23,22 @@
 
     <div class = "instructions">
       <br> <br>
-      <h1 style = "color:#5F2EEA" class = "mb-4">How car sharing works, in a few steps. </h1>
+      <h1 style = "color:#5F2EEA" class = "mb-4">How GoGrab's rental works: </h1>
       <b-container style = "margin-left:0px; font-size: 20px;">
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Update your Driver's License and contact details</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Update your Driver's License and Personal Details</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Click on "Cars" and choose from one of the available cars</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Want to rent a car? Click on "Cars" and choose from the available cars</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>List out your own cars for rent under "List Your Cars"</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Want to list a car? Click on "List Your Cars"</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Manage your listings under the "My Bookings" tab</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Manage your rentals under "My Bookings"</strong></b-col>
         </b-row>
         <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Welcome your rider.</strong></b-col>
-        </b-row>
-        <b-row class = "mb-4">
-         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Sit back and earn.</strong></b-col>
+         <b-col class = "align-middle"><b-img :src = "require('../assets/bullet.svg')" style = "width:50px; height:50px;"></b-img> <strong>Manage your listings under "My Bookings"</strong></b-col>
         </b-row>
       </b-container>
     </div>
