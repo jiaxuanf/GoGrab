@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex; flex-direction: column; height: 200vh">
+  <div style="display: flex; flex-direction: column; height: 95vh">
     <header>
       <div style="height: 120px; background: lightgrey">
         <b-avatar class="avatar" icon="people-fill" size="5em" :src="currentPeerUser.URL"></b-avatar>
