@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <app-header></app-header>  
+    <app-header v-if ="!['Login', 'Signup'].includes($route.name)"></app-header>  
 
     <router-view></router-view>
   </div>
