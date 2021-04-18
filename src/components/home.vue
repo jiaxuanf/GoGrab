@@ -5,7 +5,7 @@
       <b-card-body overlay style="padding:0px"> 
         <div class = "titleText">
           <h1 style="text-shadow: 1px 1px #000000;">Drive anywhere you want. </h1> <br>
-          <h2 style="text-shadow: 1px 1px #000000;npm">Book cars from trusted owners around the world. </h2>
+          <h2 style="text-shadow: 1px 1px #000000;npm">Book cars from trusted owners. </h2>
         </div>
         <b-form @submit.prevent = "submitSearch"> 
         <b-container class = "mt-4">
