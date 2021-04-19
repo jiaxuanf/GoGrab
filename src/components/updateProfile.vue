@@ -110,7 +110,9 @@ export default {
   },
   methods: {
     updateContact() {
-      database
+      var user = firebase.auth().currentUser;
+      user.updateEmail(this.email).then(() => {
+        database
         .collection("userInfo")
         .doc(this.uid)
         .update({
@@ -119,8 +121,9 @@ export default {
         })
         .then(() => {
           localStorage.setItem("email", this.email);
-          alert("Your information has been updated")
+          location.reload();
         });
+      })      
     },
     fetchItems: function () {
       var user = firebase.auth().currentUser;
@@ -231,7 +234,8 @@ export default {
         console.log("Uploaded");
         console.log(snapshot);
         storageRef.child(licenseName).getDownloadURL().then(
-        (doc) => {database.collection("userInfo").doc(this.uid).update({licenseURL : doc}).then(location.reload())
+        (doc) => {
+          database.collection("userInfo").doc(this.uid).update({licenseURL : doc})
         })
       });
     },

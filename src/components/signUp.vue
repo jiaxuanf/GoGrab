@@ -71,7 +71,7 @@ export default {
               email: this.email,
               password: this.password,
               phoneNumber: "",
-              profilePictureURL: "https://firebasestorage.googleapis.com/v0/b/gograb-4c451.appspot.com/o/placeholder_profile.png?alt=media&token=23ff609d-21f9-4b25-8342-f2deb1d07700",
+              profilePictureURL: "https://firebasestorage.googleapis.com/v0/b/gograb-4c451.appspot.com/o/placeholder_profile.png?alt=media&token=93b23a28-0ad1-4013-89e4-b145ba3bb251",
               chatList: [],
               licenseURL: "",
             })

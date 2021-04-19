@@ -14,7 +14,7 @@
               </b-container>
           </b-tab>
           <b-tab title = "Denied" style = "margin: 0 auto;">
-              <h4 style = "text-align:center" v-if = "this.chunkedDeniedArray.length === 0">You currently have no bookings. Book your next trip today!</h4>
+              <h4 style = "text-align:center" v-if = "this.chunkedDeniedArray.length === 0">You currently have no denied requests.</h4>
               <b-container style = "margin: 0 auto; overflow:auto; max-width:80%" class = "pt-5"> 
                   <b-row v-for = "(chunk,index) in chunkedDeniedArray" :key = "index" class = "mb-4 align-self-stretch">
                       <b-col sm = '4' v-for="(bookingData,index) in chunk" :key="index"><RentalsIcon v-bind:booking = "bookingData"></RentalsIcon></b-col>

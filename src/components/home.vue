@@ -4,8 +4,8 @@
       <b-card-img :src = "require('../assets/gograb_cover2.jpg')" style = "border-radius:0px;" fluid></b-card-img>   
       <b-card-body overlay style="padding:0px"> 
         <div class = "titleText">
-          <h1 style="text-shadow: 1px 1px #000000; margin-left:400px">Drive anywhere you want. </h1> <br>
-          <h2 style="text-shadow: 1px 1px #000000; margin-left:330px">Book cars from trusted hosts around the world. </h2>
+          <h1 style="text-shadow: 1px 1px #000000;">Drive anywhere you want. </h1> <br>
+          <h2 style="text-shadow: 1px 1px #000000;npm">Book cars from trusted owners. </h2>
         </div>
         <b-form @submit.prevent = "submitSearch"> 
         <b-container class = "mt-4">
@@ -20,7 +20,9 @@
         </b-form>
       </b-card-body>
     </b-card>
-
+    <b-modal v-model = "validDate" title = "Invalid Date Selected" ok-only>
+      <p>Please select a valid date range.</p>
+    </b-modal>
     <div class = "instructions">
       <br> <br>
       <h1 style = "color:#5F2EEA" class = "mb-4">How GoGrab's rental works: </h1>
@@ -47,6 +49,8 @@
 </template>
 
 <script>
+import moment from "moment"
+
 export default {
     props: {},
   data() {
@@ -54,9 +58,8 @@ export default {
       rowStyle: "background:white; width: 100%; display:flex; text-align: center; justify-content:center; height:70px;",
       centerText: "margin:auto;",
       startDate : "",
-      startTime : "",
       endDate : "",
-      endTime : ""
+      validDate : false,
     };
   },
 
@@ -65,14 +68,15 @@ export default {
         const startDate = this.startDate;
         const endDate = this.endDate;
         if (this.startDate == "" || this.endDate == "") {
-          alert("Please Enter a Start and End Date")
+          this.validDate = !this.validDate;
+          return;
+        } else if ((moment(this.startDate).valueOf() - moment(this.endDate).valueOf()) > 0) {
+          this.validDate = !this.validDate;
           return;
         }
         this.$router.push({name: 'CarListing',  params: { search:true, startTime : startDate, endTime : endDate}})
     }
-  },
-
-  
+  },  
 };
     
 

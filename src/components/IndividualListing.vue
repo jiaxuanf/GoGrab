@@ -21,7 +21,7 @@
       <b-form-radio-group v-model = "listing.carType" :options = "typeOptions" buttons required button-variant = "outline-primary"> </b-form-radio-group><br><br>
 
       <label for = "age">Car Age:</label><br>
-      <b-form-input v-model = "listing.age" type = "number" placeholder = "Age..." min = "1" required style = "width:20%"></b-form-input>
+      <b-form-input v-model = "listing.age" type = "number" placeholder = "Age..." min = "0" required style = "width:20%"></b-form-input>
       <br><br>
 
       <label>Asking Price: (Per Day) </label> <br>
@@ -31,8 +31,11 @@
       <label for = "afrom">Available From: </label> <br> 
       <b-form-datepicker id = "afrom" name = "afrom" v-model = "listing.afrom" :min = "new Date()" required style = "width:30%"> </b-form-datepicker><br>
       <label for = "ato">Available Until: </label> <br>
-      <b-form-datepicker id = "ato" name = "ato" v-model = "listing.ato" :min = "listing.afrom" required style = "width:30%"> </b-form-datepicker>
+      <b-form-datepicker id = "ato" name = "ato" v-model = "listing.ato" :min = "new Date()" required style = "width:30%"> </b-form-datepicker>
       <br><br>
+      <b-modal v-model = "validDate" title = "Invalid Date Selected">
+          <p> Please fill in a valid availability period.</p>
+      </b-modal>
 
       <label for = "pickup">Pick up Location: </label> <br>
       <b-form-input v-model="listing.location" required style = "width:60%" placeholder = "Enter your pickup location...."> </b-form-input><br>
@@ -45,6 +48,9 @@
           placeholder = "Upload Images of your car"></b-form-file><br /><br>
       <b-button type = "button" v-on:click = "clearSelection">Clear Selection</b-button>
       <br><br>
+      <b-modal v-model = "imagePresent" title = "Car photo requred">
+          <p> Please upload at least 1 photo of your car. </p>
+      </b-modal>
       <b-carousel v-if="imageData != null"
       :interval="0"
       controls
@@ -80,6 +86,7 @@
 
 <script>
 import firebase from 'firebase'
+import moment from 'moment';
  export default {
   name: 'IndividualListing',
   props: {
@@ -87,10 +94,14 @@ import firebase from 'firebase'
   },
   data(){
     return {
+      imagePresent : false,
+      validDate : false, 
       listing: {
         model:'',
         brand:'',
         age:'',
+        afrom: '',
+        ato: '',
         numSeats:'',
         defect:false, 
         defectList : [],
@@ -239,7 +250,16 @@ import firebase from 'firebase'
     },
     list : function() {
       //add userID to the document for listing
-
+      if (this.listing.images.length === 0) {
+        this.imagePresent = !this.imagePresent;
+        return;
+      } else if (this.listing.afrom == "" || this.listing.ato == "") {
+        this.validDate = !this.validDate;
+        return;
+      } else if (moment(this.listing.afrom).valueOf() > moment(this.listing.ato).valueOf()) {
+        this.validDate = !this.validDate;
+        return;
+      } else {
       this.listing.ownerID = this.getCurrentUser();
       this.listing.renterID = "";
       this.listing.reviewerID = "";
@@ -260,7 +280,7 @@ import firebase from 'firebase'
           alert(error.message);
 
         });
-      console.log('listed')
+      console.log('listed')}
     },
 
     clearSelection : function() {

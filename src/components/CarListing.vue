@@ -1,6 +1,5 @@
 <template>
     <div>
-        
         <b-form inline style = "max-width:90%; margin: 0 auto; margin-top:40px; padding:0;" class = "mx-auto" v-on:submit.prevent = "applyFilter"> 
             <h3 >Filters </h3>
             <label class = "ml-4">Car Brand</label> 
@@ -12,9 +11,12 @@
             <label class = "ml-4">Start Date </label>
             <b-form-datepicker class = "ml-2" v-model = "filters.startDate" :min = "new Date()" required> </b-form-datepicker>
             <label class = "ml-4">End Date </label>
-            <b-form-datepicker class = "ml-2" v-model = "filters.endDate" :min = "filters.startDate" required>  </b-form-datepicker>
+            <b-form-datepicker class = "ml-2" v-model = "filters.endDate" :min = "new Date()" required>  </b-form-datepicker>
             <b-button type = "Submit" variant = primary class = "ml-4">Filter </b-button>
         </b-form>
+        <b-modal v-model = "invalidFilter" title = "Invalid dates Selected">
+            <p>Please ensure that you have selected a start and end date, and the end date is greater than the start date.</p>            
+        </b-modal>
         <div id = "carDisplay"> 
             <b-container class="bv-example-row"  style = "max-width:90%;" >
                 <b-row v-for = "(chunk,index) in chunkedCarArray" :key = "index" class = "mb-4 align-self-stretch">
@@ -48,6 +50,7 @@ export default {
                 startDate : null,
                 endDate : null,
             },
+            invalidFilter : false,
             typeOptions : [
                 {value : null, text : "None"},
                 "SUV",
@@ -140,7 +143,11 @@ export default {
             var tempArray = _.cloneDeep(this.fullCarArray);
             console.log(tempArray);
             if (this.filters.startDate == null || this.filters.endDate == null) {
-                alert("Please Enter a start and end date");
+                this.invalidFilter = true;
+                return;
+            }
+            if (moment(this.filters.startDate).valueOf() > moment(this.filters.endDate).valueOf()) {
+                this.invalidFilter = true;
                 return;
             }
             if (this.filters.brand != null) {

@@ -91,19 +91,25 @@
             v-model="loginPrompt"
             @ok="moveToUpdateProfile"
             title="Please Add a Driver's License"
+            ok-only
           >
             <p>
               Please add a driver's license into your profile so the owner of
               the car can verify that you are allowed to drive
             </p>
           </b-modal>
-          <b-modal v-model="formPrompt" title="Invalid Rental Request">
+          <b-modal v-model="formPrompt" title="Invalid Rental Request" ok-only>
             <p>
               You have entered an invalid value for the rental form. Please
               check the start and end date, and check the terms and conditions
               before renting.
             </p>
           </b-modal>
+        </b-row>
+        <br />
+        <b-row no-gutters> 
+          <b-col sm = "3"><strong>Pick-up Location</strong> </b-col>
+          <b-col sm = "9">{{this.listing.location}} </b-col>
         </b-row>
         <b-row
           no-gutters
@@ -160,7 +166,8 @@
         <b-row class="mt-5">
           <b-col sm="3"><strong>Owner's Rules</strong></b-col>
           <b-col sm="9">
-            <ul v-for="(rules, index) in listing.rules" :key="index">
+            <p v-if = "listing.rules.length == 0">The owner has not listed any specific rules for this car.</p>
+            <ul v-else v-for="(rules, index) in listing.rules" :key="index">
               <li>{{ rules }}</li>
             </ul>
           </b-col>
@@ -184,6 +191,18 @@
               <li>{{ defects }}</li>
             </ul>
           </b-col>
+        </b-row>
+        <b-row class = "mt-5"> 
+            <b-col sm = "3"><strong>Owner's Reviews</strong> </b-col>
+            <b-col sm = "9"> 
+                <div v-for="(review, index) in reviews5" :key="index">
+                  <b-card class = "mt-1">
+                    <b-avatar :src = "review[2]['reviewerIcon']"> </b-avatar> <span>{{review[2]['reviewerName']}} </span> <br>
+                    Ratings: <b-form-rating inline v-model = "review[1]['rating']" variant = "warning" class = "mb-2"></b-form-rating>
+                    <b-card-text>{{review[1]['review']}}</b-card-text>
+                  </b-card>
+                </div>
+            </b-col>
         </b-row>
       </b-container>
     </div>
@@ -278,7 +297,8 @@ export default {
       licenseURL: "",
       loginPrompt: false,
       formPrompt: false,
-
+      reviews5 : [],
+      reviewsAfter : [],
       request: {
         read: "",
         note: "",
@@ -303,7 +323,6 @@ export default {
         .firestore()
         .collection("listings")
         .doc(this.$route.query.listing_id);
-      console.log(car);
       car
         .get()
         .then((doc) => {
@@ -324,7 +343,9 @@ export default {
             this.listing.defectList = doc.get("defectList");
             this.listing.numSeats = doc.get("numSeats");
             this.listing.brand = doc.get("brand");
+            this.listing.location = doc.get("location")
             this.fetchOwner();
+            this.fetchReviews(this.listing.ownerID);
           } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -334,7 +355,31 @@ export default {
           console.log("Error getting document:", error);
         });
     },
-    fetchUser: function () {
+
+    fetchReviews : function(ownerID) {
+        firebase.firestore().collection("reviews")
+          .where("ownerID", "==", ownerID)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              const data = doc.data();   
+              firebase.firestore().collection("userInfo")
+                .doc(data['reviewerID'])
+                .get()
+                .then((userDoc) => {
+                  const reviewerData = userDoc.data()
+                  const review = [doc.id, {"rating": data['reviewValue'], "review" : data['reviewText']}, {"reviewerIcon" :  reviewerData['profilePictureURL'], "reviewerName" : reviewerData['username']}]
+                  if (this.reviews5.length < 5) {
+                    this.reviews5.push(review)
+                  } else {
+                    this.reviewsAfter.push(review)
+                  }
+                })
+          }) 
+        })
+    },
+    
+    fetchUser : function () {
       var user = firebase.auth().currentUser;
       this.uid = user.uid;
       firebase
@@ -352,6 +397,7 @@ export default {
           console.log(this.licenseURL);
         });
     },
+
     fetchOwner: function () {
       console.log("start fetchOwner" + this.listing.ownerID);
       firebase
@@ -437,9 +483,12 @@ export default {
       var rto = new Date(this.request.rto);
       var days = parseInt((rto - rfrom) / (24 * 3600 * 1000));
       if (isNaN(days)) {
-        return 0;
+        return "Please Select a start and end date";
       } else {
-        return (days + 1) * this.listing.price;
+        const price =  (days + 1) * this.listing.price;
+        if (price <= 0) {
+          return "You have selected an invalid date range"; 
+        } return price;
       }
     },
   },

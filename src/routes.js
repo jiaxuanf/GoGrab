@@ -23,7 +23,7 @@ export default[
     { path: '/listing', component: IndividualListing, name : 'IndividualListing', props:true, meta: {requiresAuth: true}},
     { path: '/listed', component: IndividualListed, name : 'IndividualListed', props:true, meta: {requiresAuth: true}},
     { path : '/login', component: Login, name :'Login'},
-    { path: '/signup', component: SignUp},
+    { path: '/signup', component: SignUp, name : 'Signup'},
     { path : '/CarListing', component:CarListing, name: 'CarListing' , props:true, meta: {requiresAuth: true}},
     { path : '/reviewForm', name: 'reviewForm', component:reviewForm, props: true, meta: {requiresAuth: true} },
     { path: '/updateProfile', component: UpdateProfile, name :'updateProfile', meta: {requiresAuth: true}},
