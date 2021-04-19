@@ -20,6 +20,7 @@
         </b-form>
       </b-card-body>
     </b-card>
+    
     <b-modal v-model = "validDate" title = "Invalid Date Selected" ok-only>
       <p>Please select a valid date range.</p>
     </b-modal>
