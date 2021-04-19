@@ -202,6 +202,16 @@
                     <b-card-text>{{review[1]['review']}}</b-card-text>
                   </b-card>
                 </div>
+                <b-button v-b-toggle.extraReviews v-if = "reviewsAfter.length > 0" class = "mt-2">See More Reviews</b-button>
+                <b-collapse id = "extraReviews" class = "mt-2"> 
+                  <div v-for="(review, index) in reviewsAfter" :key="index">
+                  <b-card class = "mt-1">
+                    <b-avatar :src = "review[2]['reviewerIcon']"> </b-avatar> <span>{{review[2]['reviewerName']}} </span> <br>
+                    Ratings: <b-form-rating inline v-model = "review[1]['rating']" variant = "warning" class = "mb-2"></b-form-rating>
+                    <b-card-text>{{review[1]['review']}}</b-card-text>
+                  </b-card>
+                </div>
+                </b-collapse>
             </b-col>
         </b-row>
       </b-container>

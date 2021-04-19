@@ -81,6 +81,9 @@
       
       <b-button type = "submit" style = "background-color: #DED3FF; color : black"> List your Car Now! </b-button>
     </b-form>
+    <b-modal v-model = "numberModal" @ok="moveToUpdateProfile" title = "Please Enter a phone number" ok-only>
+        You need to add a phone number before listing your car. Press Ok to update your phone number.   
+    </b-modal>
   </div>
 </template>
 
@@ -194,6 +197,9 @@ import moment from 'moment';
         "Volkswagen",
         "Volvo"
       ],
+      ownerID : null,
+      ownerNumber : false,
+      numberModal : false,
       }
   },
   methods: {
@@ -202,6 +208,7 @@ import moment from 'moment';
       var uid
       if (user != null) {
         uid = user.uid;
+        this.ownerID = uid;
         return uid;
       }
     },
@@ -259,8 +266,11 @@ import moment from 'moment';
       } else if (moment(this.listing.afrom).valueOf() > moment(this.listing.ato).valueOf()) {
         this.validDate = !this.validDate;
         return;
+      } else if (this.ownerNumber == false){ 
+        this.numberModal = !this.numberModal;
+        return;
       } else {
-      this.listing.ownerID = this.getCurrentUser();
+      this.listing.ownerID =  this.ownerID;
       this.listing.renterID = "";
       this.listing.reviewerID = "";
       this.listing.status = "pending";
@@ -287,6 +297,29 @@ import moment from 'moment';
       this.listing.images = [];
       this.imageData = null
     },
+
+    getOwnerNumber : function() {
+      console.log(this.ownerID);
+      firebase.firestore().collection("userInfo").doc(this.ownerID)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          if (data['phoneNumber'] == "") {
+            this.ownerNumber = false; 
+          } else {
+            this.ownerNumber = true;
+          }
+          console.log(this.ownerNumber)
+        })
+    },
+    moveToUpdateProfile: function () {
+      this.$router.push({ name: "updateProfile" });
+    },
+  },
+
+  created: function() {
+    this.getCurrentUser();
+    this.getOwnerNumber();
   },
 
    computed : {

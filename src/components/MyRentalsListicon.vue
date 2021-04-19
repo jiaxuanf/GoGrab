@@ -6,6 +6,8 @@
             <b-card-text class = "mb-2">{{booking[1]['brand']}}</b-card-text>
             <b-card-text class = "mb-0">Booked From: {{startDate}} </b-card-text>
             <b-card-text>Booked To: {{endDate}} </b-card-text>
+            <b-card-text>Hosted By : <b-img :src = "profilePictureURL" style = "width:30px; height:30px;"></b-img>{{ownerName}}</b-card-text>
+            <b-card-text v-if = "booking[1]['status'] == 'Ongoing'">Contact {{ownerName}} at {{phoneNumber}} </b-card-text>
             <hr>
             <b-card-text style ="text-align:right"><strong>Total Cost: ${{booking[1]['total']}} SGD</strong></b-card-text>
             <b-button variant = "primary" class = "mr-4" v-on:click = "chat">Chat With Owner</b-button>
@@ -17,13 +19,16 @@
 <script>
 import database from "../main.js"
 import moment from "moment"
-//import firebase from "firebase"
+import firebase from "firebase"
 
 export default {
     data() {
         return {
             startDate :moment(this.booking[1]['rfrom']).format('Do MMMM YYYY'),
-            endDate : moment(this.booking[1]['rto']).format('Do MMMM YYYY')
+            endDate : moment(this.booking[1]['rto']).format('Do MMMM YYYY'),
+            ownerName : null,
+            profilePictureURL : null,
+            phoneNumber : null,
         }
     },
 
@@ -73,9 +78,18 @@ export default {
         },
     },
     
-    created: function() {
-        console.log(this.booking);
-    } 
+    created : function() {
+        const ownerID = this.booking[1]['ownerID'];
+        firebase.firestore().collection("userInfo")
+            .doc(ownerID)
+            .get()
+            .then((doc) => {
+                const data = doc.data();
+                this.ownerName = data['username'];
+                this.profilePictureURL = data['profilePictureURL']
+                this.phoneNumber = data['phoneNumber']
+            })
+    }
 
 
 }

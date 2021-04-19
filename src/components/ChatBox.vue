@@ -27,21 +27,7 @@
     </div>
     <footer>
       <div style="min-height: 60px; background: lightgrey">
-        <div style="display: flex; padding: 15px">
-          <img
-            class="mr-3 pointer"
-            src="../assets/picture.png"
-            alt="select picture"
-            width="30px"
-            height="30px"
-          />
-          <img
-            class="mr-3 pointer"
-            src="../assets/sticker.png"
-            alt="select sticker"
-            width="30px"
-            height="30px"
-          />
+        <div style="margin-left: 10px; display:flex; padding: 15px">
           <input
             type="text"
             style="

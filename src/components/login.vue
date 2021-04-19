@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div style = "width : 50%; float:left; text-align:center;">
-      <b-img :src = "require('../assets/login_3.jpg')" fluid grow></b-img>
+    <div style = "max-width:70%; float:left; text-align:center;">
+      <b-img :src = "require('../assets/login_3.jpg')" style = "height:100vh; width:auto;"></b-img>
     </div>
-    <div style = "width:50%; float:right;">
+    <div style = "width:40%; float:right;">
       <div style = "width: 80%;text-align:center; margin: 0 auto; ">
         <b-img :src = "require('../assets/GoGrab_Logo_transparent.png')" style = "width:150px; height:150px; margin-top:10%"></b-img>
         <h2>Login to GoGrab</h2>
@@ -92,6 +92,10 @@ export default {
 </script>
 
 <style scoped>
+html {
+  height: 100% !important;
+}
+
 input {
   margin-right: 20px;
 }
