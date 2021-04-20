@@ -42,7 +42,6 @@ export default {
         async fetchItems() {
             var user = firebase.auth().currentUser;
             this.datacollection.uid = user.uid;
-            console.log("uid is:" + this.datacollection.uid);
             await database
                 .collection("listings")
                 .where("ownerID", "==", user.uid)
@@ -52,9 +51,7 @@ export default {
                         this.datacollection.datasets[0].data.push(doc.data().numberOfClicks);
                         this.datacollection.labels.push(doc.data().model);
                         var col = this.getRandomColor();
-                        console.log(col);
                         this.datacollection.datasets[0].backgroundColor.push(col);
-                        console.log(this.datacollection.datasets[0].backgroundColor);
 
                     });
                     this.renderChart(this.datacollection, this.options)

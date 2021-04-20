@@ -55,7 +55,6 @@ export default {
   methods: {
     fetchRatings: async function() {
       const user = firebase.auth().currentUser;
-      console.log("current user inside Dashboard: " + user.uid);
       await firebase
         .firestore()
         .collection("reviews")
