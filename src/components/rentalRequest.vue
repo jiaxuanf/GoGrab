@@ -78,28 +78,20 @@ export default {
     },
     getOwnerID: function() {
 
-        console.log("getOwnerID runs");
-        console.log("this.listed_id is : "+ this.request.listing_id)
         const car = firebase.firestore().collection("listings").doc(this.request.listing_id)
         car.get().then((doc) => {
               if (doc.exists) {
                   this.request.ownerID = doc.get("ownerID")
-                  console.log("ownerID is " + this.request.ownerID)
  
-              } else {
-                  // doc.data() will be undefined in this case
-                  console.log("No such document!");
-              }
+              } 
           }).catch((error) => {
               console.log("Error getting document:", error);
           });
     },
 
     submit : function() {
-            console.log("read ✅" + this.request.read)
             this.request.renterID = this.getCurrentUser(); 
             this.request.status = "Pending" 
-            console.log(this.request.renterID)
             firebase.firestore().collection("rentalRequests")
             .add(this.request)
             .then(() => {
@@ -109,24 +101,16 @@ export default {
                 .catch((error) => {
                 alert(error.message);
                 });
-            console.log("done");
-    
     },
     getListingInfo: function() {
-        console.log("start getListingInfo ✅")
         const car = firebase.firestore().collection("listings").doc(this.listing_id)
         car.get().then((doc) => {
               if (doc.exists) {                  
                   this.request.model = doc.get("model")
-                  console.log(this.request.model)
                   this.request.price = doc.get("price")
                   document.getElementById("dailyPrice").innerText=this.request.price
                   var images = doc.get("images")
-                  console.log("images is ")
-                  console.log(images)
                   this.request.imageULR = images[0]
-              } else {
-                  console.log("No such document!");
               }
           }).catch((error) => {
               console.log("Error getting document:", error);
@@ -155,7 +139,6 @@ export default {
         this.listing_id = this.$route.query.listing_id;
         this.getOwnerID();
         this.getListingInfo();
-        console.log(typeof this.request.read)
   }
 
 }

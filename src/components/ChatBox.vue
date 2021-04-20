@@ -88,33 +88,28 @@ export default {
       if (content.trim() === "") {
         return;
       }
-      console.log("current peer user is: " + this.currentPeerUser.id);
-      console.log(this.userChats);
+
       if (!this.userChats.some(users => users['id'] === this.currentPeerUser['id'])) {
-        console.log("ran");
+
         this.userChats.push(this.currentPeerUser);
-        console.log("pushing happened");
+
         var currentUserChat = [];
         var peerUserChat = [];
-        console.log("currenUserChat array is:")
-        console.log(currentUserChat)
+
         await database
           .collection("userInfo")
           .doc(this.currentUserId)
           .get()
           .then((doc) => {
-            console.log("entered doc part");
+
             currentUserChat = doc.data().chatList;
           });
         currentUserChat.push(this.currentPeerUser);
-        console.log(currentUserChat);
-        for (var x in currentUserChat) {
-          console.log(x);
-        }
+
         await database.collection("userInfo").doc(this.currentUserId).update({
           chatList: currentUserChat,
         });
-        console.log(peerUserChat)
+
         peerUserChat.push({
           id: this.currentUserId,
           name: this.currentUserName,
@@ -148,7 +143,7 @@ export default {
         });
     },
     getMessages() {
-      console.log("call coming");
+
       this.listMessage = [];
       let groupChatId = `${this.currentPeerUser.id} + ${this.currentUserId}`;
       firebase
@@ -171,7 +166,6 @@ export default {
               .collection(this.groupChatId)
               .onSnapshot((Snapshot) => {
                 Snapshot.docChanges().forEach((res) => {
-                  console.log("res", res);
                   if (res.type === "added") {
                     this.listMessage.push(res.doc.data());
                   }

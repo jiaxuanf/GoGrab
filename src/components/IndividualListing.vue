@@ -216,16 +216,16 @@ import moment from 'moment';
       this.$refs.input1.click();
     },
     previewImage(event) {
-      console.log("start previewImage")
+
       this.uploadValue = 0;
       // this.img1 = null;
       this.imageData = event.target.files
-      console.log(this.imageData)
+
       this.onUpload();
     },
     onUpload() {
       // this.listing.images = [],
-      console.log("start onUpload")
+
       this.img1 = this.imageData[0];
       var i;
       for (i = 0; i < this.imageData.length; i++) {
@@ -245,9 +245,7 @@ import moment from 'moment';
         () => {
           this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            console.log("add images to this.listing.images[]")
-            console.log('BEFORE images is Array? ' + typeof this.listing.images)
-            console.log(this.listing.images)
+
             this.listing.images.push(url)
             this.img1 = url
           });
@@ -290,7 +288,7 @@ import moment from 'moment';
           alert(error.message);
 
         });
-      console.log('listed')}
+      }
     },
 
     clearSelection : function() {
@@ -299,7 +297,6 @@ import moment from 'moment';
     },
 
     getOwnerNumber : function() {
-      console.log(this.ownerID);
       firebase.firestore().collection("userInfo").doc(this.ownerID)
         .get()
         .then((doc) => {
@@ -309,7 +306,6 @@ import moment from 'moment';
           } else {
             this.ownerNumber = true;
           }
-          console.log(this.ownerNumber)
         })
     },
     moveToUpdateProfile: function () {

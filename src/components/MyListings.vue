@@ -55,25 +55,19 @@ export default {
         .then((snapshot) => {
           this.username = snapshot.data().username;
         });
-      console.log("uid is "+ this.uid)
     },
     fetchListings: function () {
       this.fetchUser();
-      console.log("start fetching listings")
       firebase
         .firestore()
         .collection("listings")
         .where("ownerID", "==", this.uid)
         .get()
         .then((querySnapshot) => {
-            console.log("start  querySnapshot ")
             querySnapshot.forEach((doc) => {
-              console.log("start individual fetching ")
               // doc.data() is never undefined for query doc snapshots
               this.listingsArray.push([doc.id, doc.data()]);
-              console.log(doc.id, " => ", doc.data());
             });
-            console.log(this.listingsArray)
         })
         .catch((error) => {
             console.log("Error getting documents: ", error);

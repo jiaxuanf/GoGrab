@@ -58,12 +58,9 @@ export default {
   },
   methods: {
     addReview: async function () {
-      console.log("start addReview");
       const user = firebase.auth().currentUser;
       this.reviewData.reviewerID = user.uid;
       this.reviewData.rentalRequestID = this.rentalRequestID;
-      // console.log("listingID: " + this.listingID);
-      // console.log("ownerID: " + this.ownerID);
 
       await firebase.firestore().collection("userInfo").doc(user.uid).get().then( (doc) => {
         this.reviewData.reviewerUserName = doc.data().username;
@@ -80,7 +77,6 @@ export default {
         .catch((error) => {
           alert(error.message);
         });
-      console.log("after addReview");
 
       
 
@@ -89,18 +85,9 @@ export default {
       requestRef.update({
         reviewerID: user.uid
       }).then(() => {
-        console.log("Listing document successfully updated");
-      }).catch((error) => {
-        console.log("Error: " + error);
       })
       this.$router.push("/myRentals");
 
-    },
-    checkID: function() {
-      const user = firebase.auth().currentUser;
-      console.log("userid: " + user.uid);
-      console.log("listingID: " + this.listingID);
-      console.log("rentalRequestID: " + this.rentalRequestID)
     },
     goBack: function() {
           this.$router.push("/myRentals");
@@ -116,7 +103,6 @@ export default {
     }); 
     firebase.firestore().collection("rentalRequests").doc(rentalID).get().then((doc) => {
         const data = doc.data();
-        console.log(data);
         this.view.imageURL = data['imageURL'];
         this.view.startDate = moment(data['rfrom']).format('Do MMMM YYYY');
         this.view.endDate = moment(data['rto']).format('Do MMMM YYYY');

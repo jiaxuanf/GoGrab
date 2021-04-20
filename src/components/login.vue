@@ -53,7 +53,6 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(async (res) => {
-          console.log(res);
           if (res.user) {
             await firebase
               .firestore()
@@ -77,13 +76,11 @@ export default {
                 this.$router.push({ path: "/" });
               })
               .catch((error) => {
-                console.log("test");
                 alert(error.message);
               });
           }
         })
         .catch((error) => {
-          console.log("test");
           alert(error.message);
         });
     },

@@ -99,21 +99,17 @@ export default {
     },
     async letsChat(item) {
       this.currentPeerUser = item;
-      console.log("lets chat button is pressed: " + this.currentPeerUser.id);
     },
     async getChats() {
-      console.log("under get userlist, currentuid is:" + this.currentUserId);
       await database
         .collection("userInfo")
         .where("id", "==", this.currentUserId)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            console.log(doc.data().chatList);
             this.userChats = doc.data().chatList;
           });
         });
-      console.log("under get userlist, current userChat is:" + this.userChats);
     },
 
     async getUserList() {
@@ -122,7 +118,6 @@ export default {
         let listUsers = [];
         listUsers = [...result.docs];
         listUsers.forEach((item, index) => {
-          console.log("item", item.data());
           this.searchUsers.push({
             key: index,
             documentKey: item.id,
@@ -141,12 +136,9 @@ export default {
     }
     if (this.$route.query.peerInfo != null) {
       this.currentPeerUser = this.$route.query.peerInfo;
-      console.log("current user under created is: ")
-      console.log(this.currentPeerUser)
     }
     this.getUserList();
     this.getChats();
-    console.log("name is" + localStorage.getItem("name"));
   },
 };
 </script>

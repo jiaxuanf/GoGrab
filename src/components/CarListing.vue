@@ -141,7 +141,6 @@ export default {
 
         applyFilter : function() {
             var tempArray = _.cloneDeep(this.fullCarArray);
-            console.log(tempArray);
             if (this.filters.startDate == null || this.filters.endDate == null) {
                 this.invalidFilter = true;
                 return;
@@ -164,7 +163,6 @@ export default {
                 const endTime = moment(this.filters.endDate).valueOf();
                 return ((docStartTime <= startTime && docEndTime >= startTime) && (docStartTime <= endTime && docEndTime >= endTime));
             });
-            console.log(tempArray);
             this.chunkedCarArray = [];
             //Chunk the array 
             var temp = [];

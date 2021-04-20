@@ -52,8 +52,6 @@ export default {
      fetchItems() {
       const user = firebase.auth().currentUser;
       this.uid = user.uid;
-      console.log("this is ran");
-      console.log("uid is:" + this.uid);
       database
         .collection("userInfo")
         .doc(this.uid)
@@ -85,7 +83,6 @@ export default {
 
     reviewCount: function () {
       const user = firebase.auth().currentUser;
-      console.log("userID: " + user.uid);
       firebase
         .firestore()
         .collection("reviews")
@@ -93,21 +90,16 @@ export default {
         .get()
         .then((snapshot) => {
           // this.numReviews = snapshot.size;
-          console.log("numReviews: " + snapshot.size);
           this.numReviews = snapshot.size;
         });
     },
 
     goToReviewsPage: function () {
-      console.log("button pressed");
       this.$router.push({ path: "/reviewsPage" });
     },
     goDashboard: function () {
       this.$router.push({ path: "/Dashboard" });
     },
-    test : function() {
-      console.log(this.chunkedListingsArr);
-    }
   },
   created() {
     this.fetchItems();

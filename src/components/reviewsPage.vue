@@ -41,7 +41,6 @@ export default {
         .get()
         .then((snapshot) => {
           snapshot.forEach((doc) => {
-            console.log("username: " + doc.data().username);
             this.name = doc.data().username;
           });
         })

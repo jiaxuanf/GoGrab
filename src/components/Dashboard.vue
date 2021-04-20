@@ -60,7 +60,6 @@ export default {
         .catch((error) => {
           console.log("error: " + error);
         });
-      console.log(this.earningsArr);
 
       for (var i = 0; i < this.earningsArr.length; i++) {
         if (this.earningsArr[i][0] == "Completed") {
@@ -85,7 +84,6 @@ export default {
         .catch((error) => {
           console.log("error: " + error);
         });
-      console.log("total num of rentals: " + this.totalNumRentals);
     },
   },
   components: {

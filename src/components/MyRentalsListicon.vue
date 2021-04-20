@@ -41,7 +41,6 @@ export default {
             const listing_ID = this.booking[1]["listing_id"]
             const owner_ID = this.booking[1]["ownerID"]
             const rentalRequest_ID = this.booking[0]
-            console.log(listing_ID);
             this.$router.push({
                 name: "reviewForm",
                 params: {
@@ -56,7 +55,6 @@ export default {
             const ownerID = this.booking[1]["ownerID"];
             var username = "";
             var profileURL = "";
-            console.log("before await, ownerid: " + ownerID);
             await database
                 .collection("userInfo")
                 .where("id", "==", ownerID)
@@ -72,8 +70,6 @@ export default {
                 name: username,
                 URL: profileURL,
             };
-            console.log("peerInfo created =>");
-            console.log(peerInfo);
             this.$router.push({ name: "chats", query: { peerInfo: peerInfo } });
         },
     },

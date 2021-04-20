@@ -155,12 +155,6 @@ export default {
         .database()
         .ref("PhotoGallery")
         .push(post)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
         localStorage.setItem("photoURL", this.img1);
     },
     click1() {
@@ -191,7 +185,6 @@ export default {
           this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
             this.img1 = url;
-            console.log(this.img1);
             database.collection("userInfo").doc(this.uid).update({
               profilePictureURL: this.img1,
             });
@@ -229,10 +222,7 @@ export default {
       var storageRef = firebase.storage().ref();
       const licenseName = this.uid + "_license.jpg"
       var image_id = storageRef.child(licenseName);
-      console.log(this.uid);
-      image_id.put(this.imageFile).then((snapshot) => {
-        console.log("Uploaded");
-        console.log(snapshot);
+      image_id.put(this.imageFile).then(() => {
         storageRef.child(licenseName).getDownloadURL().then(
         (doc) => {
           database.collection("userInfo").doc(this.uid).update({licenseURL : doc})

@@ -99,9 +99,7 @@ export default {
           this.rentalsPendingArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Pending")
           this.rentalsDeniedArray = this.rentalsArray.filter((rental) => rental[1]['status'] == "Denied")
           this.chunkArrays();
-          console.log(this.chunkedCompletedArray);
-          console.log(this.chunkedPendingArray);
-          console.log(this.chunkedOngoingArray);
+
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
@@ -153,7 +151,6 @@ export default {
   },
   created: function () {
     this.fetchRentals();
-    console.log("after created functions");
   },
 };
 </script>

@@ -52,7 +52,6 @@ export default {
             const renterID = this.requests[1]["renterID"];
             var username = "";
             var profileURL = "";
-            console.log("before await, ownerid: " + renterID);
             await database
                 .collection("userInfo")
                 .where("id", "==", renterID)
@@ -68,8 +67,6 @@ export default {
                 name: username,
                 URL: profileURL,
             };
-            console.log("peerInfo created =>");
-            console.log(peerInfo);
             this.$router.push({ name: "chats", query: { peerInfo: peerInfo } });
         },
 
@@ -90,10 +87,8 @@ export default {
 
         updateAllListings : function(listing_id, request_id) {
             var tempArray = _.cloneDeep(this.listingsArray);
-            console.log(request_id);
             tempArray = tempArray.filter((rentalRequest) => rentalRequest[1]['listing_id'] == listing_id);
             tempArray = tempArray.filter((rentalRequest) => rentalRequest[0] != request_id)
-            console.log(tempArray)
             for (let i = 0; i < tempArray.length; i++) {
                 var doc_id = tempArray[i][0]
                 firebase.firestore().collection("rentalRequests").doc(doc_id).update({status: "Denied"});

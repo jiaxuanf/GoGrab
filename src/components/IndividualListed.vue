@@ -337,7 +337,6 @@ export default {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            console.log("Document data:", doc.data());
             this.listing.model = doc.get("model");
             this.listing.price = doc.get("price");
             this.listing.color = doc.get("color");
@@ -356,10 +355,7 @@ export default {
             this.listing.location = doc.get("location")
             this.fetchOwner();
             this.fetchReviews(this.listing.ownerID);
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-          }
+          } 
         })
         .catch((error) => {
           console.log("Error getting document:", error);
@@ -401,15 +397,10 @@ export default {
           this.username = snapshot.data().username;
           this.profilePhoto = snapshot.data().profilePictureURL;
           this.licenseURL = snapshot.data().licenseURL;
-          if (this.licenseURL == null) {
-            console.log("empty");
-          }
-          console.log(this.licenseURL);
         });
     },
 
     fetchOwner: function () {
-      console.log("start fetchOwner" + this.listing.ownerID);
       firebase
         .firestore()
         .collection("userInfo")
@@ -418,7 +409,6 @@ export default {
         .then((snapshot) => {
           this.listing.owner = snapshot.data().username;
           // this.profilePhoto = snapshot.data().profilePictureURL;
-          console.log("owner is " + this.listing.owner);
         });
       return this.listing.owner;
     },
@@ -446,7 +436,7 @@ export default {
       if (this.request.read != "true") {
         flag = true;
       }
-      console.log(this.request);
+
       if (flag) {
         this.formPrompt = !this.formPrompt;
         return;
@@ -459,7 +449,7 @@ export default {
       this.request.imageURL = this.listing.images[0];
       this.request.price = this.listing.price;
       this.request.total = this.totalPrice;
-      console.log(this.request);
+
       firebase
         .firestore()
         .collection("rentalRequests")
@@ -504,8 +494,7 @@ export default {
   },
 
   created: function () {
-    console.log("check is listing_is is passed down here");
-    console.log(this.listing_id);
+
     this.fetchItems();
     this.fetchUser();
   },
